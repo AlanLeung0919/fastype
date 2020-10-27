@@ -1,0 +1,74 @@
+[
+	{
+		"name": "dark",
+		"bgColor": "#111111",
+		"mainColor": "#dddddd",
+		"subColor": "#444444"
+	},
+	{
+		"name": "light",
+		"bgColor": "#eeeeee",
+		"mainColor": "#222222",
+		"subColor": "#aaaaaa"
+	},
+	{
+		"name": "dark blue",
+		"bgColor": "#29303d",
+		"mainColor": "#bfc8d9",
+		"subColor": "#52667a"
+	},
+	{
+		"name": "cyan",
+		"bgColor": "#303236",
+		"mainColor": "#9fdfda",
+		"subColor": "#55595e"
+	},
+	{
+		"name": "light brown",
+		"bgColor": "#333333",
+		"mainColor": "#a39c8f",
+		"subColor": "#595959"
+	},
+	{
+		"name": "pink",
+		"bgColor": "#f9d2d2",
+		"mainColor": "#ff8080",
+		"subColor": "#f2a6a6"
+	},
+	{
+		"name": "sky",
+		"bgColor": "#aac6d4",
+		"mainColor": "#2d6886",
+		"subColor": "#608a9f"
+	},
+	{
+		"name": "terminal",
+		"bgColor": "#0d0d0d",
+		"mainColor": "#20df30",
+		"subColor": "#404040"
+	},
+	{
+		"name": "deep ocean",
+		"bgColor": "#030816",
+		"mainColor": "#40bfb5",
+		"subColor": "#2d4652"
+	},
+	{
+		"name": "forest",
+		"bgColor": "#738c73",
+		"mainColor": "#f98686",
+		"subColor": "#55575e"
+	},
+	{
+		"name": "neon",
+		"bgColor": "#030316",
+		"mainColor": "#df205c",
+		"subColor": "#263740"
+	},
+	{
+		"name": "sunset",
+		"bgColor": "#e9dc96",
+		"mainColor": "#eba747",
+		"subColor": "#867b79"
+	}
+]
