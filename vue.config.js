@@ -4,6 +4,5 @@ module.exports = {
 			entry: './src/main.js',
 			title: 'Fastype'
 		}
-	},
-	outputDir: '../server/dist'
+	}
 };
