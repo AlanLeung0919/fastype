@@ -55,6 +55,15 @@ export default {
 							label: 'wpm',
 							data: this.result.wpmPerSec,
 							borderColor: this.$store.state.theme.mainColor,
+							pointBackgroundColor: this.$store.state.theme.mainColor,
+							fill: true
+						},
+						{
+							label: 'raw wpm',
+							data: this.result.rawWpmPerSec,
+							borderColor: this.$store.state.theme.subColor,
+							pointBackgroundColor: this.$store.state.theme.subColor,
+							borderDash: [5],
 							fill: false
 						}
 					]
@@ -68,6 +77,10 @@ export default {
 								}
 							}
 						]
+					},
+					tooltips: {
+						mode: 'x',
+						intersect: false
 					},
 					responsive: true,
 					maintainAspectRatio: false

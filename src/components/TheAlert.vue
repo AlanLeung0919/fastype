@@ -1,7 +1,7 @@
 <template>
 	<transition name="anime">
 		<div v-if="alert" class="alert" @animationend="alert = false">
-			{{ msg }}
+			{{ this.$store.state.alert }}
 		</div>
 	</transition>
 </template>
@@ -12,11 +12,6 @@ export default {
 		return {
 			alert: false
 		};
-	},
-	computed: {
-		msg() {
-			return this.$store.state.alert;
-		}
 	},
 	created() {
 		this.$store.subscribe((mutation, state) => {

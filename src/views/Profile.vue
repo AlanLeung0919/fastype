@@ -35,7 +35,10 @@ export default {
 		},
 		createChart(data) {
 			let labels = [];
-			for (let i = 0; i < 7; i++) {
+			data.forEach((e) => {
+				if (e === 0 && data.length > 2) data = data.slice(1);
+			});
+			for (let i = 0; i < data.length; i++) {
 				labels.push(getDate(Date.now() - 1000 * 60 * 60 * 24 * (6 - i), true));
 			}
 			const ctx = this.$refs.chart;
@@ -48,7 +51,8 @@ export default {
 							label: 'avg wpm',
 							data: data,
 							borderColor: this.$store.state.theme.mainColor,
-							fill: false
+							pointBackgroundColor: this.$store.state.theme.mainColor,
+							fill: true
 						}
 					]
 				},
@@ -61,6 +65,10 @@ export default {
 								}
 							}
 						]
+					},
+					tooltips: {
+						mode: 'x',
+						intersect: false
 					},
 					responsive: true,
 					maintainAspectRatio: false

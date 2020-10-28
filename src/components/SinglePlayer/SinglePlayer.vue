@@ -212,6 +212,7 @@ export default {
 			idleTime: 0,
 			time: 0,
 			wpmPerSec: [],
+			rawWpmPerSec: [],
 			liveWpm: 0,
 			textLen: 0,
 			typedChars: 0,
@@ -280,8 +281,10 @@ export default {
 				this.lastInput = this.input;
 				let time = Math.round((Date.now() - start) / 1000);
 				const wpm = Math.round(this.correctChars / 5 / (time / 60));
+				const rawWpm = Math.round(this.typedChars / 5 / (time / 60));
 				this.liveWpm = wpm;
 				this.wpmPerSec.push(wpm);
+				this.rawWpmPerSec.push(rawWpm);
 				if (this.mode === 'time' && this.time === time) {
 					this.finish();
 				}
@@ -302,6 +305,7 @@ export default {
 			this.incorrect = [];
 			this.overflow = [];
 			this.wpmPerSec = [];
+			this.rawWpmPerSec = [];
 			this.input = '';
 			this.reload = true;
 			this.error = false;
@@ -330,6 +334,7 @@ export default {
 				acc: acc,
 				time: this.wpmPerSec.length,
 				wpmPerSec: this.wpmPerSec,
+				rawWpmPerSec: this.rawWpmPerSec,
 				mode: this.mode,
 				date: Date.now()
 			};
