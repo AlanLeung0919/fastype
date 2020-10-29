@@ -21,14 +21,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Copy repository contents via scp
+      - name: copy via scp
         uses: appleboy/scp-action@master
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          HOST: ${{ secrets.HOST }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
         with:
-          host: 207.148.120.154
-          username: root
-          port: 22
-          key: ${{ secrets.SSHKEY }}
-          script: |
-            cd ~/fastype
-            git pull origin main
-            git status
+          source: "."
+          target: "/var/www/fastype"
