@@ -42,4 +42,3 @@ jobs:
             cd /var/www/fastype/client
             npm i
             npm run build
-            pm2 restart /var/www/fastype/server/index.js
