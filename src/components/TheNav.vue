@@ -190,10 +190,10 @@ export default {
 }
 
 @media (max-width: 750px) {
-	/* .menu {
+	.menu {
     grid-column-start: 1;
     grid-column-end: 3;
-  } */
+  }
 	.avatar {
 		width: 1em;
 		height: 1em;
@@ -202,7 +202,7 @@ export default {
 		font-size: 0.75em;
 	}
 	.logo-icon {
-		font-size: 2.5em;
+		font-size: 2em;
 	}
 	.icon {
 		font-size: 1em;

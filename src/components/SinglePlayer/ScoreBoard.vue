@@ -128,6 +128,7 @@ export default {
 	align-items: center;
 	justify-items: center;
 	justify-content: space-around;
+	gap: 2em;
 }
 
 .item {
