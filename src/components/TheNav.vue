@@ -92,8 +92,7 @@ export default {
 				.init({
 					client_id: process.env.VUE_APP_CLIENTID,
 					ux_mode: 'redirect',
-					prompt: 'select_account',
-					redirect_uri: process.env.VUE_APP_BASEURL
+					prompt: 'select_account'
 				})
 				.then((googleAuth) => {
 					const e = this.$refs.signIn;

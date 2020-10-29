@@ -5,7 +5,7 @@ const instance = axios.create({
 	baseURL:
 		process.env.NODE_ENV === 'development'
 			? 'http://localhost:8081/api'
-			: process.env.VUE_APP_APIURL + '/api'
+			: process.env.VUE_APP_BASEURL + 'api'
 });
 
 instance.interceptors.request.use(
