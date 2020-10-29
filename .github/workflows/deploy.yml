@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: copy via scp
+      - name: Copy via scp
         uses: appleboy/scp-action@master
         env:
           USERNAME: ${{ secrets.USERNAME }}
@@ -30,4 +30,16 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "."
-          target: "/var/www/fastype"
+          target: "/var/www/fastype/client"
+      - name: Execute remote command
+        uses: appleboy/ssh-action@master
+        with:
+          USERNAME: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd /var/www/fastype/client
+            npm i
+            npm run build
+            pm2 restart /var/www/fastype/server/index.js
