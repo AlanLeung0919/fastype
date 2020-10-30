@@ -78,12 +78,13 @@ export default {
 			this.$store.dispatch('checkAuth');
 		},
 		signOut() {
-			this.$store.commit('signOut');
-			this.$store.commit('setAlert', 'Signed Out');
+			const googleAuth = gapi.auth2.getAuthInstance();
+			googleAuth.signOut();
+			this.$store.commit('setAlert', 'Signed out');
 			if (this.$route.path !== '/') this.$router.push('/');
 		},
 		signInState(state) {
-			this.$store.commit('setAuthState', state);
+			if (!state) this.$store.commit('signOut');
 		}
 	},
 	mounted() {
@@ -191,9 +192,9 @@ export default {
 
 @media (max-width: 750px) {
 	.menu {
-    grid-column-start: 1;
-    grid-column-end: 3;
-  }
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
 	.avatar {
 		width: 1em;
 		height: 1em;

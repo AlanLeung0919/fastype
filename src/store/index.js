@@ -28,11 +28,10 @@ export default new Vuex.Store({
 			state.theme = theme;
 		},
 		signOut(state) {
-			const googleAuth = gapi.auth2.getAuthInstance();
-			googleAuth.signOut();
 			state.email = '';
 			state.username = '';
 			state.imageUrl = '';
+			state.authState = false;
 		},
 		setAuthState(state, val) {
 			state.authState = val;
