@@ -41,10 +41,9 @@ jobs:
           script: |
             cd /var/www/fastype/client
             npm i
+            export VUE_APP_BASEURL="${{ secrets.VUE_APP_BASEURL }}"
+            export VUE_APP_CLIENTID="${{ secrets.VUE_APP_CLIENTID }}"
             npm run build
             cd /var/www/fastype
             pm2 start ecosystem.config.js
-          env:
-            VUE_APP_CLIENTID:"${{ secrets.VUE_APP_CLIENTID }}"
-            VUE_APP_BASEURL:"${{ secrets.VUE_APP_BASEURL }}"
             
