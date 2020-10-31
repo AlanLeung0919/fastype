@@ -20,6 +20,7 @@ const routes = [
 		name: 'Race',
 		component: Race,
 		beforeEnter(to, from, next) {
+			if (process.env.NODE_ENV === 'development') return next();
 			store.commit('setAlert', 'Coming soon...');
 			next(false);
 		},

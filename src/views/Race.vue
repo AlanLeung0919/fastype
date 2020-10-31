@@ -1,15 +1,16 @@
 <template>
-	<div class="race"></div>
+	<MultiPlayer />
 </template>
 
 <script>
-export default {};
+import MultiPlayer from '@/components/MultiPlayer/MultiPlayer.vue';
+
+export default {
+	components: {
+		MultiPlayer
+	}
+};
 </script>
 
 <style scoped>
-.race {
-	display: grid;
-	justify-content: center;
-	align-items: center;
-}
 </style>

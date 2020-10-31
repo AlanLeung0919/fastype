@@ -20,6 +20,8 @@
 				tabindex="1"
 				@click.native="$event.target.blur()"
 				to="/race"
+				content="race"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="flag-checkered" />
 			</router-link>
@@ -28,6 +30,8 @@
 				tabindex="1"
 				@click.native="$event.target.blur()"
 				to="/leaderboard"
+				content="leaderboard"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="crown" />
 			</router-link>
@@ -36,6 +40,8 @@
 				tabindex="1"
 				@click.native="$event.target.blur()"
 				to="/profile"
+				content="profile"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="user" />
 			</router-link>
@@ -44,6 +50,8 @@
 				tabindex="1"
 				@click.native="$event.target.blur()"
 				to="/setting"
+				content="setting"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="cog" />
 			</router-link>
@@ -55,6 +63,8 @@
 					$event.target.blur();
 					signOut();
 				"
+				content="sign out"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="sign-out-alt" />
 			</div>
@@ -64,6 +74,8 @@
 				class="link"
 				tabindex="1"
 				@click="$event.target.blur()"
+				content="sign in"
+				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="sign-in-alt" />
 			</div>
@@ -78,9 +90,9 @@ export default {
 			this.$store.dispatch('checkAuth');
 		},
 		signOut() {
+			this.$store.commit('setAlert', 'Signed out');
 			const googleAuth = gapi.auth2.getAuthInstance();
 			googleAuth.signOut();
-			this.$store.commit('setAlert', 'Signed out');
 			if (this.$route.path !== '/') this.$router.push('/');
 		},
 		signInState(state) {

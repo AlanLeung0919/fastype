@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import axios from './lib/axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
 	faKeyboard,
 	faUser,
@@ -15,8 +16,8 @@ import {
 	faArrowUp,
 	faRedoAlt
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'chart.js';
+import VueTippy, { TippyComponent } from 'vue-tippy';
 
 library.add(
 	faKeyboard,
@@ -30,6 +31,8 @@ library.add(
 	faRedoAlt
 );
 
+Vue.use(VueTippy);
+Vue.component("tippy", TippyComponent);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
