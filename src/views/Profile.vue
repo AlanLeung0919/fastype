@@ -35,9 +35,6 @@ export default {
 		},
 		createChart(data) {
 			let labels = [];
-			data.forEach((e) => {
-				if (e === 0 && data.length > 2) data = data.slice(1);
-			});
 			for (let i = 0; i < data.length; i++) {
 				labels.push(getDate(Date.now() - 1000 * 60 * 60 * 24 * (6 - i), true));
 			}
