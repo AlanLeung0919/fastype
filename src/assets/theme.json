@@ -54,12 +54,6 @@
 		"subColor": "#2d4652"
 	},
 	{
-		"name": "forest",
-		"bgColor": "#738c73",
-		"mainColor": "#f98686",
-		"subColor": "#55575e"
-	},
-	{
 		"name": "neon",
 		"bgColor": "#030316",
 		"mainColor": "#df205c",
