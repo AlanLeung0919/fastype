@@ -104,7 +104,8 @@
 				}"
 			></div>
 			<input
-				v-model="input"
+				@input="input = $event.target.value"
+				:value="input"
 				class="input"
 				ref="input"
 				:maxlength="maxLen()"
