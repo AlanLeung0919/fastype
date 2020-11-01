@@ -42,6 +42,10 @@ const routes = [
 		path: '/setting',
 		name: 'Setting',
 		component: Setting
+	},
+	{
+		path: '*',
+		redirect: '/'
 	}
 ];
 
