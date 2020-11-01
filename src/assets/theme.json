@@ -70,5 +70,11 @@
 		"bgColor": "#e9dc96",
 		"mainColor": "#eba747",
 		"subColor": "#867b79"
+	},
+	{
+		"name": "rainy",
+		"bgColor": "#a1aaaa",
+		"mainColor": "#a6d9d9",
+		"subColor": "#798286"
 	}
 ]
