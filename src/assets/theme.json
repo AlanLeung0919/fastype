@@ -76,5 +76,11 @@
 		"bgColor": "#a1aaaa",
 		"mainColor": "#a6d9d9",
 		"subColor": "#798286"
+	},
+	{
+		"name": "dango",
+		"bgColor": "#faf4e4",
+		"mainColor": "#cd6568",
+		"subColor": "#a7b597"
 	}
 ]
