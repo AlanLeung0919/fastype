@@ -562,6 +562,7 @@ export default {
 
 .input {
 	position: absolute;
+	width: 0;
 	height: 0;
 	padding: 0;
 	margin: 0;

@@ -15,7 +15,7 @@ export default {
 	},
 	created() {
 		this.$store.subscribe((mutation, state) => {
-			if (!this.alert) this.alert = false;
+			if (this.alert) this.alert = false;
 			if (mutation.type === 'setAlert') this.alert = true;
 		});
 	}
