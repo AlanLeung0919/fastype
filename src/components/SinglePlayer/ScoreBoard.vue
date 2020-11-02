@@ -1,8 +1,6 @@
 <template>
 	<div class="scoreboard">
-		<div class="chart">
-			<canvas ref="chart"></canvas>
-		</div>
+		<BaseChart v-if="loaded" :height="350" :chartData="chartData" />
 		<div class="stat">
 			<BaseStat title="wpm" :val="result.wpm" />
 			<BaseStat title="acc" :val="result.acc">%</BaseStat>
@@ -23,7 +21,7 @@
 					$event.target.blur();
 				"
 				content="restart"
-				v-tippy='{ placement : "bottom" }'
+				v-tippy="{ placement: 'bottom' }"
 			>
 				<font-awesome-icon
 					icon="redo-alt"
@@ -35,64 +33,52 @@
 </template>
 
 <script>
+import BaseChart from '@/components/Base/BaseChart.vue';
 import BaseStat from '@/components/Base/BaseStat.vue';
 
 export default {
 	components: {
+		BaseChart,
 		BaseStat
 	},
 	props: {
 		result: Object
 	},
+	data() {
+		return {
+			loaded: false,
+			chartData: {}
+		};
+	},
 	methods: {
-		createChart() {
-			const ctx = this.$refs.chart;
+		loadChart() {
 			const labels = this.result.wpmPerSec.map((e, i) => i + 1);
-			const chart = new Chart(ctx, {
-				type: 'line',
-				data: {
-					labels: labels,
-					datasets: [
-						{
-							label: 'wpm',
-							data: this.result.wpmPerSec,
-							borderColor: this.$store.state.theme.mainColor,
-							pointBackgroundColor: this.$store.state.theme.mainColor,
-							fill: true
-						},
-						{
-							label: 'raw wpm',
-							data: this.result.rawWpmPerSec,
-							borderColor: this.$store.state.theme.subColor,
-							pointBackgroundColor: this.$store.state.theme.subColor,
-							borderDash: [5],
-							fill: false
-						}
-					]
-				},
-				options: {
-					scales: {
-						yAxes: [
-							{
-								ticks: {
-									beginAtZero: true
-								}
-							}
-						]
+			this.chartData = {
+				labels: labels,
+				datasets: [
+					{
+						label: 'wpm',
+						data: this.result.wpmPerSec,
+						borderColor: this.$store.state.theme.mainColor,
+						pointBackgroundColor: this.$store.state.theme.mainColor,
+						fill: true
 					},
-					tooltips: {
-						mode: 'x',
-						intersect: false
-					},
-					responsive: true,
-					maintainAspectRatio: false
-				}
-			});
+					{
+						label: 'raw wpm',
+						data: this.result.rawWpmPerSec,
+						borderColor: this.$store.state.theme.subColor,
+						pointBackgroundColor: this.$store.state.theme.subColor,
+						borderDash: [5],
+						fill: false
+					}
+				]
+			};
+			this.loaded = true;
 		}
 	},
 	mounted() {
 		this.$refs.redo.focus();
-		this.createChart();
+		this.loadChart();
 		if (!this.$store.state.authState)
 			return this.$store.commit('setAlert', 'Sign in to save record');
 		this.$http
@@ -117,11 +103,6 @@ export default {
 	color: var(--sub-color);
 	height: 100%;
 	width: 100%;
-}
-
-.chart {
-	width: 100%;
-	height: 50%;
 }
 
 .stat {

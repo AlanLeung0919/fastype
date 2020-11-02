@@ -160,7 +160,7 @@
 						$event.target.blur();
 					"
 					content="restart"
-					v-tippy='{ placement : "bottom" }'
+					v-tippy="{ placement: 'bottom' }"
 				>
 					<font-awesome-icon
 						icon="redo-alt"

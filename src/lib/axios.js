@@ -1,4 +1,5 @@
 import axios from 'axios';
+import nProgress from 'nprogress';
 import store from '../store/index.js';
 
 const instance = axios.create({
@@ -10,6 +11,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config) => {
+		if (config.baseURL.substring(config.baseURL.length - 4) === '/api')
+			nProgress.start();
 		if (config.url.substring(0, 4) === 'text') return config;
 		const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
 		const token = googleUser.getAuthResponse().id_token;
@@ -27,9 +30,11 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
 	(res) => {
+		nProgress.done();
 		return res;
 	},
 	(err) => {
+		nProgress.done();
 		if (err.response && err.response.status >= 400)
 			store.commit('setAlert', 'Oops! Something went wrong');
 		Promise.reject(err);
