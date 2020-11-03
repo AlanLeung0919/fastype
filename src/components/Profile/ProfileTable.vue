@@ -84,11 +84,11 @@ export default {
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
+	color: var(--bg-color);
 	background-color: var(--sub-color);
 }
 
 .load:hover {
-	color: var(--bg-color);
 	background-color: var(--main-color);
 }
 

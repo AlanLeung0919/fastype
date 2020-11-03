@@ -2,7 +2,7 @@
 	<div class="profile">
 		<ScrollToTop />
 		<ProfileStat :stat="stat" />
-		<BaseChart v-if="loaded" :height="250" :chartData="chartData" />
+		<BaseChart v-if="loaded" :height="300" :chartData="chartData" />
 		<ProfileTable :record="record" @load="load()" :avaliable="loadAvaliable" />
 	</div>
 </template>

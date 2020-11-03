@@ -5,7 +5,7 @@
 			<div
 				class="btn"
 				@click="toggleCustom()"
-				:class="{ 'btn-active': customTheme === true }"
+				:class="{ 'btn-active': customTheme }"
 			>
 				custom
 			</div>
@@ -122,7 +122,7 @@ export default {
 
 .btn-active {
 	background-color: var(--main-color);
-	color: var(--sub-color);
+	color: var(--bg-color);
 }
 
 .btn-selection {

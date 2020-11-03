@@ -47,11 +47,11 @@ export default {
 	border-radius: 5px;
 	cursor: pointer;
 	transition: 0.25s;
+	color: var(--bg-color);
 	background-color: var(--sub-color);
 }
 
 .btn-active {
 	background-color: var(--main-color);
-	color: var(--bg-color);
 }
 </style>

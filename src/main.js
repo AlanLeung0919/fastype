@@ -15,7 +15,9 @@ import {
 	faSignInAlt,
 	faSignOutAlt,
 	faArrowUp,
-	faRedoAlt
+	faRedoAlt,
+	faUsers,
+	faNetworkWired
 } from '@fortawesome/free-solid-svg-icons';
 import VueTippy, { TippyComponent } from 'vue-tippy';
 
@@ -28,7 +30,9 @@ library.add(
 	faSignInAlt,
 	faSignOutAlt,
 	faArrowUp,
-	faRedoAlt
+	faRedoAlt,
+	faUsers,
+	faNetworkWired
 );
 
 Vue.use(VueTippy);
