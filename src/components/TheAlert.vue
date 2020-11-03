@@ -1,6 +1,6 @@
 <template>
-	<transition name="anime">
-		<div v-if="alert" class="alert" @animationend="alert = false">
+	<transition name="anime" @enter="reset()">
+		<div v-if="alert" class="alert">
 			{{ this.$store.state.alert }}
 		</div>
 	</transition>
@@ -13,9 +13,15 @@ export default {
 			alert: false
 		};
 	},
+	methods: {
+		reset() {
+			setTimeout(() => {
+				this.alert = false;
+			}, 3000);
+		}
+	},
 	created() {
 		this.$store.subscribe((mutation, state) => {
-			if (this.alert) this.alert = false;
 			if (mutation.type === 'setAlert') this.alert = true;
 		});
 	}
@@ -41,27 +47,17 @@ export default {
 }
 
 .anime-enter-active {
-	animation: enter 2.5s;
-}
-
-.anime-leave-active {
-	animation: leave 0.5s;
+	animation: enter 3s;
 }
 
 @keyframes enter {
 	0% {
 		top: -50px;
 	}
-	20% {
+	10% {
 		top: 25px;
 	}
-	100% {
-		top: 25px;
-	}
-}
-
-@keyframes leave {
-	0% {
+	90% {
 		top: 25px;
 	}
 	100% {

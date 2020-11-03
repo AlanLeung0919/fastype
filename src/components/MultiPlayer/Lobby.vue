@@ -1,24 +1,51 @@
 <template>
 	<div class="lobby">
 		<div class="wrapper">
-			<font-awesome-icon icon="network-wired" size="3x" />
-			<div class="btn btn-lg" @click="connect('random')">join public room</div>
+			<div class="icon">
+				<font-awesome-icon icon="network-wired" size="3x" />
+			</div>
+			<div class="btn btn-lg" @click="connect('public')">join public room</div>
 		</div>
 		<div class="wrapper">
-			<font-awesome-icon icon="key" size="3x" />
-			<div v-if="!input" class="btn btn-lg" @click="input = true">
+			<div class="icon">
+				<font-awesome-icon icon="key" size="3x" />
+			</div>
+			<div
+				v-show="!input"
+				class="btn btn-lg"
+				@click="
+					input = true;
+					focusInput();
+				"
+			>
 				join private room
 			</div>
-			<div v-else class="input-box">
-				<input v-model="roomId" class="input" />
+			<div v-show="input" class="input-box">
+				<input
+					v-model="roomId"
+					ref="inputId"
+					type="text"
+					class="input"
+					placeholder="room id"
+				/>
 				<div class="btn-wrapper">
 					<div class="btn btn-sml" @click="connect('private')">submit</div>
-					<div class="btn btn-sml" @click="input = false">cancel</div>
+					<div
+						class="btn btn-sml"
+						@click="
+							input = false;
+							roomId = '';
+						"
+					>
+						cancel
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="wrapper">
-			<font-awesome-icon icon="door-closed" size="3x" />
+			<div class="icon">
+				<font-awesome-icon icon="door-closed" size="3x" />
+			</div>
 			<div class="btn btn-lg" @click="connect('create')">
 				create private room
 			</div>
@@ -36,8 +63,16 @@ export default {
 	},
 	methods: {
 		connect(val) {
-			if (val === 'private') this.$emit('connect', this.roomId);
-			else this.$emit('connect', val);
+			if (val === 'private') {
+				if (this.roomId === '')
+					return this.$store.commit('setAlert', 'invalid room id');
+				this.$emit('connect', this.roomId.trim());
+			} else this.$emit('connect', val);
+		},
+		focusInput() {
+			this.$nextTick(() => {
+				this.$refs.inputId.focus();
+			});
 		}
 	}
 };
@@ -52,7 +87,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	gap: 2.5em;
+	gap: 1em;
 }
 
 .wrapper {
@@ -64,6 +99,14 @@ export default {
 	gap: 2.5em;
 }
 
+.icon {
+	width: 5em;
+	height: 5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .input-box {
 	display: flex;
 	flex-direction: column;
@@ -73,9 +116,11 @@ export default {
 }
 
 .input {
-  border: none;
-  outline: none;
-  padding: .5em;
+	border: none;
+	outline: none;
+	padding: 0.5em;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, 0.05);
 }
 
 .btn-wrapper {
@@ -101,6 +146,7 @@ export default {
 	border-radius: 5px;
 	transition: 0.1s;
 	white-space: nowrap;
+	user-select: none;
 }
 
 .btn:hover {
