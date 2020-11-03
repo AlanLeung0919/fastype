@@ -1,5 +1,15 @@
-<template></template>
+<template>
+  <Lobby />
+</template>
 
-<script></script>
+<script>
+import Lobby from './Lobby.vue'
+
+export default {
+  components: {
+    Lobby
+  }
+}
+</script>
 
 <style scoped></style>

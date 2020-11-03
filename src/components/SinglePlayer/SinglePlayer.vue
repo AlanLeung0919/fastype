@@ -184,8 +184,8 @@
 </template>
 
 <script>
-import ScoreBoard from '@/components/SinglePlayer/ScoreBoard.vue';
-import InputNum from '@/components/SinglePlayer/InputNum.vue';
+import ScoreBoard from './ScoreBoard.vue';
+import InputNum from './InputNum.vue';
 
 export default {
 	components: {
