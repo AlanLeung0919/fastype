@@ -581,6 +581,7 @@ export default {
 }
 
 .overflow {
+	white-space: pre;
 	color: #960000;
 	border-bottom: 2.5px solid #960000;
 }
