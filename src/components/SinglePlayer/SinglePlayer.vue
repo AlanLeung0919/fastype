@@ -276,6 +276,7 @@ export default {
 			let start = Date.now();
 			this.interval = setInterval(() => {
 				if (this.lastInput === this.input) this.idleTime++;
+				else this.idleTime = 0;
 				if (this.idleTime === 10) {
 					this.reset();
 					this.$store.commit('setAlert', 'test invalid, afk detected');
