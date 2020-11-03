@@ -2,11 +2,15 @@
 	<div class="lobby">
 		<div class="wrapper">
 			<font-awesome-icon icon="users" size="3x" />
-			<div class="btn">join random race</div>
+			<div class="btn">join random room</div>
 		</div>
 		<div class="wrapper">
 			<font-awesome-icon icon="network-wired" size="3x" />
-			<div class="btn">join race by id</div>
+			<div class="btn">join room by id</div>
+		</div>
+    <div class="wrapper">
+			<font-awesome-icon icon="door-open" size="3x" />
+			<div class="btn">create room</div>
 		</div>
 	</div>
 </template>
@@ -24,7 +28,7 @@ export default {};
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	gap: 5em;
+	gap: 2.5em;
 }
 
 .wrapper {
