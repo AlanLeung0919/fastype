@@ -576,14 +576,13 @@ export default {
 }
 
 .incorrect {
-	color: #c83232;
-	border-bottom: 2px solid #c83232;
+	color: #e10000;
+	border-bottom: 2.5px solid #e10000;
 }
 
 .overflow {
-	color: #7d3232;
-	white-space: pre;
-	border-bottom: 2px solid #7d3232;
+	color: #960000;
+	border-bottom: 2.5px solid #960000;
 }
 
 .text-wrapper {
