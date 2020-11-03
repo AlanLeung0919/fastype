@@ -1,6 +1,8 @@
 <template>
   <div class="lobby">
-    123
+    <div class="container">
+      
+    </div>
   </div>
 </template>
 
@@ -15,5 +17,8 @@ export default {
   width: 75%;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

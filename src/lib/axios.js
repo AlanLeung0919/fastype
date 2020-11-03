@@ -11,7 +11,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config) => {
-		NProgress.start();
+		if (!NProgress.isRendered())
+			NProgress.start();
 		if (config.url.substring(0, 4) === 'text') return config;
 		const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
 		const token = googleUser.getAuthResponse().id_token;
