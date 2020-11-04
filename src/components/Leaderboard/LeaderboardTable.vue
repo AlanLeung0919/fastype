@@ -46,9 +46,10 @@ export default {
 
 <style scoped>
 .table {
-	gap: 2em;
+	gap: 1em;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
 }
 
@@ -58,6 +59,7 @@ export default {
 	font-size: 1.25em;
 	user-select: none;
 	text-decoration: none;
+	transition: 0.1s;
 	color: var(--sub-color);
 }
 
@@ -70,16 +72,12 @@ export default {
 	color: var(--main-color);
 }
 
-.sort {
-	color: var(--main-color);
-}
-
 table {
 	width: 100%;
 	text-align: center;
 	table-layout: fixed;
 	border-collapse: collapse;
-	word-wrap: break-word;
+	white-space: nowrap;
 }
 
 thead {
@@ -87,15 +85,41 @@ thead {
 }
 
 td {
-	padding-top: 0.1em;
-	padding-bottom: 0.1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
 }
 
-td:last-child {
-	white-space: pre;
+td {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 tr:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.1);
+}
+
+thead td:nth-child(1),
+tr td:nth-child(1) {
+	width: 10%;
+}
+
+thead td:nth-child(2),
+tr td:nth-child(2) {
+	width: 40%;
+}
+
+thead td:nth-child(3),
+tr td:nth-child(3) {
+	width: 15%;
+}
+
+thead td:nth-child(4),
+tr td:nth-child(4) {
+	width: 15%;
+}
+
+thead td:nth-child(5),
+tr td:nth-child(5) {
+	width: 20%;
 }
 </style>

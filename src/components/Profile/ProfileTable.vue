@@ -97,29 +97,58 @@ table {
 	text-align: center;
 	table-layout: fixed;
 	border-collapse: collapse;
-	word-wrap: break-word;
+	white-space: nowrap;
 }
 
 thead {
 	color: var(--sub-color);
-	cursor: pointer;
-	user-select: none;
 }
 
-thead td:hover {
+thead:hover {
 	color: var(--main-color);
 }
 
 td {
-	padding-top: 0.1em;
-	padding-bottom: 0.1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
 }
 
-td:last-child {
-	white-space: pre;
+td {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 tr:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.1);
+}
+
+thead td:nth-child(1),
+tr td:nth-child(1) {
+	width: 15%;
+}
+
+thead td:nth-child(2),
+tr td:nth-child(2) {
+	width: 15%;
+}
+
+thead td:nth-child(3),
+tr td:nth-child(3) {
+	width: 15%;
+}
+
+thead td:nth-child(4),
+tr td:nth-child(4) {
+	width: 15%;
+}
+
+thead td:nth-child(5),
+tr td:nth-child(5) {
+	width: 15%;
+}
+
+thead td:nth-child(6),
+tr td:nth-child(6) {
+	width: 25%;
 }
 </style>

@@ -21,7 +21,7 @@ export default (timestamp, notime) => {
 	} else {
 		return `${date.getFullYear()} ${month[date.getMonth()]} ${(
 			'0' + date.getDate()
-		).slice(-2)}\n${('0' + date.getHours()).slice(-2)}:${(
+		).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${(
 			'0' + date.getMinutes()
 		).slice(-2)}`;
 	}
