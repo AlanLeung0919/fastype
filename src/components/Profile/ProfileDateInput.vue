@@ -2,9 +2,9 @@
 	<div class="container">
 		days of progression
 		<div class="input-wrapper">
-			<div class="btn" @click="num--">-</div>
+			<div class="btn" @click="num--">&minus;</div>
 			<input @change="num = $event.target.value" :value="num" />
-			<div class="btn" @click="num++">+</div>
+			<div class="btn" @click="num++">&plus;</div>
 		</div>
 	</div>
 </template>
