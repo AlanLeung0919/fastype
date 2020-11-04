@@ -66,8 +66,8 @@ export default {
 			if (val === 'private') {
 				if (this.roomId === '')
 					return this.$store.commit('setAlert', 'invalid room id');
-				this.$emit('connect', this.roomId.trim());
-			} else this.$emit('connect', val);
+				this.$emit('connect', { type: 'private', roomId: this.roomId.trim() });
+			} else this.$emit('connect', { type: val });
 		},
 		focusInput() {
 			this.$nextTick(() => {
@@ -80,9 +80,8 @@ export default {
 
 <style scoped>
 .lobby {
-	width: 75%;
-	margin-left: auto;
-	margin-right: auto;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;

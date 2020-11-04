@@ -23,15 +23,15 @@ export default {
 		num(val, oldVal) {
 			if (val < 2 || val > 50) {
 				this.num = oldVal;
-				this.$store.commit('setAlert', 'invalid input')
-				return 
+				this.$store.commit('setAlert', 'invalid input');
+				return;
 			}
 			this.$emit('update', val);
 		}
-  },
-  mounted() {
-    this.num = this.dateRange;
-  }
+	},
+	mounted() {
+		this.num = this.dateRange;
+	}
 };
 </script>
 

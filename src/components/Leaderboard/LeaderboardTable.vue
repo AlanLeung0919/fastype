@@ -24,6 +24,7 @@
 			</tr>
 		</table>
 		<div v-else>No record found</div>
+		<div class="reminder">&ast; daily leaderboard updates at 08:00(UTC+08:00) each day</div>
 	</div>
 </template>
 
@@ -66,6 +67,11 @@ export default {
 .position {
 	background-color: var(--main-color) !important;
 	color: var(--bg-color) !important;
+}
+
+.reminder {
+	font-size: .75em;
+	align-self: right;
 }
 
 .rank:hover {

@@ -64,7 +64,12 @@ export default {
 			});
 			let labels = [];
 			for (let i = 0; i < progression.length; i++)
-				labels.push(getDate(Date.now() - 1000 * 60 * 60 * 24 * (progression.length - i - 1), true));
+				labels.push(
+					getDate(
+						Date.now() - 1000 * 60 * 60 * 24 * (progression.length - i - 1),
+						true
+					)
+				);
 			this.chartData = {
 				labels: labels,
 				datasets: [
