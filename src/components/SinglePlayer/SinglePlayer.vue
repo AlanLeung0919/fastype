@@ -230,7 +230,7 @@ export default {
 	methods: {
 		getText() {
 			let n = 0;
-			const timeModeWord = 500;
+			const timeModeWord = 1000;
 			const lazyloadLen = 75;
 			if (this.mode === 'time') n = timeModeWord;
 			if (this.mode === 'word') n = this.word;
@@ -352,7 +352,7 @@ export default {
 			let inputIdx = this.input.length - 1;
 			if (inputIdx === -1) inputIdx = 0;
 			setTimeout(() => {
-				if (!this.$refs.word[this.currentWordIdx]) return;
+				if (!this.$refs.word) return;
 				const word = this.$refs.word[this.currentWordIdx].children[inputIdx];
 				if (!word) return;
 				const top = word.getBoundingClientRect().top;

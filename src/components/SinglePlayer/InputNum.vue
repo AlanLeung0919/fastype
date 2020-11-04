@@ -25,7 +25,7 @@ export default {
 				this.num = oldnum;
 				return;
 			}
-			if (this.mode === 'time' && num < 15) {
+			if (this.mode === 'time' && (num < 10 || num > 300)) {
 				this.$store.commit('setAlert', 'invalid time');
 				this.num = oldnum;
 				return;
