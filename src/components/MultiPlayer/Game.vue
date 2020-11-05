@@ -1,15 +1,15 @@
 <template>
 	<div>
-    <input
-				v-model="input"
-				class="input"
-				ref="input"
-				:maxlength="maxLen()"
-				@focus="inFocus = true"
-				@blur="inFocus = false"
-				@keydown.ctrl.prevent
-				@keydown.exact="checkCap($event)"
-			/>
+		<input
+			v-model="input"
+			class="input"
+			ref="input"
+			:maxlength="maxLen()"
+			@focus="inFocus = true"
+			@blur="inFocus = false"
+			@keydown.ctrl.prevent
+			@keydown.exact="checkCap($event)"
+		/>
 		<div class="text-wrapper" ref="textWrapper" @click="$refs.input.focus()">
 			<div class="text">
 				<div
@@ -46,20 +46,20 @@ export default {
 	},
 	data() {
 		return {
-      inFocus: false,
-      started: false,
+			inFocus: false,
+			started: false,
 			input: '',
 			rawText: this.propRawText,
 			text: [],
 			correct: [],
 			incorrect: [],
-      overflow: [],
-      currentWordIdx: 0,
-      currentCharIdx: 0,
-      error: false,
+			overflow: [],
+			currentWordIdx: 0,
+			currentCharIdx: 0,
+			error: false,
 			typedChars: 0,
-      correctChars: 0,
-      correctWords: 0
+			correctChars: 0,
+			correctWords: 0
 		};
 	},
 	methods: {
@@ -77,18 +77,18 @@ export default {
 			}
 			this.rawText = this.rawText.slice(lazyloadLen);
 			this.$refs.input.focus();
-    },
-    maxLen() {
+		},
+		maxLen() {
 			if (this.started) return this.text[this.currentWordIdx].length + 5;
-    },
-    checkCap(event) {
+		},
+		checkCap(event) {
 			if (event.getModifierState('CapsLock'))
 				this.$store.commit('setAlert', 'CapsLock is on!');
-		},
-  },
-  mounted() {
-    this.loadText();
-  }
+		}
+	},
+	mounted() {
+		this.loadText();
+	}
 };
 </script>
 

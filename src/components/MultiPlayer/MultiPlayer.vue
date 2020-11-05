@@ -53,7 +53,7 @@ export default {
 		this.socket.on('joinRoom', (text) => {
 			this.inRoom = true;
 			this.rawText = text;
-		})
+		});
 	},
 	beforeDestroy() {
 		this.socket.disconnect();

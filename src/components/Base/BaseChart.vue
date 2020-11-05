@@ -23,6 +23,9 @@ export default {
 				mode: 'x',
 				intersect: false
 			},
+			animation: {
+				duration: 250
+			},
 			responsive: true,
 			maintainAspectRatio: false
 		});
