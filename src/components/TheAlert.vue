@@ -44,6 +44,7 @@ export default {
 	transform: translateX(-50%);
 	padding: 10px 15px 10px 15px;
 	background-color: var(--main-color);
+	user-select: none;
 }
 
 .anime-enter-active {

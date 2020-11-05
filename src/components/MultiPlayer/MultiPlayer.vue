@@ -1,7 +1,7 @@
 <template>
 	<div class="multiplayer">
 		<Lobby v-if="!inRoom" @connect="connect" />
-		<Game v-else />
+		<Game v-else :propRawText="rawText" />
 	</div>
 </template>
 
@@ -9,7 +9,6 @@
 import io from 'socket.io-client';
 import Lobby from './Lobby.vue';
 import Game from './Game.vue';
-const socket = io(process.env.VUE_APP_BASEURL);
 
 export default {
 	components: {
@@ -18,30 +17,46 @@ export default {
 	},
 	data() {
 		return {
-			inRoom: false
+			inRoom: false,
+			rawText: []
 		};
 	},
 	methods: {
 		connect(obj) {
 			if (obj.type === 'private') {
-				socket.emit('joinPrivate', { token: this.getToken(), roomId: obj.roomId});
+				this.socket.emit('joinPrivate', { roomId: obj.roomId });
 			} else if (obj.type === 'public') {
-				socket.emit('joinPublic', { token: this.getToken() });
+				this.socket.emit('joinPublic');
 			} else {
-				socket.emit('createRoom', { token: this.getToken() });
+				this.socket.emit('createRoom');
 			}
 		},
 		getToken() {
 			const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
 			const token = googleUser.getAuthResponse().id_token;
 			return token;
+		},
+		initSocket() {
+			const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+			const token = googleUser.getAuthResponse().id_token;
+			this.socket = io(process.env.VUE_APP_BASEURL, {
+				query: { token: token }
+			});
 		}
 	},
-	mounted() {
-		socket.on('authFail', () => {
-			this.$store.commit('setAlert', 'authentication failed');
-			this.inRoom = false;
+	created() {
+		this.initSocket();
+		this.socket.on('error', (err) => {
+			this.$store.commit('setAlert', err);
+			this.$router.push('/');
 		});
+		this.socket.on('joinRoom', (text) => {
+			this.inRoom = true;
+			this.rawText = text;
+		})
+	},
+	beforeDestroy() {
+		this.socket.disconnect();
 	}
 };
 </script>
