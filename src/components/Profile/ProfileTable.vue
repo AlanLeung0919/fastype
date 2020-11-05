@@ -100,11 +100,13 @@ table {
 	white-space: nowrap;
 }
 
-thead {
+thead td {
 	color: var(--sub-color);
+	cursor: pointer;
+	user-select: none;
 }
 
-thead:hover {
+thead td:hover {
 	color: var(--main-color);
 }
 

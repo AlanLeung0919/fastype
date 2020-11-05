@@ -120,6 +120,7 @@ export default {
 	padding: 0.5em;
 	border-radius: 5px;
 	background-color: rgba(0, 0, 0, 0.05);
+	color: var(--main-color);
 }
 
 .btn-wrapper {

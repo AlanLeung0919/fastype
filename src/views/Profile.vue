@@ -47,7 +47,7 @@ export default {
 		loadChart() {
 			const start = new Date();
 			start.setHours(0, 0, 0, 0);
-			const date = start.getTime() - 1000 * 60 * 60 * 24 * this.dateRange;
+			const date = start.getTime() - 1000 * 60 * 60 * 24 * (this.dateRange - 1);
 			const dateFilter = this.rawChartData.filter((e) => e.date > date);
 			let progression = [];
 			dateFilter.reduce((a, e) => {

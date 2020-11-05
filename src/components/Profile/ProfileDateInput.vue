@@ -11,18 +11,19 @@
 
 <script>
 export default {
+	props: {
+		dateRange: [Number, String]
+	},
 	data() {
 		return {
 			num: null
 		};
 	},
-	props: {
-		dateRange: Number
-	},
 	watch: {
-		num(val, oldVal) {
+		num(val, oldval) {
 			if (val < 2 || val > 50) {
-				this.num = oldVal;
+				console.log(oldval)
+				this.num = oldval;
 				this.$store.commit('setAlert', 'invalid input');
 				return;
 			}
@@ -77,5 +78,6 @@ input {
 	background-color: rgba(0, 0, 0, 0.05);
 	border-radius: 5px;
 	text-align: center;
+	color: var(--main-color);
 }
 </style>
