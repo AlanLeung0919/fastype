@@ -22,7 +22,7 @@ export default {
 	watch: {
 		num(val, oldval) {
 			if (val < 2 || val > 50) {
-				console.log(oldval)
+				console.log(oldval);
 				this.num = oldval;
 				this.$store.commit('setAlert', 'invalid input');
 				return;

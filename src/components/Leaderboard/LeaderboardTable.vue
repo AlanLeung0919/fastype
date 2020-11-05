@@ -24,9 +24,7 @@
 			</tr>
 		</table>
 		<div v-else>No record found</div>
-		<div class="reminder">
-			&ast; daily leaderboard updates at 08:00(UTC+8)
-		</div>
+		<div class="reminder">&ast; daily leaderboard updates at 08:00(UTC+8)</div>
 	</div>
 </template>
 
