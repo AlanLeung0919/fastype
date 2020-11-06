@@ -1,6 +1,6 @@
 <template>
 	<div class="leaderboard">
-		<ScrollToTop />
+		<BaseScrollToTop />
 		<LeaderboardSwitch :table="table" @update="updateTable" />
 		<LeaderboardTable
 			v-if="table === 'bestWpm'"
@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import LeaderboardSwitch from '@/components/Leaderboard/LeaderboardSwitch.vue';
-import LeaderboardTable from '@/components/Leaderboard/LeaderboardTable.vue';
-import ScrollToTop from '@/components/Base/BaseScrollTop.vue';
+import BaseScrollToTop from '@/components/Base/BaseScrollTop';
+import LeaderboardTable from '@/components/Leaderboard/LeaderboardTable';
+import LeaderboardSwitch from '@/components/Leaderboard/LeaderboardSwitch';
 
 export default {
 	components: {
-		LeaderboardSwitch,
+		BaseScrollToTop,
 		LeaderboardTable,
-		ScrollToTop
+		LeaderboardSwitch
 	},
 	data() {
 		return {
@@ -50,7 +50,6 @@ export default {
 		this.$http
 			.get('leaderboard')
 			.then((res) => {
-				//console.log(res);
 				this.bestWpm = res.data.bestWpm;
 				this.bestDailyWpm = res.data.bestDailyWpm;
 			})
@@ -63,16 +62,11 @@ export default {
 
 <style scoped>
 .leaderboard {
+	gap: 2em;
+	width: 80%;
 	display: flex;
 	flex-flow: column;
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	gap: 2em;
-	padding-top: 2.5em;
-	padding-bottom: 2.5em;
-	overflow-anchor: none;
 	align-items: center;
-	/* text-align: center; */
+	margin: 1.5em auto 1.5em auto;
 }
 </style>

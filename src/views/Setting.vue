@@ -1,9 +1,9 @@
 <template>
 	<div class="setting">
 		<div class="section">
-			<div class="title">Theme</div>
+			<div class="title">theme</div>
 			<div
-				class="btn"
+				class="btn-custom"
 				@click="toggleCustom()"
 				:class="{ 'btn-active': customTheme }"
 			>
@@ -12,19 +12,19 @@
 			<CustomTheme v-if="customTheme" class="btn-selection" />
 			<BtnTheme
 				v-else
-				:currentTheme="currentTheme"
-				@changeTheme="changeTheme"
 				class="btn-selection"
+				@changeTheme="changeTheme"
+				:currentTheme="currentTheme"
 			/>
 		</div>
 	</div>
 </template>
 
 <script>
-import setTheme from '@/helper/setTheme.js';
-import themeArr from '@/assets/theme.json';
-import BtnTheme from '@/components/Theme/ThemeBtn.vue';
-import CustomTheme from '@/components/Theme/ThemeCustom.vue';
+import themeList from '@/assets/theme';
+import setTheme from '@/helper/setTheme';
+import BtnTheme from '@/components/Theme/ThemeBtn';
+import CustomTheme from '@/components/Theme/ThemeCustom';
 
 export default {
 	components: {
@@ -33,7 +33,7 @@ export default {
 	},
 	data() {
 		return {
-			themes: themeArr,
+			themes: themeList,
 			currentTheme: ''
 		};
 	},
@@ -48,13 +48,15 @@ export default {
 			const theme = localStorage.getItem('theme');
 			this.$http.post('theme', { theme: theme });
 		},
-		changeTheme(name) {
-			this.currentTheme = name;
+		changeTheme(theme) {
+			this.currentTheme = theme;
 		},
 		toggleCustom() {
 			if (this.customTheme) {
 				localStorage.setItem('theme', 'dark');
-				this.currentTheme = 'dark';
+				const themeName = this.themes.map((e) => e.name);
+				const theme = themeName[Math.floor(Math.random() * themeName.length)];
+				this.currentTheme = theme;
 			} else {
 				localStorage.setItem('theme', 'custom');
 			}
@@ -80,44 +82,41 @@ export default {
 
 <style scoped>
 .setting {
-	display: flex;
-	flex-direction: column;
-	margin-top: 1em;
-	align-items: center;
 	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin: 1.5em auto 1.5em auto;
 }
 
 .section {
-	padding-top: 1em;
-	display: grid;
-	grid-template-columns: auto auto;
-	gap: 1em;
+	gap: 1.5em;
 	width: 100%;
+	display: grid;
+	padding-bottom: 1em;
+	grid-template-columns: auto auto;
 }
 
 .title {
-	font-size: 2em;
+	font-size: 2.5em;
 	color: var(--sub-color);
 }
 
-.btn {
-	align-self: center;
-	justify-self: right;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.btn-custom {
 	width: 10em;
 	height: 2em;
-	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	justify-self: right;
 	cursor: pointer;
-	box-sizing: border-box;
-	background-color: var(--bg-color);
-	color: var(--main-color);
-	transition: 0.1s;
-	border: 1px solid var(--main-color);
 	user-select: none;
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: var(--main-color);
+	background-color: var(--bg-color);
+	border: 1px solid var(--main-color);
 }
 
 .btn-active {

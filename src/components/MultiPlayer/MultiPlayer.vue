@@ -46,7 +46,7 @@ export default {
 	},
 	created() {
 		this.initSocket();
-		this.socket.on('error', (err) => {
+		this.socket.on('connect_error', (err) => {
 			this.$store.commit('setAlert', err);
 			this.$router.push('/');
 		});

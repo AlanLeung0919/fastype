@@ -1,22 +1,14 @@
 <template>
-	<div class="profile-table">
+	<div>
 		<table v-if="record.length > 0">
 			<thead>
-				<td :class="{ sort: currentSort === 'id' }" @click="sort('id')">#</td>
-				<td :class="{ sort: currentSort === 'wpm' }" @click="sort('wpm')">
-					wpm
-				</td>
-				<td :class="{ sort: currentSort === 'acc' }" @click="sort('acc')">
-					acc
-				</td>
-				<td :class="{ sort: currentSort === 'mode' }" @click="sort('mode')">
-					mode
-				</td>
-				<td :class="{ sort: currentSort === 'time' }" @click="sort('time')">
-					time
-				</td>
-				<td :class="{ sort: currentSort === 'date' }" @click="sort('date')">
-					date
+				<td
+					v-for="item in ['id', 'wpm', 'acc', 'mode', 'time', 'date']"
+					:key="item"
+					:class="{ sort: currentSort === item }"
+					@click="sort(item)"
+				>
+					{{ item }}
 				</td>
 			</thead>
 			<tr v-for="(record, idx) in record" :key="idx">
@@ -30,11 +22,14 @@
 		</table>
 		<div v-else>No record found</div>
 		<div v-if="avaliable" class="load" @click="$emit('load')">load more</div>
+		<div v-if="avaliable" class="load" @click="$emit('load', true)">
+			load all
+		</div>
 	</div>
 </template>
 
 <script>
-import getDate from '@/helper/getDate.js';
+import getDate from '@/helper/getDate';
 
 export default {
 	props: {
@@ -66,24 +61,21 @@ export default {
 </script>
 
 <style scoped>
-.profile-table {
-	text-align: center;
-}
-
 .sort {
 	color: var(--main-color);
 }
 
 .load {
-	height: 2em;
-	padding: 0.1em;
-	border-radius: 5px;
-	transition: 0.1s;
-	user-select: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
+	height: 2em;
+	border-radius: 5px;
 	cursor: pointer;
+	user-select: none;
+	transition: 0.1s;
+	margin-bottom: 0.75em;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
 }
@@ -95,15 +87,15 @@ export default {
 table {
 	width: 100%;
 	text-align: center;
+	white-space: nowrap;
 	table-layout: fixed;
 	border-collapse: collapse;
-	white-space: nowrap;
 }
 
 thead td {
-	color: var(--sub-color);
 	cursor: pointer;
 	user-select: none;
+	color: var(--sub-color);
 }
 
 thead td:hover {
@@ -111,41 +103,17 @@ thead td:hover {
 }
 
 td {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-}
-
-td {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding: 0.5em 0 0.5em 0;
 }
 
 tr:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
-thead td:nth-child(1),
-tr td:nth-child(1) {
-	width: 15%;
-}
-
-thead td:nth-child(2),
-tr td:nth-child(2) {
-	width: 15%;
-}
-
-thead td:nth-child(3),
-tr td:nth-child(3) {
-	width: 15%;
-}
-
-thead td:nth-child(4),
-tr td:nth-child(4) {
-	width: 15%;
-}
-
-thead td:nth-child(5),
-tr td:nth-child(5) {
+thead td:nth-child(-n + 5),
+tr td:nth-child(-n + 5) {
 	width: 15%;
 }
 

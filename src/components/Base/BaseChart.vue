@@ -10,15 +10,6 @@ export default {
 	},
 	mounted() {
 		this.renderChart(this.chartData, {
-			scales: {
-				yAxes: [
-					{
-						ticks: {
-							beginAtZero: true
-						}
-					}
-				]
-			},
 			tooltips: {
 				mode: 'x',
 				intersect: false

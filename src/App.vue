@@ -72,6 +72,7 @@ body {
 ::-webkit-scrollbar {
 	background-color: var(--bg-color);
 	width: 5px;
+	height: 5px;
 }
 
 .fade-enter-active,

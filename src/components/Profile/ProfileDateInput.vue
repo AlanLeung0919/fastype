@@ -1,83 +1,91 @@
 <template>
 	<div class="container">
-		days of progression
-		<div class="input-wrapper">
-			<div class="btn" @click="num--">&minus;</div>
-			<input @change="num = $event.target.value" :value="num" />
-			<div class="btn" @click="num++">&plus;</div>
+		<div class="date-wrapper">
+			<div class="input-wrapper">
+				start day
+				<input type="date" v-model="startDay" />
+			</div>
+			<div class="input-wrapper">
+				end day
+				<input type="date" v-model="endDay" />
+			</div>
 		</div>
+		<div class="reminder">&ast; inactive days not included</div>
 	</div>
 </template>
 
 <script>
 export default {
 	props: {
-		dateRange: [Number, String]
+		start: Date,
+		end: Date
 	},
 	data() {
 		return {
-			num: null
+			startDay: this.start,
+			endDay: this.end
 		};
 	},
+	methods: {
+		formatDate(date) {
+			return (
+				date.getFullYear() +
+				'-' +
+				(date.getMonth() + 1).toString().padStart(2, '0') +
+				'-' +
+				date.getDate().toString().padStart(2, '0')
+			);
+		}
+	},
 	watch: {
-		num(val, oldval) {
-			if (val < 2 || val > 50) {
-				console.log(oldval);
-				this.num = oldval;
-				this.$store.commit('setAlert', 'invalid input');
-				return;
-			}
-			this.$emit('update', val);
+		startDay(val) {
+			this.$emit('updateStart', val);
+		},
+		endDay(val) {
+			this.$emit('updateEnd', val);
 		}
 	},
 	mounted() {
-		this.num = this.dateRange;
+		this.startDay = this.formatDate(this.startDay);
+		this.endDay = this.formatDate(this.endDay);
 	}
 };
 </script>
 
 <style scoped>
 .container {
+	gap: 1em;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.date-wrapper {
+	gap: 2.5em;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1em;
-	flex-direction: column;
 }
 
 .input-wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	gap: 0.5em;
-}
-
-.btn {
-	width: 1.75em;
-	height: 1.75em;
 	display: flex;
 	align-items: center;
+	flex-direction: column;
 	justify-content: center;
-	background-color: var(--sub-color);
-	color: var(--bg-color);
-	border-radius: 5px;
-	transition: 0.1s;
-	cursor: pointer;
-	user-select: none;
 }
 
-.btn:hover {
-	background-color: var(--main-color);
+.reminder {
+	font-size: 0.5em;
 }
 
 input {
-	width: 2.5em;
-	height: 2.5em;
-	outline: none;
 	border: none;
-	background-color: rgba(0, 0, 0, 0.05);
+	outline: none;
+	padding: 0.25em;
 	border-radius: 5px;
-	text-align: center;
 	color: var(--main-color);
+	background-color: rgba(0, 0, 0, 0.05);
 }
 </style>

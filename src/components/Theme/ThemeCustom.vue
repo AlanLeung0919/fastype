@@ -3,15 +3,15 @@
 		<div class="color-wrapper">
 			background color
 			<label
+				for="bgColor"
 				class="color-display"
 				:style="`background-color: ${theme.bgColor}; color: ${theme.mainColor}; border: 1px solid ${theme.mainColor}`"
-				for="bgColor"
 			>
 				{{ theme.bgColor }}
 			</label>
 			<input
-				type="color"
 				v-model="themeCache.bgColor"
+				type="color"
 				class="color-input"
 				id="bgColor"
 			/>
@@ -19,15 +19,15 @@
 		<div class="color-wrapper">
 			primary color
 			<label
+				for="mainColor"
 				class="color-display"
 				:style="`background-color: ${theme.mainColor}; color: ${theme.bgColor}`"
-				for="mainColor"
 			>
 				{{ theme.mainColor }}
 			</label>
 			<input
-				type="color"
 				v-model="themeCache.mainColor"
+				type="color"
 				class="color-input"
 				id="mainColor"
 			/>
@@ -35,15 +35,15 @@
 		<div class="color-wrapper">
 			secondary color
 			<label
+				for="subColor"
 				class="color-display"
 				:style="`background-color: ${theme.subColor}; color: ${theme.bgColor}`"
-				for="subColor"
 			>
 				{{ theme.subColor }}
 			</label>
 			<input
-				type="color"
 				v-model="themeCache.subColor"
+				type="color"
 				class="color-input"
 				id="subColor"
 			/>
@@ -101,38 +101,38 @@ export default {
 
 <style scoped>
 .custom-theme {
+	gap: 7.5em;
 	display: flex;
-	gap: 5em;
 	flex-wrap: wrap;
+	align-items: center;
 	justify-content: center;
-	width: 100%;
 }
 
 .color-wrapper {
-	color: var(--sub-color);
-	display: flex;
-	flex-direction: column;
 	gap: 0.5em;
+	display: flex;
 	position: relative;
+	flex-direction: column;
+	color: var(--sub-color);
 }
 
 .color-display {
 	display: flex;
+	align-items: center;
 	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	width: 10em;
 	height: 2em;
 	border-radius: 5px;
 	cursor: pointer;
-	box-sizing: border-box;
 	user-select: none;
-	justify-content: center;
-	align-items: center;
+	box-sizing: border-box;
 }
 
 .color-input {
-	visibility: hidden;
-	position: absolute;
 	top: 75%;
+	position: absolute;
+	visibility: hidden;
 }
 </style>

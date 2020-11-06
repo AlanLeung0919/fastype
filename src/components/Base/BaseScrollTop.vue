@@ -17,18 +17,19 @@ export default {
 <style scoped>
 .top {
 	position: fixed;
-	bottom: 2em;
-	right: 3em;
-	font-size: 2em;
-	cursor: pointer;
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 1.5em;
+	height: 1.5em;
+	right: 3em;
+	bottom: 2em;
+	font-size: 2em;
+	border-radius: 100%;
+	cursor: pointer;
 	color: var(--sub-color);
 	background-color: var(--bg-color);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .top:hover {

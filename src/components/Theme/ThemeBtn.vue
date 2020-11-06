@@ -4,8 +4,8 @@
 			v-for="(theme, idx) in themes"
 			class="btn"
 			:key="idx"
-			:style="`background-color: ${theme.bgColor}; color: ${theme.mainColor}`"
 			:class="{ 'btn-selected': currentTheme === theme.name }"
+			:style="`background-color: ${theme.bgColor}; color: ${theme.mainColor}`"
 			@click="changeTheme(theme.name)"
 		>
 			<div class="label">{{ theme.name }}</div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import themeArr from '@/assets/theme.json';
+import themeList from '@/assets/theme';
 
 export default {
 	props: {
@@ -22,7 +22,7 @@ export default {
 	},
 	data() {
 		return {
-			themes: themeArr
+			themes: themeList
 		};
 	},
 	methods: {
@@ -35,26 +35,26 @@ export default {
 
 <style scoped>
 .theme {
-	display: flex;
-	padding-top: 1em;
-	flex-wrap: wrap;
 	gap: 2.5em;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 	justify-content: center;
-}
-
-.btn-selected {
-	border: 1px solid var(--main-color);
 }
 
 .btn {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	width: 10em;
 	height: 2em;
 	border-radius: 5px;
 	cursor: pointer;
-	box-sizing: border-box;
 	user-select: none;
+	box-sizing: border-box;
+}
+
+.btn-selected {
+	border: 1px solid var(--main-color);
 }
 </style>

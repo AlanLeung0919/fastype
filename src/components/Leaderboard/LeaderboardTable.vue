@@ -12,9 +12,9 @@
 			</thead>
 			<tr
 				v-for="(record, idx) in list"
+				ref="rank"
 				:key="idx"
 				:class="{ position: rank === record.rank }"
-				ref="rank"
 			>
 				<td>{{ record.rank }}</td>
 				<td>{{ record.name }}</td>
@@ -24,12 +24,12 @@
 			</tr>
 		</table>
 		<div v-else>No record found</div>
-		<div class="reminder">&ast; daily leaderboard updates at 08:00(UTC+8)</div>
+		<div class="reminder">&ast; daily leaderboard updates at 00:00(UTC)</div>
 	</div>
 </template>
 
 <script>
-import getDate from '@/helper/getDate.js';
+import getDate from '@/helper/getDate';
 
 export default {
 	props: {
@@ -50,18 +50,22 @@ export default {
 	gap: 1em;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
+	justify-content: center;
 }
 
 .rank {
 	display: block;
 	cursor: pointer;
+	transition: 0.1s;
 	font-size: 1.25em;
 	user-select: none;
 	text-decoration: none;
-	transition: 0.1s;
 	color: var(--sub-color);
+}
+
+.rank:hover {
+	color: var(--main-color);
 }
 
 .position {
@@ -70,20 +74,15 @@ export default {
 }
 
 .reminder {
-	font-size: 0.75em;
-	align-self: right;
-}
-
-.rank:hover {
-	color: var(--main-color);
+	font-size: 0.5em;
 }
 
 table {
 	width: 100%;
 	text-align: center;
+	white-space: nowrap;
 	table-layout: fixed;
 	border-collapse: collapse;
-	white-space: nowrap;
 }
 
 thead {
@@ -91,13 +90,9 @@ thead {
 }
 
 td {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-}
-
-td {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding: 0.5em 0 0.5em 0;
 }
 
 tr:nth-child(even) {

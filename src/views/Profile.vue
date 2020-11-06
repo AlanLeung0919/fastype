@@ -1,28 +1,33 @@
 <template>
 	<div class="profile">
-		<ScrollToTop />
+		<BaseScrollToTop />
 		<ProfileStat :stat="stat" />
-		<BaseChart v-if="loaded" :height="300" :chartData="chartData" />
-		<ProfileDateInput @update="update" :dateRange="dateRange" class="input" />
-		<ProfileTable :record="record" @load="load()" :avaliable="loadAvaliable" />
+		<BaseChart v-if="loaded" :height="325" :chartData="chartData" />
+		<ProfileDateInput
+			:end="endDay"
+			:start="startDay"
+			@updateEnd="updateEnd"
+			@updateStart="updateStart"
+		/>
+		<ProfileTable :record="record" @load="load" :avaliable="loadAvaliable" />
 	</div>
 </template>
 
 <script>
-import BaseChart from '@/components/Base/BaseChart.vue';
-import ProfileStat from '@/components/Profile/ProfileStat.vue';
-import ProfileTable from '@/components/Profile/ProfileTable.vue';
-import ProfileDateInput from '@/components/Profile/ProfileDateInput.vue';
-import ScrollToTop from '@/components/Base/BaseScrollTop.vue';
-import getDate from '@/helper/getDate.js';
+import getDate from '@/helper/getDate';
+import BaseChart from '@/components/Base/BaseChart';
+import BaseScrollToTop from '@/components/Base/BaseScrollTop';
+import ProfileStat from '@/components/Profile/ProfileStat';
+import ProfileTable from '@/components/Profile/ProfileTable';
+import ProfileDateInput from '@/components/Profile/ProfileDateInput';
 
 export default {
 	components: {
 		BaseChart,
+		BaseScrollToTop,
 		ProfileStat,
 		ProfileTable,
-		ProfileDateInput,
-		ScrollToTop
+		ProfileDateInput
 	},
 	data() {
 		return {
@@ -32,53 +37,83 @@ export default {
 			rawRecord: [],
 			chartData: {},
 			rawChartData: [],
-			dateRange: 7
+			startDay: null,
+			endDay: null
 		};
 	},
 	methods: {
-		update(num) {
-			this.dateRange = num;
+		updateStart(val) {
+			const date = new Date(val);
+			this.startDay = date;
 			this.loadChart();
 		},
-		load() {
+		updateEnd(val) {
+			const date = new Date(val);
+			this.endDay = date;
+			this.loadChart();
+		},
+		load(loadAll) {
+			if (loadAll) {
+				this.record.push(...this.rawRecord);
+				this.rawRecord = [];
+				return;
+			}
 			this.record.push(...this.rawRecord.slice(0, 10));
 			this.rawRecord = this.rawRecord.slice(10);
 		},
 		loadChart() {
-			const start = new Date();
+			const start = this.startDay;
+			const end = this.endDay;
 			start.setHours(0, 0, 0, 0);
-			const date = start.getTime() - 1000 * 60 * 60 * 24 * (this.dateRange - 1);
-			const dateFilter = this.rawChartData.filter((e) => e.date > date);
-			let progression = [];
-			dateFilter.reduce((a, e) => {
-				const diff = Math.round((e.date - date) / (1000 * 60 * 60 * 24) - 1);
-				if (!progression[diff]) progression[diff] = [];
-				progression[diff].push(e.wpm);
-				return progression;
+			end.setHours(23, 59, 59, 999);
+			const dateFilter = this.rawChartData.filter(
+				(e) => e.date > start && e.date < end
+			);
+			dateFilter.reverse();
+			const wpmGroup = dateFilter.reduce((wpmGroup, e) => {
+				const recordDate = new Date(e.date);
+				const date = getDate(recordDate, true);
+				if (!wpmGroup[date]) wpmGroup[date] = [];
+				wpmGroup[date].push(e.wpm);
+				return wpmGroup;
 			}, {});
-			for (let i = 0; i < progression.length; i++) {
-				if (!progression[i]) progression[i] = [0];
-			}
-			progression.forEach((e, i) => {
-				progression[i] = Math.round(e.reduce((a, b) => a + b) / e.length);
-			});
-			let labels = [];
-			for (let i = 0; i < progression.length; i++)
-				labels.push(
-					getDate(
-						Date.now() - 1000 * 60 * 60 * 24 * (progression.length - i - 1),
-						true
-					)
+			const accGroup = dateFilter.reduce((accGroup, e) => {
+				const recordDate = new Date(e.date);
+				const date = getDate(recordDate, true);
+				if (!accGroup[date]) accGroup[date] = [];
+				accGroup[date].push(e.acc);
+				return accGroup;
+			}, {});
+			const labels = [];
+			for (const i in wpmGroup) {
+				wpmGroup[i] = Math.round(
+					wpmGroup[i].reduce((a, b) => a + b) / wpmGroup[i].length
 				);
+				labels.push(i);
+			}
+			for (const i in accGroup)
+				accGroup[i] = Math.round(
+					accGroup[i].reduce((a, b) => a + b) / accGroup[i].length
+				);
+			const wpmProgress = Object.keys(wpmGroup).map((e) => wpmGroup[e]);
+			const accProgress = Object.keys(accGroup).map((e) => accGroup[e]);
 			this.chartData = {
 				labels: labels,
 				datasets: [
 					{
 						label: 'avg wpm',
-						data: progression,
+						data: wpmProgress,
 						borderColor: this.$store.state.theme.mainColor,
 						pointBackgroundColor: this.$store.state.theme.mainColor,
 						fill: true
+					},
+					{
+						label: 'avg acc',
+						data: accProgress,
+						borderColor: this.$store.state.theme.subColor,
+						pointBackgroundColor: this.$store.state.theme.subColor,
+						borderDash: [5],
+						fill: false
 					}
 				]
 			};
@@ -90,7 +125,9 @@ export default {
 			return this.rawRecord.length !== 0;
 		}
 	},
-	mounted() {
+	created() {
+		this.startDay = new Date(Date.now() - 1000 * 60 * 60 * 24 * 7);
+		this.endDay = new Date();
 		this.$http
 			.get('record')
 			.then((res) => {
@@ -109,17 +146,10 @@ export default {
 
 <style scoped>
 .profile {
-	display: flex;
-	flex-flow: column;
 	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
 	gap: 1.5em;
-	padding-top: 2.5em;
-	padding-bottom: 2.5em;
-}
-
-.input {
-	align-self: center;
+	display: flex;
+	margin: 1.5em auto 1.5em auto;
+	flex-direction: column;
 }
 </style>

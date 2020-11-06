@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import BaseStat from '@/components/Base/BaseStat.vue';
+import BaseStat from '@/components/Base/BaseStat';
 
 export default {
 	components: {
@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .stat {
-	gap: 1.5em;
+	gap: 1em;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;

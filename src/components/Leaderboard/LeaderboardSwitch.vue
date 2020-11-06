@@ -32,21 +32,21 @@ export default {
 
 <style scoped>
 .switch {
+	gap: 2.5em;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	gap: 1em;
+	justify-content: center;
 }
 
 .btn {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	width: 10em;
 	height: 2em;
 	border-radius: 5px;
 	cursor: pointer;
-	transition: 0.25s;
+	user-select: none;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
 }
