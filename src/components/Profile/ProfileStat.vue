@@ -5,6 +5,7 @@
 		<BaseStat title="avg acc" :val="stat.avgAcc">%</BaseStat>
 		<BaseStat title="best wpm" :val="stat.bestWpm" />
 		<BaseStat title="total race" :val="stat.totalRace" />
+		<BaseStat title="total time" :val="stat.totalTime">m</BaseStat>
 	</div>
 </template>
 
