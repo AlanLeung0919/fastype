@@ -132,6 +132,7 @@ export default {
 			.get('record')
 			.then((res) => {
 				this.stat = res.data.stat;
+				this.stat.bestWpm = res.data.stat.bestWpm.wpm;
 				this.rawRecord = res.data.record.reverse();
 				this.rawChartData = res.data.record;
 				this.loadChart();

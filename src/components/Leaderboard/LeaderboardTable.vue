@@ -7,6 +7,8 @@
 				<td>#</td>
 				<td>name</td>
 				<td>wpm</td>
+				<td>acc</td>
+				<td>time</td>
 				<td>mode</td>
 				<td>date</td>
 			</thead>
@@ -19,12 +21,14 @@
 				<td>{{ record.rank }}</td>
 				<td>{{ record.name }}</td>
 				<td>{{ record.wpm }}</td>
+				<td>{{ record.acc }}%</td>
+				<td>{{ record.time }}s</td>
 				<td>{{ record.mode }}</td>
 				<td>{{ getDate(record.date) }}</td>
 			</tr>
 		</table>
 		<div v-else>No record found</div>
-		<div class="reminder">&ast; daily leaderboard updates at 00:00(UTC)</div>
+		<div class="reminder">&ast; daily leaderboard updates at 08:00(HKT)</div>
 	</div>
 </template>
 
@@ -106,21 +110,31 @@ tr td:nth-child(1) {
 
 thead td:nth-child(2),
 tr td:nth-child(2) {
-	width: 40%;
+	width: 30%;
 }
 
 thead td:nth-child(3),
 tr td:nth-child(3) {
-	width: 15%;
+	width: 10%;
 }
 
 thead td:nth-child(4),
 tr td:nth-child(4) {
-	width: 15%;
+	width: 10%;
 }
 
 thead td:nth-child(5),
 tr td:nth-child(5) {
+	width: 10%;
+}
+
+thead td:nth-child(6),
+tr td:nth-child(6) {
+	width: 10%;
+}
+
+thead td:nth-child(7),
+tr td:nth-child(7) {
 	width: 20%;
 }
 </style>

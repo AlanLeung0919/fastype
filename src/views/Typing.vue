@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SinglePlayer from '@/components/SinglePlayer/SinglePlayer.vue';
+import SinglePlayer from '@/components/SinglePlayer/SinglePlayer';
 
 export default {
 	components: {
@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .typing {
-	width: 75%;
+	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
 }

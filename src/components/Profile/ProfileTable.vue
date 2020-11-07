@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="profile-table">
 		<table v-if="record.length > 0">
 			<thead>
 				<td
@@ -61,6 +61,10 @@ export default {
 </script>
 
 <style scoped>
+.profile-table {
+	text-align: center;
+}
+
 .sort {
 	color: var(--main-color);
 }

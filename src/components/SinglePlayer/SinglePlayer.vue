@@ -1,13 +1,6 @@
 <template>
 	<div class="singleplayer">
-		<ScoreBoard
-			v-if="showScore"
-			@reset="
-				reset();
-				showScore = false;
-			"
-			:result="result"
-		/>
+		<ScoreBoard v-if="showScore" :result="result" @reset="reset()" />
 		<div v-else class="game">
 			<div class="config-wrapper">
 				<div class="config" v-if="!started">
@@ -46,10 +39,10 @@
 					</div>
 					<InputNum
 						v-if="![15, 30, 60, 120].includes(time)"
-						@update="custom"
 						:mode="mode"
 						:time="time"
 						:word="word"
+						@update="custom"
 					/>
 				</div>
 				<div class="option" v-show="mode === 'word'" v-if="!started">
@@ -81,10 +74,10 @@
 					</div>
 					<InputNum
 						v-if="![25, 50, 100].includes(word)"
-						@update="custom"
 						:mode="mode"
 						:time="time"
 						:word="word"
+						@update="custom"
 					/>
 				</div>
 				<div class="option" v-show="mode === 'quote'" v-if="!started">
@@ -98,32 +91,31 @@
 				class="caret"
 				:style="`left: ${caretLeft}px; top: ${caretTop}px`"
 				:class="{
+					'caret-blink': blink,
 					'caret-show': inFocus,
-					'caret-hide': !inFocus,
-					'caret-blink': blink
+					'caret-hide': !inFocus
 				}"
 			></div>
 			<input
 				v-model="input"
-				class="input"
 				ref="input"
+				class="input"
 				:maxlength="maxLen()"
 				@focus="inFocus = true"
 				@blur="inFocus = false"
+				@cut.prevent
+				@copy.prevent
+				@paste.prevent
 				@keydown.ctrl.prevent
 				@keydown.exact="checkCap($event)"
 			/>
 			<div class="text-wrapper" ref="textWrapper" @click="$refs.input.focus()">
-				<div
-					class="text"
-					:class="{ 'reload-anime': reload }"
-					@animationend="reload = false"
-				>
+				<div class="text">
 					<div
 						v-for="(word, i) in text"
-						:key="'word' + i"
-						class="word"
 						ref="word"
+						class="word"
+						:key="'word' + i"
 					>
 						<span
 							v-for="(char, j) in word"
@@ -136,8 +128,8 @@
 						>
 						<span
 							v-for="(ovchar, k) in overflow[i]"
-							:key="'ovchar' + k"
 							class="overflow"
+							:key="'ovchar' + k"
 							>{{ ovchar }}</span
 						>
 					</div>
@@ -145,8 +137,10 @@
 			</div>
 			<div class="redo-wrapper">
 				<div
-					class="btn redo"
 					tabindex="0"
+					class="btn redo"
+					content="restart"
+					v-tippy="{ placement: 'bottom' }"
 					@click="
 						reset();
 						$event.target.blur();
@@ -155,12 +149,6 @@
 						reset();
 						$event.target.blur();
 					"
-					@keydown.space="
-						reset();
-						$event.target.blur();
-					"
-					content="restart"
-					v-tippy="{ placement: 'bottom' }"
 				>
 					<font-awesome-icon
 						icon="redo-alt"
@@ -184,8 +172,8 @@
 </template>
 
 <script>
-import ScoreBoard from './ScoreBoard.vue';
-import InputNum from './InputNum.vue';
+import ScoreBoard from './ScoreBoard';
+import InputNum from './InputNum';
 
 export default {
 	components: {
@@ -302,6 +290,7 @@ export default {
 			this.getText();
 			clearInterval(this.interval);
 			this.started = false;
+			this.showScore = false;
 			this.rawText = [];
 			this.text = [];
 			this.correct = [];
@@ -349,6 +338,7 @@ export default {
 			if (this.started) return this.text[this.currentWordIdx].length + 5;
 		},
 		updateCaret() {
+			if (this.showScore) return
 			let inputIdx = this.input.length - 1;
 			if (inputIdx === -1) inputIdx = 0;
 			setTimeout(() => {
@@ -396,13 +386,13 @@ export default {
 		}
 	},
 	mounted() {
-		this.mode = 'quote'; //TODO: get config from database
-		this.word = 25;
 		this.time = 15;
+		this.word = 25;
+		this.mode = 'quote';
 		window.addEventListener('resize', this.updateCaret);
 	},
 	beforeDestroy() {
-		this.reset();
+		clearInterval(this.interval);
 		window.removeEventListener('resize', this.updateCaret);
 	},
 	watch: {
@@ -491,36 +481,34 @@ export default {
 }
 
 .game {
-	display: grid;
-	grid-template-rows: 1fr auto 1fr;
-	color: var(--sub-color);
-	position: relative;
 	width: 100%;
 	height: 100%;
+	display: grid;
+	position: relative;
+	color: var(--sub-color);
+	grid-template-rows: 1fr auto 1fr;
 }
 
 .config-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-self: center;
-	padding-top: 1.5em;
-	padding-bottom: 1.5em;
 	gap: 0.5em;
-	transition: opacity 0.25s;
+	display: flex;
 	user-select: none;
+	align-self: center;
+	align-items: center;
+	padding: 1em 0 1em 0;
+	flex-direction: column;
 }
 
 .config {
-	display: flex;
 	gap: 0.75em;
+	display: flex;
 }
 
 .option {
+	gap: 0.75em;
 	display: flex;
-	flex-direction: row;
-	gap: 0.5em;
 	align-items: center;
+	flex-direction: row;
 }
 
 .wpm {
@@ -528,13 +516,13 @@ export default {
 }
 
 .caret {
-	position: fixed;
 	width: 2px;
-	height: 1.4em;
-	background: var(--main-color);
-	border-radius: 1em;
+	height: 1.5em;
+	position: fixed;
 	transition: 0.1s;
+	border-radius: 5px;
 	transform: translateX(-1px);
+	background-color: var(--main-color);
 }
 
 .caret-hide {
@@ -562,13 +550,15 @@ export default {
 }
 
 .input {
-	position: absolute;
+	top: 50%;
+	left: 50%;
 	width: 0;
 	height: 0;
-	padding: 0;
 	margin: 0;
-	outline: none;
+	padding: 0;
 	border: none;
+	outline: none;
+	position: absolute;
 }
 
 .correct {
@@ -587,8 +577,8 @@ export default {
 }
 
 .text-wrapper {
-	overflow: hidden;
 	cursor: default;
+	overflow: hidden;
 	user-select: none;
 }
 
@@ -605,19 +595,18 @@ export default {
 .redo-wrapper {
 	display: flex;
 	font-size: 1.25em;
-	padding-top: 1.5em;
-	padding-bottom: 1.5em;
 	align-self: center;
+	padding: 1em 0 1em 0;
 	justify-content: center;
 }
 
 .redo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 5px;
 	width: 2.5em;
 	height: 2.5em;
+	display: flex;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
 }
 
 .mode-active {
@@ -625,10 +614,10 @@ export default {
 }
 
 .btn {
-	cursor: pointer;
-	transition: 0.25s;
-	outline: none;
 	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: 0.1s;
 }
 
 .btn-sml {
@@ -645,32 +634,18 @@ export default {
 }
 
 .timer {
-	visibility: hidden;
-	position: fixed;
-	height: 0.75em;
+	left: 0;
+	bottom: 0;
 	width: 100%;
-	left: 0px;
-	bottom: 0px;
+	height: 0.75em;
+	position: fixed;
+	visibility: hidden;
 	background-color: var(--main-color);
 }
 
 .timer-anime {
 	animation: timer calc(var(--duration) * 1s) linear;
 	transform-origin: left center;
-}
-
-.reload-anime {
-	animation: reload 0.25s;
-}
-
-@keyframes reload {
-	0%,
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
 }
 
 @keyframes timer {

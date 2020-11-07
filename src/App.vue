@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import Nav from '@/components/TheNav.vue';
-import Foot from '@/components/TheFoot.vue';
-import Alert from '@/components/TheAlert.vue';
-import setTheme from '@/helper/setTheme.js';
+import Nav from '@/components/TheNav';
+import Foot from '@/components/TheFoot';
+import Alert from '@/components/TheAlert';
+import setTheme from '@/helper/setTheme';
 
 export default {
 	components: {
@@ -42,42 +42,40 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	/* overflow-x: hidden; */
+	scrollbar-width: thin;
+	transition: background-color 0.25s;
+	font-family: 'Roboto Mono', monospace;
 	color: var(--main-color);
 	background-color: var(--bg-color);
-	font-family: 'Roboto Mono', monospace;
-	transition: background-color 0.25s;
 	scrollbar-color: var(--sub-color) var(--bg-color);
-	scrollbar-width: thin;
 }
 
 #app {
-	display: grid;
 	width: 80%;
 	height: 100%;
-	margin-left: 10%;
-	margin-right: 10%;
+	display: grid;
+	margin: 0 auto 0 auto;
 	grid-template-rows: auto 1fr auto;
 }
 
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: var(--bg-color);
+}
+
 ::-webkit-scrollbar-thumb {
+	border-radius: 5px;
 	background-color: var(--sub-color);
-	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
 	background-color: var(--main-color);
 }
 
-::-webkit-scrollbar {
-	background-color: var(--bg-color);
-	width: 5px;
-	height: 5px;
-}
-
 .fade-enter-active,
 .fade-leave-active {
-	transition: opacity 0.25s;
+	transition: opacity 0.1s;
 }
 
 .fade-enter,

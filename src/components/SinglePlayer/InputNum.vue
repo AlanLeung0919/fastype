@@ -25,7 +25,7 @@ export default {
 				this.num = oldnum;
 				return;
 			}
-			if (this.mode === 'time' && (num < 10 || num > 300)) {
+			if (this.mode === 'time' && (num < 15 || num > 300)) {
 				this.$store.commit('setAlert', 'invalid time');
 				this.num = oldnum;
 				return;
@@ -44,10 +44,10 @@ export default {
 <style scoped>
 .input-num {
 	width: 3em;
-	border-radius: 2px;
+	border: none;
 	outline: none;
-	color: var(--main-color);
-	background-color: var(--bg-color);
-	border: 1px solid var(--main-color);
+	padding: 0.25em;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, 0.1);
 }
 </style>

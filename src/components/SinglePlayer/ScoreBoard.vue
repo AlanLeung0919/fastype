@@ -1,17 +1,20 @@
 <template>
-	<div class="scoreboard">
+	<div class="scoreboard" ref="scoreboard">
 		<BaseChart v-if="loaded" :height="350" :chartData="chartData" />
 		<div class="stat">
 			<BaseStat title="wpm" :val="result.wpm" />
 			<BaseStat title="acc" :val="result.acc">%</BaseStat>
 			<BaseStat title="time" :val="result.time">s</BaseStat>
 			<BaseStat title="mode" :val="result.mode" />
+			<BaseStat title="date" :val="getDate(result.date, false, true)" />
 		</div>
 		<div class="redo-wrapper">
 			<div
-				class="btn redo"
 				ref="redo"
 				tabindex="0"
+				class="btn redo"
+				content="restart"
+				v-tippy="{ placement: 'bottom' }"
 				@click="
 					$emit('reset');
 					$event.target.blur();
@@ -20,8 +23,6 @@
 					$emit('reset');
 					$event.target.blur();
 				"
-				content="restart"
-				v-tippy="{ placement: 'bottom' }"
 			>
 				<font-awesome-icon
 					icon="redo-alt"
@@ -33,13 +34,14 @@
 </template>
 
 <script>
-import BaseChart from '@/components/Base/BaseChart.vue';
-import BaseStat from '@/components/Base/BaseStat.vue';
+import getDate from '@/helper/getDate';
+import BaseStat from '@/components/Base/BaseStat';
+import BaseChart from '@/components/Base/BaseChart';
 
 export default {
 	components: {
-		BaseChart,
-		BaseStat
+		BaseStat,
+		BaseChart
 	},
 	props: {
 		result: Object
@@ -51,6 +53,7 @@ export default {
 		};
 	},
 	methods: {
+		getDate: getDate,
 		loadChart() {
 			const labels = this.result.wpmPerSec.map((e, i) => i + 1);
 			this.chartData = {
@@ -77,15 +80,15 @@ export default {
 		}
 	},
 	mounted() {
-		this.$refs.redo.focus();
 		this.loadChart();
+		this.$refs.redo.focus();
 		if (!this.$store.state.authState)
-			return this.$store.commit('setAlert', 'Sign in to save record');
+			return this.$store.commit('setAlert', 'sign in to save record');
 		this.$http
 			.post('record', { record: this.result })
 			.then((res) => {
-				if (this.result.wpm >= res.data.bestWpm)
-					this.$store.commit('setAlert', 'New Best record!');
+				if (this.result.wpm > res.data.bestWpm)
+					this.$store.commit('setAlert', 'new best record!');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -96,48 +99,28 @@ export default {
 
 <style scoped>
 .scoreboard {
-	display: flex;
-	justify-content: space-evenly;
-	flex-direction: column;
-	background-color: var(--bg-color);
-	color: var(--sub-color);
-	height: 100%;
 	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	color: var(--sub-color);
+	justify-content: space-evenly;
+	background-color: var(--bg-color);
 }
 
 .stat {
+	gap: 1em;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-items: center;
 	justify-content: space-around;
-	gap: 2em;
-}
-
-.item {
-	padding: 1em;
-}
-
-.title {
-	font-size: 1em;
-	color: var(--sub-color);
-	white-space: nowrap;
-}
-
-.val {
-	font-size: 2.5em;
-	color: var(--main-color);
 }
 
 .btn {
-	cursor: pointer;
-	transition: 0.25s;
-	outline: none;
 	border: none;
-}
-
-.btn-sml {
-	font-size: 0.9em;
+	outline: none;
+	cursor: pointer;
+	transition: 0.1s;
 }
 
 .btn:hover {
@@ -153,15 +136,14 @@ export default {
 	display: flex;
 	font-size: 1.25em;
 	align-self: center;
-	justify-content: center;
 }
 
 .redo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 5px;
 	width: 2.5em;
 	height: 2.5em;
+	display: flex;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
 }
 </style>

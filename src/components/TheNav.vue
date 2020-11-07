@@ -1,81 +1,56 @@
 <template>
 	<div class="nav">
-		<div class="logo">
-			<router-link
-				class="logo-link"
-				tabindex="1"
-				@click.native="$event.target.blur()"
-				to="/"
-			>
-				<font-awesome-icon class="logo-icon" icon="keyboard" />
-			</router-link>
-		</div>
-		<div v-if="this.$store.state.authState" class="info">
-			<img :src="this.$store.state.imageUrl" class="avatar" />
-			<div class="name">{{ this.$store.state.username }}</div>
+		<div class="top-wrapper">
+			<div>
+				<router-link
+					to="/"
+					class="link-logo"
+					@click.native="$event.target.blur()"
+				>
+					<font-awesome-icon class="icon-logo" icon="keyboard" />
+				</router-link>
+			</div>
+			<div v-if="this.$store.state.authState" class="info">
+				<img :src="this.$store.state.imageUrl" class="avatar" />
+				{{ this.$store.state.username }}
+			</div>
 		</div>
 		<div class="menu">
 			<router-link
-				class="link"
-				tabindex="1"
-				@click.native="$event.target.blur()"
-				to="/race"
-				content="race"
+				v-for="item in [
+					{ path: 'race', icon: 'flag-checkered' },
+					{ path: 'leaderboard', icon: 'crown' },
+					{ path: 'profile', icon: 'user' },
+					{ path: 'setting', icon: 'cog' }
+				]"
 				v-tippy
-			>
-				<font-awesome-icon class="icon" icon="flag-checkered" />
-			</router-link>
-			<router-link
 				class="link"
-				tabindex="1"
+				:key="item.path"
+				:content="item.path"
+				:to="'/' + item.path"
 				@click.native="$event.target.blur()"
-				to="/leaderboard"
-				content="leaderboard"
-				v-tippy
 			>
-				<font-awesome-icon class="icon" icon="crown" />
-			</router-link>
-			<router-link
-				class="link"
-				tabindex="1"
-				@click.native="$event.target.blur()"
-				to="/profile"
-				content="profile"
-				v-tippy
-			>
-				<font-awesome-icon class="icon" icon="user" />
-			</router-link>
-			<router-link
-				class="link"
-				tabindex="1"
-				@click.native="$event.target.blur()"
-				to="/setting"
-				content="setting"
-				v-tippy
-			>
-				<font-awesome-icon class="icon" icon="cog" />
+				<font-awesome-icon class="icon" :icon="item.icon" />
 			</router-link>
 			<div
 				v-show="this.$store.state.authState"
+				v-tippy
 				class="link"
-				tabindex="1"
+				content="sign out"
 				@click="
 					$event.target.blur();
 					signOut();
 				"
-				content="sign out"
-				v-tippy
 			>
 				<font-awesome-icon class="icon" icon="sign-out-alt" />
 			</div>
 			<div
 				v-show="!this.$store.state.authState"
+				v-tippy
 				ref="signIn"
 				class="link"
-				tabindex="1"
-				@click="$event.target.blur()"
 				content="sign in"
-				v-tippy
+				@click="$event.target.blur()"
 			>
 				<font-awesome-icon class="icon" icon="sign-in-alt" />
 			</div>
@@ -103,14 +78,13 @@ export default {
 		gapi.load('auth2', () => {
 			gapi.auth2
 				.init({
-					client_id: process.env.VUE_APP_CLIENTID,
 					ux_mode: 'redirect',
-					prompt: 'select_account'
+					prompt: 'select_account',
+					client_id: process.env.VUE_APP_CLIENTID
 				})
 				.then((googleAuth) => {
-					const e = this.$refs.signIn;
 					googleAuth.isSignedIn.listen(this.signInState);
-					googleAuth.attachClickHandler(e, {
+					googleAuth.attachClickHandler(this.$refs.signIn, {
 						onsuccess: this.onSuccess()
 					});
 				});
@@ -121,101 +95,99 @@ export default {
 
 <style scoped>
 .nav {
-	display: grid;
-	grid-template-columns: auto 1fr auto;
-	margin: 1em;
 	gap: 1em;
+	margin: 1em;
 	height: 4em;
+	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 }
 
-.logo-icon {
-	pointer-events: none;
+.icon-logo {
 	font-size: 3.5em;
+	pointer-events: none;
 }
 
 .icon {
-	pointer-events: none;
 	height: 100%;
 	font-size: 1.5em;
+	pointer-events: none;
+}
+
+.top-wrapper {
+	flex: 1;
+	gap: 0.5em;
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	justify-content: space-between;
 }
 
 .info {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
 	gap: 0.75em;
-	margin-left: auto;
-	color: var(--sub-color);
+	display: flex;
 	cursor: default;
+	align-items: center;
+	color: var(--sub-color);
 }
 
 .avatar {
-	border-radius: 100%;
-	height: 2em;
 	width: 2em;
-}
-
-.name {
-	white-space: nowrap;
+	height: 2em;
+	border-radius: 100%;
 }
 
 .menu {
-	display: grid;
-	grid-column-start: 3;
-	grid-auto-flow: column;
-	justify-items: center;
-	align-items: center;
-	text-align: center;
 	gap: 0.5em;
+	display: flex;
+	margin-left: auto;
+	text-align: center;
 }
 
-.logo-link {
-	display: inline-block;
-	border-radius: 5px;
-	padding-left: 7.5px;
-	padding-right: 7.5px;
-	color: var(--sub-color);
+.link-logo {
 	transition: 0.1s;
+	border-radius: 5px;
+	padding: 0 7.5px 0 7.5px;
+	display: inline-block;
+	color: var(--sub-color);
 }
 
 .link {
-	display: inline-block;
-	border-radius: 5px;
-	height: 3em;
 	width: 3em;
-	color: var(--sub-color);
-	transition: 0.1s;
+	height: 3em;
 	cursor: pointer;
+	transition: 0.1s;
+	border-radius: 5px;
+	display: inline-block;
+	color: var(--sub-color);
 }
 
 .link:hover,
-.logo-link:hover,
-.name:hover {
+.link-logo:hover {
 	color: var(--main-color);
 }
 
 .link:focus,
-.logo-link:focus {
+.link-logo:focus {
+	outline: none;
 	color: var(--main-color);
 	background-color: var(--sub-color);
-	outline: none;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 720px) {
+	.nav {
+		gap: 0.25em;
+	}
 	.menu {
-		grid-column-start: 1;
-		grid-column-end: 3;
+		width: 100%;
+		justify-content: space-between;
 	}
 	.avatar {
-		width: 1em;
-		height: 1em;
+		width: 1.5em;
+		height: 1.5em;
 	}
-	.name {
-		font-size: 0.75em;
-	}
-	.logo-icon {
-		font-size: 2em;
+	.icon-logo {
+		font-size: 2.5em;
 	}
 	.icon {
 		font-size: 1em;

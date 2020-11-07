@@ -11,7 +11,7 @@ export default {
 	mounted() {
 		this.renderChart(this.chartData, {
 			tooltips: {
-				mode: 'x',
+				mode: 'index',
 				intersect: false
 			},
 			animation: {
