@@ -3,7 +3,7 @@
 		<BaseScrollToTop />
 		<ProfileStat :stat="stat" />
 		<ProfileLevel :level="stat.level" :wpm="stat.lastTenAvgWpm" />
-		<BaseChart v-if="loaded" :height="325" :chartData="chartData" />
+		<ProfileChart v-if="loaded" :height="325" :chartData="chartData" />
 		<ProfileDateInput
 			:end="endDay"
 			:start="startDay"
@@ -16,16 +16,16 @@
 
 <script>
 import getDate from '@/helper/getDate';
-import BaseChart from '@/components/Base/BaseChart';
 import BaseScrollToTop from '@/components/Base/BaseScrollTop';
 import ProfileStat from '@/components/Profile/ProfileStat';
+import ProfileChart from '@/components/Profile/ProfileChart';
 import ProfileTable from '@/components/Profile/ProfileTable';
 import ProfileLevel from '@/components/Profile/ProfileLevel';
 import ProfileDateInput from '@/components/Profile/ProfileDateInput';
 
 export default {
 	components: {
-		BaseChart,
+		ProfileChart,
 		BaseScrollToTop,
 		ProfileStat,
 		ProfileTable,
@@ -105,6 +105,7 @@ export default {
 				datasets: [
 					{
 						label: 'avg wpm',
+						yAxisID: 'wpm',
 						data: wpmProgress,
 						borderColor: this.$store.state.theme.mainColor,
 						pointBackgroundColor: this.$store.state.theme.mainColor,
@@ -113,6 +114,7 @@ export default {
 					{
 						label: 'avg acc',
 						data: accProgress,
+						yAxisID: 'acc',
 						borderColor: this.$store.state.theme.subColor,
 						pointBackgroundColor: this.$store.state.theme.subColor,
 						borderDash: [5],

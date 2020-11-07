@@ -6,14 +6,23 @@
 		<div class="level">
 			<div class="progress" :style="getWidth()">
 				<div class="text">lv.{{ level }}</div>
-			</div>
-			<div class="badge">
-				<img :src="getBadge(level)" />
+				<div class="badge">
+					<img :src="getBadge(level)" />
+				</div>
 			</div>
 		</div>
 		<div class="badge-sml">
 			<img :src="getBadge(level + 1)" />
 		</div>
+		<font-awesome-icon
+			class="info"
+			icon="info-circle"
+			content="level based on avg wpm (last 10)<br>
+			increases per 10 wpm<br>
+			max lv.12 (>110 wpm)
+			"
+			v-tippy="{ placement: 'bottom', trigger: 'click', boundary: 'HTMLElement' }"
+		/>
 	</div>
 </template>
 
@@ -45,13 +54,23 @@ export default {
 	justify-content: center;
 }
 
+.info {
+	font-size: 1em;
+	color: var(--sub-color);
+	transition: 0.1s;
+	cursor: pointer;
+	outline: none;
+}
+
+.info:hover {
+	color: var(--main-color);
+}
+
 .level {
-	width: 90%;
+	width: 85%;
 	height: 1em;
 	display: flex;
 	border-radius: 5px;
-	align-self: center;
-	position: relative;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.1);
 }
@@ -59,9 +78,9 @@ export default {
 .progress {
 	height: 1em;
 	display: flex;
-	min-width: 50px;
+	min-width: 100px;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 	background-color: var(--main-color);
@@ -69,14 +88,14 @@ export default {
 
 .text {
 	color: var(--bg-color);
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	font-size: 0.75em;
 }
 
 .badge {
-	width: 2.75em;
-	height: 2.75em;
-	transform: translate(-0.5em);
+	min-width: 2.75em;
+	min-height: 2.75em;
+	transform: translate(0.5em);
 }
 
 .badge-sml {

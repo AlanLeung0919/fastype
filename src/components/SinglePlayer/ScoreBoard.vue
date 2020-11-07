@@ -1,6 +1,6 @@
 <template>
 	<div class="scoreboard" ref="scoreboard">
-		<BaseChart v-if="loaded" :height="350" :chartData="chartData" />
+		<ScoreBoardChart v-if="loaded" :height="350" :chartData="chartData" />
 		<div class="stat">
 			<BaseStat title="wpm" :val="result.wpm" />
 			<BaseStat title="acc" :val="result.acc">%</BaseStat>
@@ -36,12 +36,12 @@
 <script>
 import getDate from '@/helper/getDate';
 import BaseStat from '@/components/Base/BaseStat';
-import BaseChart from '@/components/Base/BaseChart';
+import ScoreBoardChart from './ScoreBoardChart';
 
 export default {
 	components: {
 		BaseStat,
-		BaseChart
+		ScoreBoardChart
 	},
 	props: {
 		result: Object
@@ -61,6 +61,7 @@ export default {
 				datasets: [
 					{
 						label: 'wpm',
+						yAxisID: 'wpm',
 						data: this.result.wpmPerSec,
 						borderColor: this.$store.state.theme.mainColor,
 						pointBackgroundColor: this.$store.state.theme.mainColor,
@@ -68,6 +69,7 @@ export default {
 					},
 					{
 						label: 'raw wpm',
+						yAxisId: 'wpm',
 						data: this.result.rawWpmPerSec,
 						borderColor: this.$store.state.theme.subColor,
 						pointBackgroundColor: this.$store.state.theme.subColor,
