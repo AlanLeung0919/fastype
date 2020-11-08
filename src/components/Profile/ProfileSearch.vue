@@ -20,10 +20,10 @@
 			<div class="stat">
 				<BaseStat title="avg wpm (last 10)" :val="stat.lastTenAvgWpm" />
 				<BaseStat title="avg wpm" :val="stat.avgWpm" />
-				<BaseStat title="avg acc" :val="stat.avgAcc" />
+				<BaseStat title="avg acc" :val="stat.avgAcc">%</BaseStat>
 				<BaseStat title="best wpm" :val="stat.bestWpm.wpm" />
 				<BaseStat title="total race" :val="stat.totalRace" />
-				<BaseStat title="total time" :val="stat.totalTime" />
+				<BaseStat title="total time" :val="stat.totalTime">m</BaseStat>
 			</div>
       <div class="btn-close" @click="showStat = false">&times;</div>
 		</div>
@@ -47,12 +47,11 @@ export default {
 	},
 	methods: {
 		search() {
-			if (this.input === '' || this.showStat) return;
+			if (this.input === '') return;
 			if (this.input.includes('@')) {
 				this.$http.get(`record?email=${this.input}`).then((res) => {
 					if (res.data.error)
-						return this.$store.commit('setAlert', 'user not found');
-					console.log(res.data);
+						return this.$store.commit('setAlert', 'player not found');
 					this.name = res.data.name;
 					this.stat = res.data.stat;
 					this.showStat = true;
@@ -60,8 +59,7 @@ export default {
 			} else {
 				this.$http.get(`record?name=${this.input}`).then((res) => {
 					if (res.data.error)
-						return this.$store.commit('setAlert', 'user not found');
-					console.log(res.data);
+						return this.$store.commit('setAlert', 'player not found');
 					this.name = res.data.name;
 					this.stat = res.data.stat;
 					this.showStat = true;
@@ -84,6 +82,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	gap: 1em;
 }
 
 .search {
@@ -145,12 +144,11 @@ export default {
 	border-radius: 5px;
 	align-items: center;
 	justify-content: center;
-	color: var(--main-color);
+	color: var(--bg-color);
 	background-color: var(--sub-color);
 }
 
 .icon:hover {
-	color: var(--bg-color);
 	background-color: var(--main-color);
 }
 

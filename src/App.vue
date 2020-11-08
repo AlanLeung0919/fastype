@@ -50,6 +50,10 @@ body {
 	scrollbar-color: var(--sub-color) var(--bg-color);
 }
 
+input {
+	font-family: inherit;
+}
+
 #app {
 	width: 80%;
 	height: 100%;
