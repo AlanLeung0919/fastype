@@ -19,6 +19,9 @@ export default {
 						scaleLabel: {
 							display: true,
 							labelString: 'wpm'
+						},
+						ticks: {
+							precision: 0
 						}
 					},
 					{

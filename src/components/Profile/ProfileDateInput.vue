@@ -59,6 +59,7 @@ export default {
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+	user-select: none;
 }
 
 .date-wrapper {

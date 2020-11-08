@@ -3,6 +3,7 @@
 		<BaseScrollToTop />
 		<ProfileStat :stat="stat" />
 		<ProfileLevel :level="stat.level" :wpm="stat.lastTenAvgWpm" />
+		<ProfileSearch />
 		<ProfileChart v-if="loaded" :height="325" :chartData="chartData" />
 		<ProfileDateInput
 			:end="endDay"
@@ -21,6 +22,7 @@ import ProfileStat from '@/components/Profile/ProfileStat';
 import ProfileChart from '@/components/Profile/ProfileChart';
 import ProfileTable from '@/components/Profile/ProfileTable';
 import ProfileLevel from '@/components/Profile/ProfileLevel';
+import ProfileSearch from '@/components/Profile/ProfileSearch';
 import ProfileDateInput from '@/components/Profile/ProfileDateInput';
 
 export default {
@@ -30,6 +32,7 @@ export default {
 		ProfileStat,
 		ProfileTable,
 		ProfileLevel,
+		ProfileSearch,
 		ProfileDateInput
 	},
 	data() {

@@ -121,8 +121,8 @@ tr td:nth-child(-n + 5) {
 	width: 15%;
 }
 
-thead td:nth-child(6),
-tr td:nth-child(6) {
+thead td:nth-child(7),
+tr td:nth-child(7) {
 	width: 25%;
 }
 </style>

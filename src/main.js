@@ -19,7 +19,8 @@ import {
 	faNetworkWired,
 	faKey,
 	faDoorClosed,
-	faInfoCircle
+	faInfoCircle,
+	faSearch
 } from '@fortawesome/free-solid-svg-icons';
 import VueTippy, { TippyComponent } from 'vue-tippy';
 
@@ -36,7 +37,8 @@ library.add(
 	faNetworkWired,
 	faKey,
 	faDoorClosed,
-	faInfoCircle
+	faInfoCircle,
+	faSearch
 );
 
 Vue.use(VueTippy);

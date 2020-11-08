@@ -1,27 +1,25 @@
 <template>
 	<div class="wrapper">
-		<div class="badge-sml">
-			<img :src="getBadge(level - 1)" />
-		</div>
+		<img :src="getBadge(level - 1)" class="badge-sml" />
 		<div class="level">
 			<div class="progress" :style="getWidth()">
 				<div class="text">lv.{{ level }}</div>
-				<div class="badge">
-					<img :src="getBadge(level)" />
-				</div>
+				<img :src="getBadge(level)" class="badge" />
 			</div>
 		</div>
-		<div class="badge-sml">
-			<img :src="getBadge(level + 1)" />
-		</div>
+		<img :src="getBadge(level + 1)" class="badge-sml" />
 		<font-awesome-icon
 			class="info"
 			icon="info-circle"
 			content="level based on avg wpm (last 10)<br>
 			increases per 10 wpm<br>
-			max lv.12 (>110 wpm)
+			max lv.12 (>109 wpm)
 			"
-			v-tippy="{ placement: 'bottom', trigger: 'click', boundary: 'HTMLElement' }"
+			v-tippy="{
+				placement: 'bottom',
+				trigger: 'click',
+				boundary: 'HTMLElement'
+			}"
 		/>
 	</div>
 </template>
@@ -88,18 +86,15 @@ export default {
 
 .text {
 	color: var(--bg-color);
-	/* white-space: nowrap; */
-	font-size: 0.75em;
+	font-size: 0.9em;
 }
 
 .badge {
-	min-width: 2.75em;
-	min-height: 2.75em;
+	width: 2.5em;
 	transform: translate(0.5em);
 }
 
 .badge-sml {
 	width: 1.5em;
-	height: 1.5em;
 }
 </style>
