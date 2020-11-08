@@ -15,7 +15,7 @@
 			<div class="info">
 				<BaseStat title="name" :val="name" />
 				<BaseStat title="level" :val="stat.level" />
-        <img :src="getBadge(stat.level)" class="badge" />
+				<img :src="getBadge(stat.level)" class="badge" />
 			</div>
 			<div class="stat">
 				<BaseStat title="avg wpm (last 10)" :val="stat.lastTenAvgWpm" />
@@ -25,7 +25,7 @@
 				<BaseStat title="total race" :val="stat.totalRace" />
 				<BaseStat title="total time" :val="stat.totalTime">m</BaseStat>
 			</div>
-      <div class="btn-close" @click="showStat = false">&times;</div>
+			<div class="btn-close" @click="showStat = false">&times;</div>
 		</div>
 	</div>
 </template>
@@ -65,11 +65,11 @@ export default {
 					this.showStat = true;
 				});
 			}
-    },
-    getBadge(level) {
+		},
+		getBadge(level) {
 			if (level > 0 && level < 13)
 				return require(`@/assets/badges/${level}.svg`);
-		},
+		}
 	}
 };
 </script>
@@ -107,33 +107,33 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 2.5em;
-  position: relative;
+	position: relative;
 }
 
 .info {
-  display: flex;
-  gap: 2.5em;
-  flex-wrap: wrap;
+	display: flex;
+	gap: 2.5em;
+	flex-wrap: wrap;
 }
 
 .stat {
-  display: flex;
-  gap: 2.5em;
-  flex-wrap: wrap;
+	display: flex;
+	gap: 2.5em;
+	flex-wrap: wrap;
 }
 
 .badge {
-  width: 4em;
+	width: 4em;
 }
 
 .btn-close {
-  position: absolute;
-  right: 0.25em;
-  top: 0.25em;
-  cursor: pointer;
-  font-size: 1.5em;
-  width: 1em;
-  height: 1em;
+	position: absolute;
+	right: 0.25em;
+	top: 0.25em;
+	cursor: pointer;
+	font-size: 1.5em;
+	width: 1em;
+	height: 1em;
 }
 
 .icon {

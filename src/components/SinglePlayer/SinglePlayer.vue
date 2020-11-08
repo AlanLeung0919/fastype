@@ -338,7 +338,7 @@ export default {
 			if (this.started) return this.text[this.currentWordIdx].length + 5;
 		},
 		updateCaret() {
-			if (this.showScore) return
+			if (this.showScore) return;
 			let inputIdx = this.input.length - 1;
 			if (inputIdx === -1) inputIdx = 0;
 			setTimeout(() => {
