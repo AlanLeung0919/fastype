@@ -84,7 +84,6 @@ export default {
 table {
 	width: 100%;
 	text-align: center;
-	white-space: nowrap;
 	table-layout: fixed;
 	border-collapse: collapse;
 }
@@ -110,7 +109,7 @@ tr td:nth-child(1) {
 
 thead td:nth-child(2),
 tr td:nth-child(2) {
-	width: 30%;
+	width: 25%;
 }
 
 thead td:nth-child(3),
@@ -135,6 +134,6 @@ tr td:nth-child(6) {
 
 thead td:nth-child(7),
 tr td:nth-child(7) {
-	width: 20%;
+	width: 25%;
 }
 </style>

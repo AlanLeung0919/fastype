@@ -11,13 +11,13 @@
 					{{ item }}
 				</td>
 			</thead>
-			<tr v-for="(record, idx) in record" :key="idx">
-				<td>{{ record.id }}</td>
-				<td>{{ record.wpm }}</td>
-				<td>{{ record.acc }}%</td>
-				<td>{{ record.mode }}</td>
-				<td>{{ record.time }}s</td>
-				<td>{{ getDate(record.date) }}</td>
+			<tr v-for="(item, idx) in record" :key="idx">
+				<td>{{ item.id }}</td>
+				<td>{{ item.wpm }}</td>
+				<td>{{ item.acc }}%</td>
+				<td>{{ item.mode }}</td>
+				<td>{{ item.time }}s</td>
+				<td>{{ getDate(item.date) }}</td>
 			</tr>
 		</table>
 		<div v-else>No record found</div>
@@ -91,7 +91,6 @@ export default {
 table {
 	width: 100%;
 	text-align: center;
-	white-space: nowrap;
 	table-layout: fixed;
 	border-collapse: collapse;
 }
