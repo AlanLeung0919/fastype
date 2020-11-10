@@ -16,17 +16,17 @@ export default {
 
 <style scoped>
 .top {
-	position: fixed;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	right: 2.5em;
+	bottom: 2.5em;
 	width: 1.5em;
 	height: 1.5em;
-	right: 3em;
-	bottom: 2em;
+	display: flex;
 	font-size: 2em;
-	border-radius: 100%;
+	position: fixed;
 	cursor: pointer;
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
 	color: var(--sub-color);
 	background-color: var(--bg-color);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

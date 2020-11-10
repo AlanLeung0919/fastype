@@ -174,7 +174,7 @@ export default {
 	background-color: var(--sub-color);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1024px) {
 	.nav {
 		gap: 0.25em;
 	}
