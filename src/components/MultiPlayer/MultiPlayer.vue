@@ -31,11 +31,6 @@ export default {
 				this.socket.emit('createRoom');
 			}
 		},
-		getToken() {
-			const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
-			const token = googleUser.getAuthResponse().id_token;
-			return token;
-		},
 		initSocket() {
 			const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
 			const token = googleUser.getAuthResponse().id_token;
