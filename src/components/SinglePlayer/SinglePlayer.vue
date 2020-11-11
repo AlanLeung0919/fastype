@@ -425,7 +425,12 @@ export default {
 			const inputIdx = this.input.length - 1;
 			const word = this.$refs.word[this.currentWordIdx];
 			if (inputChar === currentChar && inputIdx === this.currentCharIdx) {
-				if (inputChar === ' ') {
+				if (
+					inputChar === ' ' ||
+					(this.correctWords === this.textLen - 1 &&
+						inputIdx + 1 === currentWord.length - 1 &&
+						this.currentCharIdx === currentWord.length - 2)
+				) {
 					this.correctChars++;
 					this.typedChars++;
 					this.correctWords++;
@@ -438,10 +443,7 @@ export default {
 				this.currentCharIdx++;
 				this.correctChars++;
 			}
-			if (
-				this.correctWords === this.textLen - 1 &&
-				inputIdx + 1 === currentWord.length - 1
-			) {
+			if (this.correctWords === this.textLen) {
 				return this.finish();
 			}
 			if (newInput.length < oldInput.length) {
