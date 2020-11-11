@@ -438,7 +438,10 @@ export default {
 				this.currentCharIdx++;
 				this.correctChars++;
 			}
-			if (this.correctWords === this.textLen) {
+			if (
+				this.correctWords === this.textLen - 1 &&
+				inputIdx + 1 === currentWord.length - 1
+			) {
 				return this.finish();
 			}
 			if (newInput.length < oldInput.length) {
