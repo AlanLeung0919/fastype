@@ -3,7 +3,7 @@
 		<table v-if="record.length > 0">
 			<thead>
 				<td
-					v-for="item in ['id', 'wpm', 'acc', 'mode', 'time', 'date']"
+					v-for="item in ['id', 'wpm', 'acc', 'time', 'mode', 'date']"
 					:key="item"
 					:class="{ sort: currentSort === item }"
 					@click="sort(item)"
@@ -15,8 +15,8 @@
 				<td>{{ item.id }}</td>
 				<td>{{ item.wpm }}</td>
 				<td>{{ item.acc }}%</td>
-				<td>{{ item.mode }}</td>
 				<td>{{ item.time }}s</td>
+				<td>{{ item.mode }}</td>
 				<td>{{ getDate(item.date) }}</td>
 			</tr>
 		</table>
