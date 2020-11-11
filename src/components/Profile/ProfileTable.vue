@@ -111,6 +111,16 @@ td {
 	padding: 0.5em 0 0.5em 0;
 }
 
+tr td:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+tr td:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
 tr:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.1);
 }
