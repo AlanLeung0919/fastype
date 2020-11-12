@@ -16,9 +16,7 @@
 			max lv.12 (>109 wpm)
 			"
 			v-tippy="{
-				placement: 'bottom',
-				trigger: 'click',
-				boundary: 'HTMLElement'
+				placement: 'bottom'
 			}"
 		/>
 	</div>

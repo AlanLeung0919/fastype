@@ -28,7 +28,7 @@
 			</tr>
 		</table>
 		<div v-else>No record found</div>
-		<div class="reminder">&ast; daily leaderboard updates at 08:00(HKT)</div>
+		<div class="reminder">&ast; daily leaderboard updates at 00:00(UTC)</div>
 	</div>
 </template>
 
@@ -78,7 +78,7 @@ export default {
 }
 
 .reminder {
-	font-size: 0.5em;
+	font-size: 0.75em;
 }
 
 table {

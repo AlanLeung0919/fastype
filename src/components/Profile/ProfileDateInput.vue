@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="date-input">
 		<div class="date-wrapper">
 			<div class="input-wrapper">
 				start day
@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.date-input {
 	gap: 1em;
 	display: flex;
 	align-items: center;
@@ -78,7 +78,7 @@ export default {
 }
 
 .reminder {
-	font-size: 0.5em;
+	font-size: 0.75em;
 }
 
 input {
