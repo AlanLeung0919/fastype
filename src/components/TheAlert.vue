@@ -19,9 +19,9 @@ export default {
 		this.$store.subscribe((mutation, state) => {
 			if (mutation.type !== 'setAlert') return;
 			this.alert = false;
-			this.$nextTick(() => {
+			setTimeout(() => {
 				this.alert = true;
-			});
+			}, 0);
 		});
 	}
 };
