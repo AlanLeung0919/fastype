@@ -49,7 +49,7 @@ export default {
 		search() {
 			if (this.input === '') return;
 			if (this.input.includes('@')) {
-				this.$http.get(`record?email=${this.input}`).then((res) => {
+				this.$http.get(`record?email=${this.input.trim()}`).then((res) => {
 					if (res.data.error)
 						return this.$store.commit('setAlert', 'player not found');
 					this.name = res.data.name;
