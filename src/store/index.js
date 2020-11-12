@@ -53,7 +53,6 @@ export default new Vuex.Store({
 			axios
 				.post('signin')
 				.then((res) => {
-					console.log(res);
 					commit('setUser', {
 						email: res.data.email,
 						username: res.data.name,
