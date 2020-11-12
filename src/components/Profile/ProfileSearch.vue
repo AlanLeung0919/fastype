@@ -57,7 +57,7 @@ export default {
 					this.showStat = true;
 				});
 			} else {
-				this.$http.get(`record?name=${this.input}`).then((res) => {
+				this.$http.get(`record?name=${this.input.trim()}`).then((res) => {
 					if (res.data.error)
 						return this.$store.commit('setAlert', 'player not found');
 					this.name = res.data.name;
@@ -101,7 +101,6 @@ export default {
 	width: 100%;
 	border-radius: 5px;
 	color: var(--main-color);
-	/* height: 15em; */
 	box-sizing: border-box;
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 	display: flex;

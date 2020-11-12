@@ -58,7 +58,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.meta.requireAuth)) {
 		if (!store.state.authState) {
-			store.commit('setAlert', 'Please sign in first');
+			store.commit('setAlert', 'please sign in first');
 			if (from.name === null) next('/');
 			else next(false);
 		} else {

@@ -11,8 +11,8 @@
 				</router-link>
 			</div>
 			<div v-if="this.$store.state.authState" class="info">
-				<img :src="this.$store.state.imageUrl" class="avatar" />
-				{{ this.$store.state.username }}
+				<img :src="this.$store.state.user.imageUrl" class="avatar" />
+				{{ this.$store.state.user.username }}
 			</div>
 		</div>
 		<div class="menu">

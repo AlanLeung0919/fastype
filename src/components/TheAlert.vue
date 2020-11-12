@@ -1,9 +1,11 @@
 <template>
-	<transition name="anime" @enter="reset()">
-		<div v-if="alert" class="alert">
-			{{ this.$store.state.alert }}
-		</div>
-	</transition>
+	<div
+		class="alert"
+		@animationend="alert = false"
+		:class="{ 'alert-anime': alert }"
+	>
+		{{ this.$store.state.alert }}
+	</div>
 </template>
 
 <script>
@@ -13,16 +15,13 @@ export default {
 			alert: false
 		};
 	},
-	methods: {
-		reset() {
-			setTimeout(() => {
-				this.alert = false;
-			}, 3000);
-		}
-	},
 	created() {
 		this.$store.subscribe((mutation, state) => {
-			if (mutation.type === 'setAlert') this.alert = true;
+			if (mutation.type !== 'setAlert') return;
+			this.alert = false;
+			this.$nextTick(() => {
+				this.alert = true;
+			});
 		});
 	}
 };
@@ -34,20 +33,18 @@ export default {
 	top: -50px;
 	display: flex;
 	position: fixed;
-	min-height: 20px;
-	min-width: 100px;
-	border-radius: 5px;
-	align-items: center;
-	white-space: nowrap;
-	color: var(--bg-color);
-	justify-content: center;
-	transform: translateX(-50%);
-	padding: 10px 15px 10px 15px;
-	background-color: var(--main-color);
 	user-select: none;
+	border-radius: 5px;
+	white-space: nowrap;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 15px 10px 15px;
+	color: var(--bg-color);
+	transform: translate(-50%);
+	background-color: var(--main-color);
 }
 
-.anime-enter-active {
+.alert-anime {
 	animation: enter 3s;
 }
 

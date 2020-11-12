@@ -1,40 +1,47 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from '@/lib/axios.js';
-import setTheme from '@/helper/setTheme.js';
+import axios from '@/lib/axios';
+import setTheme from '@/helper/setTheme';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+		user: {
+			email: '',
+			username: '',
+			imageUrl: ''
+		},
+		theme: {
+			name: '',
+			bgColor: '',
+			mainColor: '',
+			subColor: ''
+		},
 		alert: '',
-		email: '',
-		username: '',
-		imageUrl: '',
-		theme: {},
 		authState: false
 	},
 	mutations: {
 		setAlert(state, alert) {
 			state.alert = alert;
 		},
-		setInfo(state, info) {
-			state.authState = info.authState;
-			state.email = info.email;
-			state.username = info.username;
-			state.imageUrl = info.imageUrl;
-		},
 		setTheme(state, theme) {
 			state.theme = theme;
 		},
-		signOut(state) {
-			state.email = '';
-			state.username = '';
-			state.imageUrl = '';
-			state.authState = false;
-		},
 		setAuthState(state, val) {
 			state.authState = val;
+		},
+		setUser(state, user) {
+			state.authState = user.authState;
+			state.user.email = user.email;
+			state.user.username = user.username;
+			state.user.imageUrl = user.imageUrl;
+		},
+		signOut(state) {
+			state.authState = false;
+			state.user.email = '';
+			state.user.username = '';
+			state.user.imageUrl = '';
 		}
 	},
 	actions: {
@@ -46,23 +53,19 @@ export default new Vuex.Store({
 			axios
 				.post('signin')
 				.then((res) => {
-					if (res.status != 200) return;
-					commit('setInfo', {
-						authState: googleAuth.isSignedIn.get(),
-						email: profile.getEmail(),
-						username: profile.getName(),
-						imageUrl: profile.getImageUrl()
+					console.log(res);
+					commit('setUser', {
+						email: res.data.email,
+						username: res.data.name,
+						imageUrl: profile.getImageUrl(),
+						authState: googleAuth.isSignedIn.get()
 					});
-					axios
-						.get('theme')
-						.then((res) => {
-							localStorage.setItem('theme', res.data.theme);
-							localStorage.setItem('custom', JSON.stringify(res.data.custom));
-							setTheme();
-						})
-						.catch((err) => {
-							console.log(err);
-						});
+					localStorage.setItem('theme', res.data.config.theme);
+					localStorage.setItem(
+						'custom',
+						JSON.stringify(res.data.config.custom)
+					);
+					setTheme();
 				})
 				.catch((err) => {
 					console.log(err);
