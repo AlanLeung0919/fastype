@@ -1,9 +1,9 @@
 import store from '../store/index.js';
-import themeArr from '@/assets/theme.json';
+import themeList from '@/assets/theme.json';
 
 export default () => {
 	let theme = localStorage.getItem('theme');
-	let themeObj = themeArr.filter((e) => e.name === theme);
+	let themeObj = themeList.filter((e) => e.name === theme);
 	const customTest = ['bgColor', 'mainColor', 'subColor'];
 	const defaultCustom = {
 		name: 'custom',
@@ -32,7 +32,7 @@ export default () => {
 		if (!theme || themeObj.length !== 1) {
 			theme = 'dark';
 			localStorage.setItem('theme', theme);
-			themeObj = themeArr.filter((e) => e.name === theme);
+			themeObj = themeList.filter((e) => e.name === theme);
 		}
 		store.commit('setTheme', themeObj[0]);
 	}
