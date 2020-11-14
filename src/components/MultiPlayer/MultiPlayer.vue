@@ -1,7 +1,15 @@
 <template>
 	<div class="multiplayer">
 		<Lobby v-if="!inRoom" @connect="connect" />
-		<Game v-else :propRawText="rawText" :players="players" />
+		<Game
+			v-else
+			:propRawText="rawText"
+			:players="players"
+			:waiting="waiting"
+			:countdown="countdown"
+			:startTime="startTime"
+			@start="countdown = false"
+		/>
 	</div>
 </template>
 
@@ -18,6 +26,9 @@ export default {
 	data() {
 		return {
 			inRoom: false,
+			waiting: true,
+			countdown: false,
+			startTime: 0,
 			players: [],
 			rawText: []
 		};
@@ -59,6 +70,11 @@ export default {
 			players.unshift(obj);
 			this.players = players;
 		});
+		this.socket.on('countdown', (time) => {
+			this.waiting = false;
+			this.countdown = true;
+			this.startTime = time
+		})
 	},
 	beforeDestroy() {
 		this.socket.disconnect();
