@@ -1,23 +1,24 @@
 <template>
 	<div class="multiplayer">
 		<Lobby v-if="!inRoom" @connect="connect" />
-		<Game v-else :propRawText="rawText" />
+		<Game v-else :propRawText="rawText" :players="players" />
 	</div>
 </template>
 
 <script>
 import io from 'socket.io-client';
-import Lobby from './Lobby.vue';
-import Game from './Game.vue';
+import Game from './Game';
+import Lobby from './Lobby';
 
 export default {
 	components: {
-		Lobby,
-		Game
+		Game,
+		Lobby
 	},
 	data() {
 		return {
 			inRoom: false,
+			players: [],
 			rawText: []
 		};
 	},
@@ -49,6 +50,15 @@ export default {
 			this.inRoom = true;
 			this.rawText = text;
 		});
+		this.socket.on('playerUpdate', (players) => {
+			const selfIdx = players.findIndex(
+				(e) => e.email === this.$store.state.user.email
+			);
+			const obj = players[selfIdx];
+			players.splice(selfIdx, 1);
+			players.unshift(obj);
+			this.players = players;
+		});
 	},
 	beforeDestroy() {
 		this.socket.disconnect();
@@ -58,7 +68,7 @@ export default {
 
 <style scoped>
 .multiplayer {
-	width: 75%;
+	width: 80%;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
