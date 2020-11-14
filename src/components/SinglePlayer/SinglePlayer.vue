@@ -97,8 +97,7 @@
 				}"
 			></div>
 			<input
-				:value="input"
-				@input="e => input = e.target.value"
+				v-model="input"
 				ref="input"
 				class="input"
 				:maxlength="maxLen()"
