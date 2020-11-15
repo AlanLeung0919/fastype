@@ -1,7 +1,36 @@
 <template>
 	<div class="game">
 		<Players :players="this.players" />
-		<div class="text-wrapper" ref="textWrapper" @click="$refs.input.focus()">
+		<div
+			v-if="started"
+			class="caret"
+			:style="`left: ${caretLeft}px; top: ${caretTop}px`"
+			:class="{
+				'caret-blink': blink,
+				'caret-show': inFocus,
+				'caret-hide': !inFocus
+			}"
+		></div>
+		<input
+			v-model="input"
+			ref="input"
+			class="input"
+			:maxlength="maxLen()"
+			:disabled="!started"
+			@focus="inFocus = true"
+			@blur="inFocus = false"
+			@cut.prevent
+			@copy.prevent
+			@paste.prevent
+			@keydown.ctrl.prevent
+			@keydown.exact="checkCap($event)"
+		/>
+		<div
+			v-if="!finished"
+			class="text-wrapper"
+			ref="textWrapper"
+			@click="$refs.input.focus()"
+		>
 			<div class="overlay" v-if="!started">
 				<div v-if="waiting">
 					waiting for players
@@ -34,37 +63,67 @@
 				</div>
 			</div>
 		</div>
+		<div v-else class="stat">
+			<BaseStat title="rank" :val="result.rank" />
+			<BaseStat title="wpm" :val="result.wpm" />
+			<BaseStat title="acc" :val="result.acc">%</BaseStat>
+			<BaseStat title="time" :val="result.time">s</BaseStat>
+			<BaseStat title="mode" :val="result.mode" />
+			<BaseStat title="date" :val="getDate(result.date, false, true)" />
+		</div>
 	</div>
 </template>
 
 <script>
 import Players from './Players';
+import BaseStat from '@/components/Base/BaseStat';
+import getDate from '@/helper/getDate';
 
 export default {
 	components: {
-		Players
+		Players,
+		BaseStat
 	},
 	props: {
 		players: Array,
 		propRawText: Array,
 		waiting: Boolean,
 		countdown: Boolean,
-		startTime: Number
+		startTime: Number,
+		rank: Number
 	},
 	data() {
 		return {
 			rawText: this.propRawText,
 			started: false,
-			countdownTime: 10,
+			finished: false,
+			input: '',
+			countdownTime: 0,
+			caretLeft: 0,
+			caretTop: 0,
+			blink: false,
+			inFocus: false,
 			text: [],
 			correct: [],
 			incorrect: [],
-			overflow: []
+			overflow: [],
+			typedChars: 0,
+			correctChars: 0,
+			correctWords: 0,
+			currentWordIdx: 0,
+			currentCharIdx: 0,
+			top: 0,
+			error: false,
+			liveWpm: 0,
+			wpmPerSec: [],
+			result: {}
 		};
 	},
 	methods: {
+		getDate: getDate,
 		initText() {
-			//this.text = this.rawText.slice(0, 75);
+			const lazyloadLen = 75;
+			this.text = this.rawText.slice(0, lazyloadLen);
 			this.text = this.rawText;
 			this.textLen = this.rawText.length;
 			for (let i = 0; i < this.text.length; i++) {
@@ -75,10 +134,10 @@ export default {
 					this.incorrect[i][j] = false;
 				}
 			}
-			//this.rawText = this.rawText.slice(lazyloadLen);
+			this.rawText = this.rawText.slice(lazyloadLen);
 			setTimeout(() => {
 				const word = this.$refs.word;
-				//if (word.length === 0) return;
+				if (word.length === 0) return;
 				const style = getComputedStyle(word[0]);
 				const height =
 					(word[0].clientHeight +
@@ -86,28 +145,196 @@ export default {
 						parseInt(style.marginBottom)) *
 					3;
 				this.$refs.textWrapper.style.height = height + 'px';
-				//this.updateCaret();
+				this.updateCaret();
 				setTimeout(() => {
-					//TODO:this.$refs.input.focus();
-					//this.blink = true;
+					this.$refs.input.focus();
+					this.blink = true;
 				}, 100);
 			}, 0);
+		},
+		timer() {
+			if (this.started) return;
+			const start = Date.now();
+			this.interval = setInterval(() => {
+				const time = Math.round((Date.now() - start) / 1000);
+				const wpm = Math.round(this.correctChars / 5 / (time / 60));
+				const progress = Math.round((this.correctWords / this.textLen) * 100);
+				this.$emit('gameUpdate', { wpm: wpm, progress: progress });
+				this.liveWpm = wpm;
+				this.wpmPerSec.push(wpm);
+			}, 1000);
+		},
+		start() {
+			this.timer();
+			this.started = true;
+			this.blink = false;
+			this.$nextTick(() => {
+				this.$refs.input.focus();
+			});
+		},
+		finish() {
+			this.started = false;
+			clearInterval(this.interval);
+			this.$emit('gameUpdate', { wpm: this.liveWpm, progress: 100 });
+			this.$emit('playerFinish');
+		},
+		maxLen() {
+			if (this.started) return this.text[this.currentWordIdx].length + 5;
+		},
+		updateCaret() {
+			if (this.finished) return;
+			let inputIdx = this.input.length - 1;
+			if (inputIdx === -1) inputIdx = 0;
+			setTimeout(() => {
+				if (!this.$refs.word) return;
+				const word = this.$refs.word[this.currentWordIdx].children[inputIdx];
+				if (!word) return;
+				const top = word.getBoundingClientRect().top;
+				let right;
+				if (this.input.length === 0) right = word.getBoundingClientRect().left;
+				else right = word.getBoundingClientRect().right;
+				this.caretTop = top;
+				this.caretLeft = right;
+			}, 0);
+		},
+		updateRow() {
+			const currentTop = this.$refs.word[
+				this.currentWordIdx
+			].getBoundingClientRect().top;
+			if (
+				currentTop !== this.top &&
+				this.top !== 0 &&
+				this.currentWordIdx !== 0 &&
+				this.overflow[this.currentWordIdx].length === 0
+			) {
+				let n = this.currentWordIdx;
+				this.text = this.text.slice(n);
+				this.overflow = this.overflow.slice(n);
+				this.correct = this.correct.slice(n);
+				this.incorrect = this.incorrect.slice(n);
+				this.currentWordIdx -= n;
+			}
+			this.top = currentTop;
+		},
+		checkCap(event) {
+			if (event.getModifierState('CapsLock'))
+				this.$store.commit('setAlert', 'CapsLock is on!');
 		}
 	},
 	mounted() {
 		this.initText();
+		window.addEventListener('resize', this.updateCaret);
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
+		clearInterval(this.countdownInterval);
+		window.removeEventListener('resize', this.updateCaret);
 	},
 	watch: {
+		rank(val) {
+			if (val !== 0) {
+				this.finished = true;
+				const acc = Math.round((this.correctChars / this.typedChars) * 100);
+				this.result = {
+					rank: val,
+					wpm: this.liveWpm,
+					acc: acc,
+					time: this.wpmPerSec.length,
+					wpmPerSec: this.wpmPerSec,
+					mode: 'race',
+					date: Date.now()
+				};
+			}
+		},
 		countdown(val) {
-			if (val)
-				this.interval = setInterval(() => {
+			if (val) {
+				this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
+				this.countdownInterval = setInterval(() => {
 					this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
-					if (this.countdownTime === 0) {
-						clearInterval(this.interval);
-						this.started = true;
-						this.$emit('start')
+					console.log(this.countdownTime);
+					if (this.countdownTime < 1) {
+						clearInterval(this.countdownInterval);
+						this.start();
+						this.$emit('start');
 					}
 				}, 1000);
+			}
+		},
+		currentWordIdx() {
+			if (this.rawText.length === 0) return;
+			const newWord = this.rawText.slice(0, 1);
+			this.text.push(...newWord);
+			this.rawText = this.rawText.slice(1);
+			let correctWordArr = [];
+			let incorrectWordArr = [];
+			for (let i = 0; i < newWord[0].length; i++) {
+				correctWordArr[i] = false;
+				incorrectWordArr[i] = false;
+			}
+			this.correct.push(correctWordArr);
+			this.incorrect.push(incorrectWordArr);
+		},
+		input(newInput, oldInput) {
+			if (this.textLen === 0) return;
+			if (!this.started && this.input !== '') this.start();
+			if (!this.started) return;
+			if (!this.overflow[this.currentWordIdx])
+				this.overflow[this.currentWordIdx] = '';
+			const currentWord = this.text[this.currentWordIdx] + ' ';
+			const currentChar = currentWord[this.currentCharIdx];
+			const inputChar = newInput.slice(-1);
+			const inputIdx = this.input.length - 1;
+			const word = this.$refs.word[this.currentWordIdx];
+			if (inputChar === currentChar && inputIdx === this.currentCharIdx) {
+				if (
+					inputChar === ' ' ||
+					(this.correctWords === this.textLen - 1 &&
+						inputIdx + 1 === currentWord.length - 1 &&
+						this.currentCharIdx === currentWord.length - 2)
+				) {
+					this.correctChars++;
+					this.typedChars++;
+					this.correctWords++;
+					this.currentWordIdx++;
+					this.currentCharIdx = 0;
+					this.input = '';
+					return;
+				}
+				this.correct[this.currentWordIdx][inputIdx] = true;
+				this.currentCharIdx++;
+				this.correctChars++;
+			}
+			if (this.correctWords === this.textLen) {
+				return this.finish();
+			}
+			if (newInput.length < oldInput.length) {
+				this.correct[this.currentWordIdx][inputIdx + 1] = false;
+				this.incorrect[this.currentWordIdx][inputIdx + 1] = false;
+				if (
+					oldInput.slice(-1) === currentWord[this.currentCharIdx - 1] &&
+					oldInput.length === this.currentCharIdx
+				)
+					this.currentCharIdx--;
+				this.overflow[this.currentWordIdx] = this.overflow[
+					this.currentWordIdx
+				].slice(0, -1);
+			} else {
+				this.typedChars++;
+			}
+			if (this.input === currentWord.substring(0, this.input.length)) {
+				this.error = false;
+			} else {
+				this.error = true;
+			}
+			if (this.error) {
+				if (inputIdx + 1 > currentWord.length - 1 && newInput > oldInput) {
+					this.overflow[this.currentWordIdx] += inputChar;
+				} else if (!this.overflow[this.currentWordIdx]) {
+					this.incorrect[this.currentWordIdx][inputIdx] = true;
+				}
+			}
+			this.updateCaret();
+			this.updateRow();
 		}
 	}
 };
@@ -140,7 +367,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	z-index: 999;
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(0, 0, 0, 0.9);
 	position: absolute;
 	border-radius: 5px;
 	display: flex;
@@ -149,9 +376,55 @@ export default {
 	color: #ffffff;
 }
 
+.caret {
+	width: 2px;
+	height: 1.5em;
+	position: fixed;
+	transition: 0.1s;
+	border-radius: 5px;
+	transform: translateX(-1px);
+	background-color: var(--main-color);
+}
+
+.caret-hide {
+	visibility: hidden;
+}
+
+.caret-show {
+	visibility: visible;
+}
+
+.caret-blink {
+	animation: blink 1s infinite;
+}
+
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.input {
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	position: absolute;
+}
+
 .text-wrapper {
 	cursor: default;
-	/* overflow: hidden; */
+	overflow: hidden;
 	user-select: none;
 	color: var(--sub-color);
 	position: relative;
@@ -165,5 +438,13 @@ export default {
 
 .word {
 	margin: 0.25em;
+}
+
+.stat {
+	gap: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
 }
 </style>

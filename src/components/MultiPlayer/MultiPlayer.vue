@@ -8,7 +8,10 @@
 			:waiting="waiting"
 			:countdown="countdown"
 			:startTime="startTime"
+			:rank="rank"
 			@start="countdown = false"
+			@gameUpdate="gameUpdate"
+			@playerFinish="playerFinish"
 		/>
 	</div>
 </template>
@@ -29,6 +32,7 @@ export default {
 			waiting: true,
 			countdown: false,
 			startTime: 0,
+			rank: 0,
 			players: [],
 			rawText: []
 		};
@@ -42,6 +46,12 @@ export default {
 			} else {
 				this.socket.emit('createRoom');
 			}
+		},
+		gameUpdate(obj) {
+			this.socket.emit('gameUpdate', obj)
+		},
+		playerFinish() {
+			this.socket.emit('playerFinish');
 		},
 		initSocket() {
 			const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
@@ -69,6 +79,8 @@ export default {
 			players.splice(selfIdx, 1);
 			players.unshift(obj);
 			this.players = players;
+			if (this.players[0].rank)
+				this.rank = this.players[0].rank
 		});
 		this.socket.on('countdown', (time) => {
 			this.waiting = false;
