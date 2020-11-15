@@ -31,7 +31,7 @@
 			ref="textWrapper"
 			@click="$refs.input.focus()"
 		>
-			<div class="overlay" v-if="!started">
+			<div class="overlay" v-if="!started && !finished">
 				<div v-if="waiting">
 					waiting for players
 					<font-awesome-icon class="fa-spin" icon="circle-notch" />
