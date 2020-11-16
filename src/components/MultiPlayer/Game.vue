@@ -367,6 +367,8 @@ export default {
 	width: 100%;
 	height: 100%;
 	z-index: 999;
+	/* color: var(--main-color) !important;
+	background-color: var(--bg-color); */
 	background-color: rgba(0, 0, 0, 0.9);
 	position: absolute;
 	border-radius: 5px;
