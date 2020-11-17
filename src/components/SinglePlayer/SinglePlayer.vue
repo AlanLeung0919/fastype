@@ -390,17 +390,24 @@ export default {
 				this.getText();
 			}
 			this.$refs.input.focus();
-		}
+		},
+		/* resize() {
+			this.$refs.input.blur()
+			clearTimeout(this.resizeTimer);
+			this.resizeTimer = setTimeout(() => {this.$refs.input.focus()}, 250);
+		} */
 	},
 	mounted() {
 		this.time = 15;
 		this.word = 25;
 		this.mode = 'quote';
 		window.addEventListener('resize', this.updateCaret);
+		//window.addEventListener('resize', this.resize);
 	},
 	beforeDestroy() {
 		clearInterval(this.interval);
 		window.removeEventListener('resize', this.updateCaret);
+		//window.removeEventListener('resize', this.resize);
 	},
 	watch: {
 		mode(newMode, oldMode) {
