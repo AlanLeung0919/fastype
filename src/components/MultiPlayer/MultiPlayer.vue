@@ -48,7 +48,7 @@ export default {
 			}
 		},
 		gameUpdate(obj) {
-			this.socket.emit('gameUpdate', obj)
+			this.socket.emit('gameUpdate', obj);
 		},
 		playerFinish() {
 			this.socket.emit('playerFinish');
@@ -79,14 +79,13 @@ export default {
 			players.splice(selfIdx, 1);
 			players.unshift(obj);
 			this.players = players;
-			if (this.players[0].rank)
-				this.rank = this.players[0].rank
+			if (this.players[0].rank) this.rank = this.players[0].rank;
 		});
 		this.socket.on('countdown', (time) => {
 			this.waiting = false;
 			this.countdown = true;
-			this.startTime = time
-		})
+			this.startTime = time;
+		});
 	},
 	beforeDestroy() {
 		this.socket.disconnect();

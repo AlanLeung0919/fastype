@@ -83,7 +83,7 @@
 				<div class="option" v-show="mode === 'quote'" v-if="!started">
 					<div class="btn btn-sml" style="visibility: hidden">quote</div>
 				</div>
-				<div v-if="started" class="wpm">
+				<div v-if="started" class="live-wpm">
 					{{ liveWpm }}
 				</div>
 			</div>
@@ -166,6 +166,13 @@
 						? `visibility: visible; --duration: ${time}`
 						: 'visibility: hidden'
 				"
+			></div>
+			<div
+				class="live-word"
+				:style="{
+					visibility: started && mode !== 'time' ? 'visible' : 'hidden',
+					width: (correctWords / textLen) * 100 + '%'
+				}"
 			></div>
 		</div>
 	</div>
@@ -516,8 +523,19 @@ export default {
 	flex-direction: row;
 }
 
-.wpm {
+.live-wpm {
 	font-size: 2.5em;
+}
+
+.live-word {
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 1em;
+	position: fixed;
+	visibility: hidden;
+	transition: 0.25s;
+	background-color: var(--main-color);
 }
 
 .caret {
@@ -642,7 +660,7 @@ export default {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 0.75em;
+	height: 1em;
 	position: fixed;
 	visibility: hidden;
 	background-color: var(--main-color);

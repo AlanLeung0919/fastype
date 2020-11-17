@@ -3,7 +3,8 @@
 		<div v-for="(player, idx) in players" :key="idx" class="track">
 			<div class="info">
 				<div>{{ player.name }}</div>
-				<div>{{ player.wpm }} wpm
+				<div>
+					{{ player.wpm }} wpm
 					<span v-if="player.rank">rank: {{ player.rank }}</span>
 				</div>
 			</div>

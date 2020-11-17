@@ -24,8 +24,7 @@ const routes = [
 			store.commit('setAlert', 'Coming soon...');
 			next(false); */
 			const pw = window.prompt('Multiplayer in development...');
-			if (pw === 'race') 
-				next();
+			if (pw === 'race') next();
 			else next(false);
 		},
 		meta: { requireAuth: true }
