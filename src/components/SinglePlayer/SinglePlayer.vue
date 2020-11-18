@@ -392,6 +392,7 @@ export default {
 			this.$refs.input.focus();
 		},
 		resize() {
+			if (this.showScore) return
 			this.$refs.input.blur();
 			clearTimeout(this.resizeTimer);
 			this.resizeTimer = setTimeout(() => {
