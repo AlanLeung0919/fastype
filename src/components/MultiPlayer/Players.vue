@@ -36,21 +36,6 @@ export default {
 	justify-content: center;
 }
 
-.track {
-	border-bottom: 1px dashed var(--main-color);
-}
-
-.info {
-	display: flex;
-	justify-content: space-between;
-	padding: 0.25em;
-}
-
-.progress {
-	position: relative;
-	height: 0.5em;
-}
-
 .indicator {
 	width: 1em;
 	height: 1em;
@@ -58,6 +43,21 @@ export default {
 	border-radius: 50%;
 	position: absolute;
 	background-color: var(--sub-color);
+}
+
+.info {
+	display: flex;
+	padding: 0.25em;
+	justify-content: space-between;
+}
+
+.progress {
+	height: 0.5em;
+	position: relative;
+}
+
+.track {
+	border-bottom: 1px dashed var(--main-color);
 }
 
 .self {

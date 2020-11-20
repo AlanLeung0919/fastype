@@ -1,12 +1,12 @@
 <template>
 	<div class="lobby">
-		<div class="wrapper">
+		<div class="section-wrapper">
 			<div class="icon">
 				<font-awesome-icon icon="network-wired" size="3x" />
 			</div>
 			<div class="btn btn-lg" @click="connect('public')">join public room</div>
 		</div>
-		<div class="wrapper">
+		<div class="section-wrapper">
 			<div class="icon">
 				<font-awesome-icon icon="key" size="3x" />
 			</div>
@@ -22,10 +22,9 @@
 			</div>
 			<div v-show="input" class="input-box">
 				<input
-					v-model="roomId"
 					ref="inputId"
-					type="text"
 					class="input"
+					v-model="roomId"
 					placeholder="room id"
 				/>
 				<div class="btn-wrapper">
@@ -33,8 +32,8 @@
 					<div
 						class="btn btn-sml"
 						@click="
-							input = false;
 							roomId = '';
+							input = false;
 						"
 					>
 						cancel
@@ -42,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="wrapper">
+		<div class="section-wrapper">
 			<div class="icon">
 				<font-awesome-icon icon="door-closed" size="3x" />
 			</div>
@@ -57,8 +56,8 @@
 export default {
 	data() {
 		return {
-			input: false,
-			roomId: ''
+			roomId: '',
+			input: false
 		};
 	},
 	methods: {
@@ -80,22 +79,21 @@ export default {
 
 <style scoped>
 .lobby {
+	gap: 5em;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
-	gap: 1em;
+	justify-content: center;
 }
 
-.wrapper {
+.section-wrapper {
+	gap: 2.5em;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2.5em 0 2.5em 0;
-	gap: 2.5em;
 }
 
 .icon {
@@ -107,10 +105,10 @@ export default {
 }
 
 .input-box {
-	display: flex;
-	flex-direction: column;
 	gap: 1em;
+	display: flex;
 	align-items: center;
+	flex-direction: column;
 	justify-content: center;
 }
 
@@ -119,13 +117,26 @@ export default {
 	outline: none;
 	padding: 0.5em;
 	border-radius: 5px;
-	background-color: rgba(0, 0, 0, 0.05);
 	color: var(--main-color);
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 .btn-wrapper {
-	display: flex;
 	gap: 1em;
+	display: flex;
+}
+
+.btn {
+	display: flex;
+	cursor: pointer;
+	transition: 0.1s;
+	user-select: none;
+	border-radius: 5px;
+	white-space: nowrap;
+	align-items: center;
+	color: var(--bg-color);
+	justify-content: center;
+	background-color: var(--sub-color);
 }
 
 .btn-sml {
@@ -134,19 +145,6 @@ export default {
 
 .btn-lg {
 	padding: 0.5em 1.5em 0.5em 1.5em;
-}
-
-.btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--bg-color);
-	background-color: var(--sub-color);
-	cursor: pointer;
-	border-radius: 5px;
-	transition: 0.1s;
-	white-space: nowrap;
-	user-select: none;
 }
 
 .btn:hover {

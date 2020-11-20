@@ -20,12 +20,12 @@ const routes = [
 		name: 'Race',
 		component: Race,
 		beforeEnter(to, from, next) {
-			/* if (process.env.NODE_ENV === 'development') return next();
-			store.commit('setAlert', 'Coming soon...');
-			next(false); */
-			const pw = window.prompt('Multiplayer in development...');
-			if (pw === 'race') next();
-			else next(false);
+			if (process.env.NODE_ENV === 'development') next();
+			else {
+				const pw = window.prompt('Coming soon...');
+				if (pw === 'race') next();
+				else next(false);
+			}
 		},
 		meta: { requireAuth: true }
 	},
