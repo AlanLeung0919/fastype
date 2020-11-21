@@ -126,7 +126,6 @@ export default {
 			const lazyloadLen = 75;
 			this.textLen = this.rawText.length;
 			this.text = this.rawText.slice(0, lazyloadLen);
-			this.text = this.rawText;
 			for (let i = 0; i < this.text.length; i++) {
 				this.correct[i] = [];
 				this.incorrect[i] = [];
