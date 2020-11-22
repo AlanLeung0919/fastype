@@ -21,7 +21,8 @@ import {
 	faDoorClosed,
 	faInfoCircle,
 	faSearch,
-	faCircleNotch
+	faCircleNotch,
+	faDoorOpen
 } from '@fortawesome/free-solid-svg-icons';
 import VueTippy, { TippyComponent } from 'vue-tippy';
 
@@ -40,7 +41,8 @@ library.add(
 	faDoorClosed,
 	faInfoCircle,
 	faSearch,
-	faCircleNotch
+	faCircleNotch,
+	faDoorOpen
 );
 
 Vue.use(VueTippy);

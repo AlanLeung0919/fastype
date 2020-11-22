@@ -9,6 +9,7 @@
 			:countdown="countdown"
 			:startTime="startTime"
 			:propRawText="rawText"
+			@leave="leaveRoom()"
 			@gameUpdate="gameUpdate"
 			@start="countdown = false"
 			@playerFinish="playerFinish"
@@ -56,6 +57,10 @@ export default {
 		},
 		playerFinish() {
 			this.socket.emit('playerFinish');
+		},
+		leaveRoom() {
+			this.inRoom = false;
+			this.socket.emit('leaveRoom');
 		}
 	},
 	created() {

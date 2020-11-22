@@ -71,6 +71,27 @@
 			<BaseStat title="mode" :val="result.mode" />
 			<BaseStat title="date" :val="getDate(result.date, false, true)" />
 		</div>
+		<div class="leave-wrapper">
+			<div
+					tabindex="0"
+					class="btn leave"
+					content="leave room"
+					v-tippy="{ placement: 'bottom' }"
+					@click="
+						$emit('leave')
+						$event.target.blur();
+					"
+					@keydown.enter="
+						$emit('leave')
+						$event.target.blur();
+					"
+				>
+					<font-awesome-icon
+						icon="door-open"
+						style="pointer-events: none"
+					></font-awesome-icon>
+				</div>
+		</div>
 	</div>
 </template>
 
@@ -448,5 +469,34 @@ export default {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-around;
+}
+
+.leave-wrapper {
+	display: flex;
+	font-size: 1.25em;
+	align-self: center;
+	padding: 1em 0 1em 0;
+	justify-content: center;
+}
+
+.leave {
+	width: 2.5em;
+	height: 2.5em;
+	display: flex;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn {
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: 0.1s;
+	color: var(--sub-color);
+}
+
+.btn:hover {
+	color: var(--main-color);
 }
 </style>
