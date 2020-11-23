@@ -1,5 +1,7 @@
 <template>
-	<div class="leaderboard">
+<div>
+
+	<div class="leaderboard" v-if="!loading">
 		<BaseScrollToTop />
 		<LeaderboardSwitch :table="table" @update="updateTable" />
 		<LeaderboardTable
@@ -15,6 +17,10 @@
 			:table="table"
 		/>
 	</div>
+	<div v-else class="loading">
+			<font-awesome-icon class="fa-spin" icon="circle-notch" size="2x" />
+		</div>
+</div>
 </template>
 
 <script>
@@ -38,7 +44,8 @@ export default {
 				list: [],
 				rank: null
 			},
-			table: 'bestWpm'
+			table: 'bestWpm',
+			loading: true
 		};
 	},
 	methods: {
@@ -52,6 +59,7 @@ export default {
 			.then((res) => {
 				this.bestWpm = res.data.bestWpm;
 				this.bestDailyWpm = res.data.bestDailyWpm;
+				this.loading = false;
 			})
 			.catch((err) => {
 				console.log(err);
@@ -68,5 +76,13 @@ export default {
 	flex-flow: column;
 	align-items: center;
 	margin: 1.5em auto 1.5em auto;
+}
+
+.loading {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

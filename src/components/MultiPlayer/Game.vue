@@ -499,4 +499,9 @@ export default {
 .btn:hover {
 	color: var(--main-color);
 }
+
+.btn:focus {
+	color: var(--main-color);
+	background-color: var(--sub-color);
+}
 </style>

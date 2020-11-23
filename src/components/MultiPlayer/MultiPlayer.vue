@@ -59,8 +59,13 @@ export default {
 			this.socket.emit('playerFinish');
 		},
 		leaveRoom() {
-			this.inRoom = false;
 			this.socket.emit('leaveRoom');
+			this.inRoom = false;
+			this.rank = 0;
+			this.waiting = true;
+			this.countdown = false;
+			this.player = [];
+			this.rawText = [];
 		}
 	},
 	created() {

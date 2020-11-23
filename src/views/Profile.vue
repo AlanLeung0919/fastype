@@ -1,17 +1,22 @@
 <template>
-	<div class="profile">
-		<BaseScrollToTop />
-		<ProfileStat :stat="stat" />
-		<ProfileLevel :level="stat.level" :wpm="stat.lastTenAvgWpm" />
-		<ProfileSearch />
-		<ProfileChart v-if="loaded" :height="325" :chartData="chartData" />
-		<ProfileDateInput
-			:end="endDay"
-			:start="startDay"
-			@updateEnd="updateEnd"
-			@updateStart="updateStart"
-		/>
-		<ProfileTable :record="record" @load="load" :avaliable="loadAvaliable" />
+	<div>
+		<div class="profile" v-if="!loading">
+			<BaseScrollToTop />
+			<ProfileStat :stat="stat" />
+			<ProfileLevel :level="stat.level" :wpm="stat.lastTenAvgWpm" />
+			<ProfileSearch />
+			<ProfileChart v-if="loaded" :height="325" :chartData="chartData" />
+			<ProfileDateInput
+				:end="endDay"
+				:start="startDay"
+				@updateEnd="updateEnd"
+				@updateStart="updateStart"
+			/>
+			<ProfileTable :record="record" @load="load" :avaliable="loadAvaliable" />
+		</div>
+		<div v-else class="loading">
+			<font-awesome-icon class="fa-spin" icon="circle-notch" size="2x" />
+		</div>
 	</div>
 </template>
 
@@ -44,7 +49,8 @@ export default {
 			chartData: {},
 			rawChartData: [],
 			startDay: null,
-			endDay: null
+			endDay: null,
+			loading: true
 		};
 	},
 	methods: {
@@ -145,6 +151,7 @@ export default {
 				this.rawChartData = res.data.record;
 				this.loadChart();
 				this.load();
+				this.loading = false;
 			})
 			.catch((err) => {
 				console.log(err);
@@ -160,5 +167,13 @@ export default {
 	display: flex;
 	margin: 1.5em auto 1.5em auto;
 	flex-direction: column;
+}
+
+.loading {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>
