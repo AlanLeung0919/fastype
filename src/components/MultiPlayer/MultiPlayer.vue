@@ -64,7 +64,7 @@ export default {
 			this.rank = 0;
 			this.waiting = true;
 			this.countdown = false;
-			this.player = [];
+			this.players = [];
 			this.rawText = [];
 		}
 	},
