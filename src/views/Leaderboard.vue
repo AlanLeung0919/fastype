@@ -1,26 +1,25 @@
 <template>
-<div>
-
-	<div class="leaderboard" v-if="!loading">
-		<BaseScrollToTop />
-		<LeaderboardSwitch :table="table" @update="updateTable" />
-		<LeaderboardTable
-			v-if="table === 'bestWpm'"
-			:list="bestWpm.list"
-			:rank="bestWpm.rank"
-			:table="table"
-		/>
-		<LeaderboardTable
-			v-if="table === 'bestDailyWpm'"
-			:list="bestDailyWpm.list"
-			:rank="bestDailyWpm.rank"
-			:table="table"
-		/>
-	</div>
-	<div v-else class="loading">
+	<div>
+		<div class="leaderboard" v-if="!loading">
+			<BaseScrollToTop />
+			<LeaderboardSwitch :table="table" @update="updateTable" />
+			<LeaderboardTable
+				v-if="table === 'bestWpm'"
+				:list="bestWpm.list"
+				:rank="bestWpm.rank"
+				:table="table"
+			/>
+			<LeaderboardTable
+				v-if="table === 'bestDailyWpm'"
+				:list="bestDailyWpm.list"
+				:rank="bestDailyWpm.rank"
+				:table="table"
+			/>
+		</div>
+		<div v-else class="loading">
 			<font-awesome-icon class="fa-spin" icon="circle-notch" size="2x" />
 		</div>
-</div>
+	</div>
 </template>
 
 <script>

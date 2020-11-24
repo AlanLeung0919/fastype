@@ -73,24 +73,24 @@
 		</div>
 		<div class="leave-wrapper">
 			<div
-					tabindex="0"
-					class="btn leave"
-					content="leave room"
-					v-tippy="{ placement: 'bottom' }"
-					@click="
-						$emit('leave')
-						$event.target.blur();
-					"
-					@keydown.enter="
-						$emit('leave')
-						$event.target.blur();
-					"
-				>
-					<font-awesome-icon
-						icon="door-open"
-						style="pointer-events: none"
-					></font-awesome-icon>
-				</div>
+				tabindex="0"
+				class="btn leave"
+				content="leave room"
+				v-tippy="{ placement: 'bottom' }"
+				@click="
+					$emit('leave');
+					$event.target.blur();
+				"
+				@keydown.enter="
+					$emit('leave');
+					$event.target.blur();
+				"
+			>
+				<font-awesome-icon
+					icon="door-open"
+					style="pointer-events: none"
+				></font-awesome-icon>
+			</div>
 		</div>
 	</div>
 </template>
