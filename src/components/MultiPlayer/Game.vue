@@ -28,7 +28,7 @@
 		<div
 			v-if="!finished"
 			class="text-wrapper"
-			ref="textWrapper"
+			:style="`height: ${height}px`"
 			@click="$refs.input.focus()"
 		>
 			<div class="overlay" v-if="!started && !finished">
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-else class="stat">
+		<div v-if="finished" class="stat">
 			<BaseStat title="rank" :val="result.rank" />
 			<BaseStat title="wpm" :val="result.wpm" />
 			<BaseStat title="acc" :val="result.acc">%</BaseStat>
@@ -138,7 +138,8 @@ export default {
 			liveWpm: 0,
 			textLen: 0,
 			wpmPerSec: [],
-			result: {}
+			result: {},
+			height: 0
 		};
 	},
 	methods: {
@@ -165,7 +166,8 @@ export default {
 						parseInt(style.marginTop) +
 						parseInt(style.marginBottom)) *
 					3;
-				this.$refs.textWrapper.style.height = height + 'px';
+				//this.$refs.textWrapper.style.height = height + 'px';
+				this.height = height;
 				this.updateCaret();
 				setTimeout(() => {
 					this.$refs.input.focus();
