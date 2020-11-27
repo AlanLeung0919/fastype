@@ -63,7 +63,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="finished" class="stat">
+		<div v-else class="stat">
 			<BaseStat title="rank" :val="result.rank" />
 			<BaseStat title="wpm" :val="result.wpm" />
 			<BaseStat title="acc" :val="result.acc">%</BaseStat>
