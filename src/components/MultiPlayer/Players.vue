@@ -32,6 +32,7 @@ export default {
 	gap: 1em;
 	width: 100%;
 	display: flex;
+	padding: 1em 0 1em 0;
 	flex-direction: column;
 	justify-content: center;
 }
