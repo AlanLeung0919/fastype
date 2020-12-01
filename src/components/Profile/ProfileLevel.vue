@@ -1,13 +1,13 @@
 <template>
 	<div class="wrapper">
-		<img :src="getBadge(level - 1)" class="badge-sml" />
+		<img v-if="level !== 1" :src="getBadge(level - 1)" class="badge-sml" />
 		<div class="level">
 			<div class="progress" :style="getWidth()">
 				<div class="text">lv.{{ level }}</div>
 				<img :src="getBadge(level)" class="badge" />
 			</div>
 		</div>
-		<img :src="getBadge(level + 1)" class="badge-sml" />
+		<img v-if="level !== 12" :src="getBadge(level + 1)" class="badge-sml" />
 		<font-awesome-icon
 			class="info"
 			icon="info-circle"
@@ -51,11 +51,12 @@ export default {
 }
 
 .info {
-	font-size: 1em;
-	color: var(--sub-color);
-	transition: 0.1s;
-	cursor: pointer;
 	outline: none;
+	font-size: 1em;
+	cursor: pointer;
+	transition: 0.1s;
+	padding-left: 0.5em;
+	color: var(--sub-color);
 }
 
 .info:hover {
