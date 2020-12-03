@@ -33,6 +33,7 @@ export default {
 			startTime: 0,
 			waiting: true,
 			inRoom: false,
+			private: false,
 			countdown: false,
 			players: [],
 			rawText: []
@@ -63,6 +64,7 @@ export default {
 			this.inRoom = false;
 			this.rank = 0;
 			this.waiting = true;
+			this.private = false;
 			this.countdown = false;
 			this.players = [];
 			this.rawText = [];
@@ -77,6 +79,9 @@ export default {
 		this.socket.on('joinRoom', (text) => {
 			this.inRoom = true;
 			this.rawText = text;
+		});
+		this.socket.on('roomError', () => {
+			this.$store.commit('setAlert', 'room not found');
 		});
 		this.socket.on('countdown', (time) => {
 			this.waiting = false;

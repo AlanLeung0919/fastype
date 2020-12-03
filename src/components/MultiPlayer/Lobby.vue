@@ -65,7 +65,7 @@ export default {
 			if (val === 'private') {
 				if (this.roomId === '')
 					return this.$store.commit('setAlert', 'invalid room id');
-				this.$emit('connect', { type: 'private', roomId: this.roomId.trim() });
+				this.$emit('connect', { type: 'private', roomId: this.roomId });
 			} else this.$emit('connect', { type: val });
 		},
 		focusInput() {
