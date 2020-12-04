@@ -71,25 +71,50 @@
 			<BaseStat title="mode" :val="result.mode" />
 			<BaseStat title="date" :val="getDate(result.date, false, true)" />
 		</div>
-		<div class="leave-wrapper">
+		<div class="bottom-wrapper">
+			<div style="display: flex">
+				<div
+					tabindex="0"
+					class="btn leave"
+					content="leave room"
+					v-tippy="{ placement: 'bottom' }"
+					@click="
+						$emit('leave');
+						$event.target.blur();
+					"
+					@keydown.enter="
+						$emit('leave');
+						$event.target.blur();
+					"
+				>
+					<font-awesome-icon
+						icon="door-open"
+						style="pointer-events: none"
+					></font-awesome-icon>
+				</div>
+				<div
+					v-if="isPrivate"
+					tabindex="0"
+					class="btn leave"
+					content="vote to start"
+					v-tippy="{ placement: 'bottom' }"
+					@click="$event.target.blur()"
+					@keydown.enter="$event.target.blur()"
+				>
+					<font-awesome-icon
+						icon="check"
+						style="pointer-events: none"
+					></font-awesome-icon>
+				</div>
+			</div>
 			<div
-				tabindex="0"
-				class="btn leave"
-				content="leave room"
+				v-if="isPrivate"
+				class="roomid"
+				content="click to copy"
 				v-tippy="{ placement: 'bottom' }"
-				@click="
-					$emit('leave');
-					$event.target.blur();
-				"
-				@keydown.enter="
-					$emit('leave');
-					$event.target.blur();
-				"
+				@click="copyId()"
 			>
-				<font-awesome-icon
-					icon="door-open"
-					style="pointer-events: none"
-				></font-awesome-icon>
+				{{ roomId }}
 			</div>
 		</div>
 	</div>
@@ -111,7 +136,9 @@ export default {
 		waiting: Boolean,
 		countdown: Boolean,
 		startTime: Number,
-		rank: Number
+		rank: Number,
+		roomId: String,
+		isPrivate: Boolean
 	},
 	data() {
 		return {
@@ -144,6 +171,10 @@ export default {
 	},
 	methods: {
 		getDate: getDate,
+		copyId() {
+			navigator.clipboard.writeText(this.roomId);
+			this.$store.commit('setAlert', 'copied room id');
+		},
 		initText() {
 			const lazyloadLen = 75;
 			this.textLen = this.rawText.length;
@@ -473,11 +504,14 @@ export default {
 	justify-content: space-around;
 }
 
-.leave-wrapper {
+.bottom-wrapper {
+	gap: 0.5em;
 	display: flex;
 	font-size: 1.25em;
 	align-self: center;
 	padding: 1em 0 1em 0;
+	align-items: center;
+	flex-direction: column;
 	justify-content: center;
 }
 
@@ -488,6 +522,13 @@ export default {
 	border-radius: 5px;
 	align-items: center;
 	justify-content: center;
+}
+
+.roomid {
+	color: var(--sub-color);
+	cursor: pointer;
+	outline: none;
+	font-size: 0.75em;
 }
 
 .btn {

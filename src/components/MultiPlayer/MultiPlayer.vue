@@ -9,6 +9,8 @@
 			:countdown="countdown"
 			:startTime="startTime"
 			:propRawText="rawText"
+			:isPrivate="isPrivate"
+			:roomId="roomId"
 			@leave="leaveRoom()"
 			@gameUpdate="gameUpdate"
 			@start="countdown = false"
@@ -31,9 +33,10 @@ export default {
 		return {
 			rank: 0,
 			startTime: 0,
+			roomId: '',
 			waiting: true,
 			inRoom: false,
-			private: false,
+			isPrivate: false,
 			countdown: false,
 			players: [],
 			rawText: []
@@ -64,8 +67,9 @@ export default {
 			this.inRoom = false;
 			this.rank = 0;
 			this.waiting = true;
-			this.private = false;
+			this.isPrivate = false;
 			this.countdown = false;
+			this.roomId = '';
 			this.players = [];
 			this.rawText = [];
 		}
@@ -79,6 +83,12 @@ export default {
 		this.socket.on('joinRoom', (text) => {
 			this.inRoom = true;
 			this.rawText = text;
+		});
+		this.socket.on('joinPrivateRoom', (roomInfo) => {
+			this.inRoom = true;
+			this.isPrivate = true;
+			this.rawText = roomInfo.text;
+			this.roomId = roomInfo.roomId;
 		});
 		this.socket.on('roomError', () => {
 			this.$store.commit('setAlert', 'room not found');
