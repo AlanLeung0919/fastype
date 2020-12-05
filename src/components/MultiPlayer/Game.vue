@@ -93,13 +93,21 @@
 					></font-awesome-icon>
 				</div>
 				<div
-					v-if="isPrivate"
+					v-if="isPrivate && !voted"
 					tabindex="0"
 					class="btn leave"
 					content="vote to start"
 					v-tippy="{ placement: 'bottom' }"
-					@click="$event.target.blur()"
-					@keydown.enter="$event.target.blur()"
+					@click="
+						voted = true;
+						$emit('vote');
+						$event.target.blur();
+					"
+					@keydown.enter="
+						voted = true;
+						$emit('vote');
+						$event.target.blur();
+					"
 				>
 					<font-awesome-icon
 						icon="check"
@@ -142,6 +150,7 @@ export default {
 	},
 	data() {
 		return {
+			voted: false,
 			rawText: this.propRawText,
 			started: false,
 			finished: false,
@@ -529,6 +538,11 @@ export default {
 	cursor: pointer;
 	outline: none;
 	font-size: 0.75em;
+	transition: 0.1s;
+}
+
+.roomid:hover {
+	color: var(--main-color);
 }
 
 .btn {

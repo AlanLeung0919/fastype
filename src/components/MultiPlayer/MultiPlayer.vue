@@ -11,6 +11,7 @@
 			:propRawText="rawText"
 			:isPrivate="isPrivate"
 			:roomId="roomId"
+			@vote="vote"
 			@leave="leaveRoom()"
 			@gameUpdate="gameUpdate"
 			@start="countdown = false"
@@ -61,6 +62,9 @@ export default {
 		},
 		playerFinish() {
 			this.socket.emit('playerFinish');
+		},
+		vote() {
+			this.socket.emit('vote');
 		},
 		leaveRoom() {
 			this.socket.emit('leaveRoom');
