@@ -20,6 +20,7 @@ export default {
 	},
 	watch: {
 		num(num, oldnum) {
+			if (!oldnum) return;
 			if (typeof num !== 'number') {
 				this.$store.commit('setAlert', 'invalid input');
 				this.num = oldnum;
@@ -36,6 +37,9 @@ export default {
 				return;
 			}
 			this.$emit('update', num);
+		},
+		word(num) {
+			this.num = num;
 		}
 	}
 };
