@@ -6,6 +6,7 @@ import Race from '../views/Race.vue';
 import Leaderboard from '../views/Leaderboard.vue';
 import Profile from '../views/Profile.vue';
 import Setting from '../views/Setting.vue';
+import About from '../views/About.vue';
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,11 @@ const routes = [
 		path: '/setting',
 		name: 'Setting',
 		component: Setting
+	},
+	{
+		path: '/about',
+		name: 'About',
+		component: About
 	},
 	{
 		path: '*',

@@ -65,10 +65,7 @@
 						:class="{
 							'mode-active': ![25, 50, 100].includes(word)
 						}"
-						@click="
-							word += 5;
-							getText();
-						"
+						@click="word += 5"
 					>
 						custom
 					</div>

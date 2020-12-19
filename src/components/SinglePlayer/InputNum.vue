@@ -17,6 +17,7 @@ export default {
 	mounted() {
 		if (this.mode === 'time') this.num = this.time;
 		else this.num = this.word;
+		this.$emit('update', this.num);
 	},
 	watch: {
 		num(num, oldnum) {
@@ -39,6 +40,9 @@ export default {
 			this.$emit('update', num);
 		},
 		word(num) {
+			this.num = num;
+		},
+		time(num) {
 			this.num = num;
 		}
 	}

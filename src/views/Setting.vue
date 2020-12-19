@@ -1,7 +1,7 @@
 <template>
 	<div class="setting">
 		<div class="section">
-			<div class="title">theme</div>
+			<div class="title">Theme</div>
 			<div
 				class="btn-custom"
 				@click="toggleCustom()"
@@ -98,7 +98,7 @@ export default {
 }
 
 .title {
-	font-size: 2.5em;
+	font-size: 2em;
 	color: var(--sub-color);
 }
 

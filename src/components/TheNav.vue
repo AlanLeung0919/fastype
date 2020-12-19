@@ -21,7 +21,8 @@
 					{ path: 'race', icon: 'flag-checkered' },
 					{ path: 'leaderboard', icon: 'crown' },
 					{ path: 'profile', icon: 'user' },
-					{ path: 'setting', icon: 'cog' }
+					{ path: 'setting', icon: 'cog' },
+					{ path: 'about', icon: 'info' }
 				]"
 				v-tippy
 				class="link"
@@ -160,6 +161,10 @@ export default {
 	border-radius: 5px;
 	display: inline-block;
 	color: var(--sub-color);
+}
+
+.router-link-exact-active {
+	color: var(--main-color);
 }
 
 .link:hover,
