@@ -1,11 +1,13 @@
 <template>
 	<div class="admin">
-		Enter admin key (press enter to download)
-		<input v-model="input" class="key" @keydown.enter="submit" />
+		Enter admin key
+		<input v-model="input" class="key" />
 		<div>
 			<input v-model="withIndividual" type="checkbox" />
-			with individual record
+			with individual records
 		</div>
+		<div class="btn" @click="submit" v-if="!loading">download</div>
+		<div v-else>loading...</div>
 	</div>
 </template>
 
@@ -17,11 +19,14 @@ export default {
 	data() {
 		return {
 			input: '',
+			loading: false,
 			withIndividual: false
 		};
 	},
 	methods: {
 		submit() {
+			if (this.loading) return;
+			this.loading = true;
 			this.$http
 				.post('admin', { key: this.input })
 				.then((res) => {
@@ -64,10 +69,12 @@ export default {
 							XLSX.utils.book_append_sheet(wb, recordWs, e.emailPrefix);
 						});
 					}
-					XLSX.writeFile(wb, 'users.xlsx');
+					XLSX.writeFile(wb, 'fastype-record.xlsx');
+					this.loading = false;
 				})
 				.catch((err) => {
 					console.log(err);
+					this.loading = false;
 				});
 		}
 	}
@@ -91,7 +98,26 @@ export default {
 	color: var(--main-color);
 	background-color: rgba(0, 0, 0, 0.1);
 	padding: 0.5em;
-	width: 20em;
+	width: 15em;
 	border-radius: 5px;
+	border: 1px solid var(--main-color);
+}
+
+.btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 15em;
+	height: 2em;
+	border-radius: 5px;
+	cursor: pointer;
+	user-select: none;
+	transition: 0.1s;
+	color: var(--bg-color);
+	background-color: var(--sub-color);
+}
+
+.btn:hover {
+	background-color: var(--main-color);
 }
 </style>
