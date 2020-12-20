@@ -49,6 +49,9 @@
 				create private room
 			</div>
 		</div>
+		<div class="banner">
+			Race is still in development, records made here wouldn't be saved.
+		</div>
 	</div>
 </template>
 
@@ -118,6 +121,7 @@ export default {
 	padding: 0.5em;
 	border-radius: 5px;
 	color: var(--main-color);
+	width: 12.5em;
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -149,5 +153,18 @@ export default {
 
 .btn:hover {
 	background-color: var(--main-color);
+}
+
+.banner {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2.5em;
+	color: rgba(0, 0, 0, 0.7);
+	background-color: hsl(48, 100%, 67%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

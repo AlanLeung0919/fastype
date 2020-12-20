@@ -6,6 +6,7 @@
 				Time: type under the selected time limit<br />
 				Word: type selected amount of words<br />
 				Quote: type a quote chosen for you<br />
+				Tips: press tab + enter to quickly reset your test
 			</div>
 		</div>
 		<div class="section">
@@ -24,10 +25,19 @@
 			</div>
 		</div>
 		<div class="section">
+			<div class="title">Profile</div>
+			<div class="content">
+				See all of your records<br />
+				Search for other players' stats<br />
+				Export records as spreadsheet<br />
+				Tips: Click on the title of the record table to sort with specific field
+			</div>
+		</div>
+		<div class="section">
 			<div class="title">Theme</div>
 			<div class="content">
 				Select your desired theme from the setting page<br />
-				Or customize the theme by choosing your desired colors
+				Customize the theme by selecting custom and choosing your desired colors
 			</div>
 		</div>
 		<div class="section">

@@ -73,8 +73,8 @@ export default {
 }
 
 .position {
-	background-color: var(--main-color) !important;
 	color: var(--bg-color) !important;
+	background-color: var(--main-color) !important;
 }
 
 .reminder {
@@ -119,7 +119,7 @@ tr td:nth-child(1) {
 
 thead td:nth-child(2),
 tr td:nth-child(2) {
-	width: 25%;
+	width: 30%;
 }
 
 thead td:nth-child(3),
@@ -144,6 +144,6 @@ tr td:nth-child(6) {
 
 thead td:nth-child(7),
 tr td:nth-child(7) {
-	width: 25%;
+	width: 20%;
 }
 </style>

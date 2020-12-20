@@ -150,7 +150,7 @@ export default {
 	border-radius: 5px;
 	padding: 0 7.5px 0 7.5px;
 	display: inline-block;
-	color: var(--sub-color);
+	color: var(--sub-color) !important;
 }
 
 .link {
@@ -169,14 +169,14 @@ export default {
 
 .link:hover,
 .link-logo:hover {
-	color: var(--main-color);
+	color: var(--main-color) !important;
 }
 
 .link:focus,
 .link-logo:focus {
 	outline: none;
-	color: var(--main-color);
-	background-color: var(--sub-color);
+	color: var(--main-color) !important;
+	background-color: var(--sub-color) !important;
 }
 
 @media (max-width: 1024px) {

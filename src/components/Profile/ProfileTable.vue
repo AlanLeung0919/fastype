@@ -21,9 +21,14 @@
 			</tr>
 		</table>
 		<div v-else>No record found</div>
-		<div v-if="avaliable" class="load" @click="$emit('load')">load more</div>
-		<div v-if="avaliable" class="load" @click="$emit('load', true)">
+		<div v-if="avaliable" class="bottom-btn" @click="$emit('load')">
+			load more
+		</div>
+		<div v-if="avaliable" class="bottom-btn" @click="$emit('load', true)">
 			load all
+		</div>
+		<div class="bottom-btn" @click="$emit('exportSheet')">
+			export as spreadsheet
 		</div>
 	</div>
 </template>
@@ -69,7 +74,7 @@ export default {
 	color: var(--main-color);
 }
 
-.load {
+.bottom-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -84,7 +89,7 @@ export default {
 	background-color: var(--sub-color);
 }
 
-.load:hover {
+.bottom-btn:hover {
 	background-color: var(--main-color);
 }
 

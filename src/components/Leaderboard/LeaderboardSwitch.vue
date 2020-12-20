@@ -39,14 +39,14 @@ export default {
 }
 
 .btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	width: 10em;
 	height: 2em;
-	border-radius: 5px;
+	display: flex;
 	cursor: pointer;
 	user-select: none;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
 }

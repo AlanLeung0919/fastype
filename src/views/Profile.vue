@@ -12,7 +12,12 @@
 				@updateEnd="updateEnd"
 				@updateStart="updateStart"
 			/>
-			<ProfileTable :record="record" @load="load" :avaliable="loadAvaliable" />
+			<ProfileTable
+				:record="record"
+				@load="load"
+				@exportSheet="exportSheet()"
+				:avaliable="loadAvaliable"
+			/>
 		</div>
 		<div v-else class="loading">
 			<font-awesome-icon class="fa-spin" icon="circle-notch" size="2x" />
@@ -21,6 +26,7 @@
 </template>
 
 <script>
+import XLSX from 'xlsx';
 import getDate from '@/helper/getDate';
 import BaseScrollToTop from '@/components/Base/BaseScrollTop';
 import ProfileStat from '@/components/Profile/ProfileStat';
@@ -132,6 +138,35 @@ export default {
 				]
 			};
 			this.loaded = true;
+		},
+		exportSheet() {
+			const wb = XLSX.utils.book_new();
+			const stat = [
+				{
+					avgWpm: this.stat.avgWpm,
+					avgAcc: this.stat.avgAcc,
+					lastTenAvgWpm: this.stat.lastTenAvgWpm,
+					bestWpm: this.stat.bestWpm,
+					bestDailyWpm: this.stat.bestDailyWpm.wpm,
+					totalTrials: this.stat.totalRace,
+					totalTimeUsed: this.stat.totalTime
+				}
+			];
+			const statWs = XLSX.utils.json_to_sheet(stat);
+			XLSX.utils.book_append_sheet(wb, statWs, 'stats');
+			const recordArr = [];
+			this.record.concat(this.rawRecord).forEach((e) => {
+				recordArr.push({
+					date: getDate(e.date),
+					wpm: e.wpm,
+					acc: e.acc,
+					time: e.time,
+					mode: e.mode
+				});
+			});
+			const recordWs = XLSX.utils.json_to_sheet(recordArr);
+			XLSX.utils.book_append_sheet(wb, recordWs, 'records');
+			XLSX.writeFile(wb, 'users.xlsx');
 		}
 	},
 	computed: {

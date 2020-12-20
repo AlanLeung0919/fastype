@@ -2,7 +2,7 @@
 	<div class="game">
 		<Players :players="this.players" />
 		<div
-			v-if="started"
+			v-if="!finished"
 			class="caret"
 			:style="`left: ${caretLeft}px; top: ${caretTop}px`"
 			:class="{
@@ -31,9 +31,13 @@
 			:style="`height: ${height}px`"
 			@click="$refs.input.focus()"
 		>
-			<div class="overlay" v-if="!started && !finished">
+			<div class="overlay" v-if="!started">
 				<div v-if="waiting">
-					waiting for players
+					{{
+						isPrivate
+							? `waiting for vote ${voteCount}/${players.length}`
+							: `waiting for players ${players.length}/3`
+					}}
 					<font-awesome-icon class="fa-spin" icon="circle-notch" />
 				</div>
 				<div v-if="countdown">starting in {{ countdownTime }}s</div>
@@ -139,6 +143,7 @@ export default {
 		BaseStat
 	},
 	props: {
+		voteCount: Number,
 		players: Array,
 		propRawText: Array,
 		waiting: Boolean,
@@ -174,6 +179,7 @@ export default {
 			liveWpm: 0,
 			textLen: 0,
 			wpmPerSec: [],
+			rawWpmPerSec: [],
 			result: {},
 			height: 0
 		};
@@ -221,10 +227,12 @@ export default {
 			this.interval = setInterval(() => {
 				const time = Math.round((Date.now() - start) / 1000);
 				const wpm = Math.round(this.correctChars / 5 / (time / 60));
+				const rawWpm = Math.round(this.typedChars / 5 / (time / 60));
 				const progress = Math.round((this.correctWords / this.textLen) * 100);
 				this.$emit('gameUpdate', { wpm: wpm, progress: progress });
 				this.liveWpm = wpm;
 				this.wpmPerSec.push(wpm);
+				this.rawWpmPerSec.push(rawWpm);
 			}, 1000);
 		},
 		start() {
@@ -236,13 +244,13 @@ export default {
 			});
 		},
 		finish() {
-			this.started = false;
 			clearInterval(this.interval);
 			this.$emit('gameUpdate', { wpm: this.liveWpm, progress: 100 });
 			this.$emit('playerFinish');
 		},
 		maxLen() {
-			if (this.started) return this.text[this.currentWordIdx].length + 5;
+			if (this.started && !this.finished)
+				return this.text[this.currentWordIdx].length + 5;
 		},
 		updateCaret() {
 			if (this.finished) return;
@@ -295,7 +303,7 @@ export default {
 	},
 	watch: {
 		rank(val) {
-			if (val !== 0) {
+			if (val > 0) {
 				this.finished = true;
 				const acc = Math.round((this.correctChars / this.typedChars) * 100);
 				this.result = {
@@ -304,9 +312,19 @@ export default {
 					acc: acc,
 					time: this.wpmPerSec.length,
 					wpmPerSec: this.wpmPerSec,
+					rawWpmPerSec: this.rawWpmPerSec,
 					mode: 'race',
 					date: Date.now()
 				};
+				/* this.$http
+					.post('record', { record: this.result })
+					.then((res) => {
+						if (this.result.wpm > res.data.bestWpm)
+							this.$store.commit('setAlert', 'new best record!');
+					})
+					.catch((err) => {
+						console.log(err);
+					}); */
 			}
 		},
 		countdown(val) {
@@ -339,7 +357,6 @@ export default {
 		},
 		input(newInput, oldInput) {
 			if (this.textLen === 0) return;
-			if (!this.started && this.input !== '') this.start();
 			if (!this.started) return;
 			if (!this.overflow[this.currentWordIdx])
 				this.overflow[this.currentWordIdx] = '';
@@ -430,8 +447,6 @@ export default {
 	width: 100%;
 	height: 100%;
 	z-index: 999;
-	/* color: var(--main-color) !important;
-	background-color: var(--bg-color); */
 	background-color: rgba(0, 0, 0, 0.9);
 	position: absolute;
 	border-radius: 5px;

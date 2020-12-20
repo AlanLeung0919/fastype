@@ -3,6 +3,7 @@
 		<Lobby v-if="!inRoom" @connect="connect" />
 		<Game
 			v-else
+			:voteCount="voteCount"
 			:rank="rank"
 			:players="players"
 			:waiting="waiting"
@@ -33,8 +34,9 @@ export default {
 	data() {
 		return {
 			rank: 0,
-			startTime: 0,
+			voteCount: 0,
 			roomId: '',
+			startTime: 0,
 			waiting: true,
 			inRoom: false,
 			isPrivate: false,
@@ -76,6 +78,7 @@ export default {
 			this.roomId = '';
 			this.players = [];
 			this.rawText = [];
+			this.voteCount = 0;
 		}
 	},
 	created() {
@@ -88,11 +91,14 @@ export default {
 			this.inRoom = true;
 			this.rawText = text;
 		});
-		this.socket.on('joinPrivateRoom', (roomInfo) => {
+		this.socket.on('joinPrivateRoom', (data) => {
 			this.inRoom = true;
 			this.isPrivate = true;
-			this.rawText = roomInfo.text;
-			this.roomId = roomInfo.roomId;
+			this.rawText = data.text;
+			this.roomId = data.roomId;
+		});
+		this.socket.on('updateVote', (vote) => {
+			this.voteCount = vote;
 		});
 		this.socket.on('roomError', () => {
 			this.$store.commit('setAlert', 'room not found');
@@ -115,6 +121,19 @@ export default {
 	},
 	beforeDestroy() {
 		this.socket.disconnect();
+	},
+	computed: {
+		authState() {
+			return this.$store.state.authState;
+		}
+	},
+	watch: {
+		authState(val) {
+			if (!val) {
+				this.$store.commit('setAlert', 'you have been signed out');
+				this.$router.push('/');
+			}
+		}
 	}
 };
 </script>

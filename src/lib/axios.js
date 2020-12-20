@@ -12,10 +12,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
 	(config) => {
 		if (!NProgress.isRendered()) NProgress.start();
-		if (config.url.substring(0, 4) === 'text') return config;
+		if (['text', 'admin'].includes(config.url.split('?')[0])) return config;
 		const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
 		const token = googleUser.getAuthResponse().id_token;
-		if (!token) store.commit('setAlert', 'please sign in first');
+		if (!token) return store.commit('setAlert', 'please sign in first');
 		else config.headers.authorization = token;
 		return config;
 	},

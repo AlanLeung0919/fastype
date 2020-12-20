@@ -87,6 +87,7 @@ input {
 	padding: 0.25em;
 	border-radius: 5px;
 	color: var(--main-color);
-	background-color: rgba(0, 0, 0, 0.05);
+	width: 10em;
+	background-color: rgba(0, 0, 0, 0.1);
 }
 </style>

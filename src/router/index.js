@@ -7,6 +7,7 @@ import Leaderboard from '../views/Leaderboard.vue';
 import Profile from '../views/Profile.vue';
 import Setting from '../views/Setting.vue';
 import About from '../views/About.vue';
+import Admin from '../views/Admin.vue';
 
 Vue.use(VueRouter);
 
@@ -20,14 +21,6 @@ const routes = [
 		path: '/race',
 		name: 'Race',
 		component: Race,
-		beforeEnter(to, from, next) {
-			if (process.env.NODE_ENV === 'development') next();
-			else {
-				const pw = window.prompt('Coming soon...');
-				if (pw === 'race') next();
-				else next(false);
-			}
-		},
 		meta: { requireAuth: true }
 	},
 	{
@@ -51,6 +44,11 @@ const routes = [
 		path: '/about',
 		name: 'About',
 		component: About
+	},
+	{
+		path: '/admin',
+		name: 'Admin',
+		component: Admin
 	},
 	{
 		path: '*',
