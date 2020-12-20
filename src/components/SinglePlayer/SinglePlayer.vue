@@ -31,14 +31,14 @@
 					<div
 						class="btn btn-sml"
 						:class="{
-							'mode-active': ![15, 30, 60, 120].includes(time)
+							'mode-active': isCustomTime
 						}"
 						@click="time += 5"
 					>
 						custom
 					</div>
 					<InputNum
-						v-if="![15, 30, 60, 120].includes(time) && mode === 'time'"
+						v-if="isCustomTime && mode === 'time'"
 						:mode="mode"
 						:time="time"
 						:word="word"
@@ -63,14 +63,14 @@
 					<div
 						class="btn btn-sml"
 						:class="{
-							'mode-active': ![25, 50, 100].includes(word)
+							'mode-active': isCustomWord
 						}"
 						@click="word += 5"
 					>
 						custom
 					</div>
 					<InputNum
-						v-if="![25, 50, 100].includes(word) && mode === 'word'"
+						v-if="isCustomWord && mode === 'word'"
 						:mode="mode"
 						:time="time"
 						:word="word"
@@ -244,7 +244,7 @@ export default {
 					this.rawText = this.rawText.slice(lazyloadLen);
 					setTimeout(() => {
 						const word = this.$refs.word;
-						if (word.length === 0) return;
+						if (!word) return;
 						const style = getComputedStyle(word[0]);
 						const height =
 							(word[0].clientHeight +
@@ -254,7 +254,9 @@ export default {
 						this.$refs.textWrapper.style.height = height + 'px';
 						this.updateCaret();
 						setTimeout(() => {
-							this.$refs.input.focus();
+							const input = this.$refs.input;
+							if (!input) return;
+							input.focus();
 							this.blink = true;
 						}, 100);
 					}, 0);
@@ -397,6 +399,14 @@ export default {
 			}, 100);
 		}
 	},
+	computed: {
+		isCustomWord() {
+			return [25, 50, 100].includes(this.word) ? false : true;
+		},
+		isCustomTime() {
+			return [15, 30, 60, 120].includes(this.time) ? false : true;
+		}
+	},
 	mounted() {
 		this.time = 15;
 		this.word = 25;
@@ -410,8 +420,14 @@ export default {
 		window.removeEventListener('resize', this.resize);
 	},
 	watch: {
-		mode(newMode, oldMode) {
+		mode() {
 			this.getText();
+		},
+		isCustomWord(val) {
+			if (val) this.getText();
+		},
+		isCustomTime(val) {
+			if (val) this.getText();
 		},
 		currentWordIdx() {
 			if (this.rawText.length === 0) return;

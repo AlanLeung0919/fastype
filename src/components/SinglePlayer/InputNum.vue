@@ -14,9 +14,6 @@ export default {
 			num: this.mode === 'time' ? this.time : this.word
 		};
 	},
-	mounted() {
-		this.$emit('update', this.num);
-	},
 	watch: {
 		num(num, oldnum) {
 			if (!oldnum) return;
@@ -49,7 +46,7 @@ export default {
 
 <style scoped>
 .input-num {
-	width: 3em;
+	width: 3.25em;
 	border: none;
 	outline: none;
 	padding: 0.25em;
