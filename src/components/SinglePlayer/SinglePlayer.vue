@@ -197,6 +197,7 @@ export default {
 			overflow: [],
 			input: '',
 			result: {},
+			loadingText: false,
 			showScore: false,
 			blink: false,
 			inFocus: false,
@@ -221,6 +222,8 @@ export default {
 	},
 	methods: {
 		getText() {
+			if (this.loadingText) return;
+			this.loadingText = true;
 			let n = 0;
 			const timeModeWord = 1000;
 			const lazyloadLen = 75;
@@ -244,7 +247,7 @@ export default {
 					this.rawText = this.rawText.slice(lazyloadLen);
 					setTimeout(() => {
 						const word = this.$refs.word;
-						if (!word) return;
+						if (!word[0]) return;
 						const style = getComputedStyle(word[0]);
 						const height =
 							(word[0].clientHeight +
@@ -263,6 +266,9 @@ export default {
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
+					this.loadingText = false;
 				});
 		},
 		timer() {
@@ -348,7 +354,7 @@ export default {
 			let inputIdx = this.input.length - 1;
 			if (inputIdx === -1) inputIdx = 0;
 			setTimeout(() => {
-				if (!this.$refs.word) return;
+				if (!this.$refs.word[this.currentWordIdx]) return;
 				const word = this.$refs.word[this.currentWordIdx].children[inputIdx];
 				if (!word) return;
 				const top = word.getBoundingClientRect().top;
