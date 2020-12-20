@@ -20,8 +20,8 @@
 		<div class="section">
 			<div class="title">Leaderboard</div>
 			<div class="content">
-				All time: Display highest wpm record<br />
-				Daily: Display highest wpm record on that day
+				All time: display highest wpm record<br />
+				Daily: display highest wpm record on that day
 			</div>
 		</div>
 		<div class="section">
@@ -30,7 +30,7 @@
 				See all of your records<br />
 				Search for other players' stats<br />
 				Export records as spreadsheet<br />
-				Tips: Click on the title of the record table to sort with specific field
+				Tips: click on the title of the record table to sort with specific field
 			</div>
 		</div>
 		<div class="section">

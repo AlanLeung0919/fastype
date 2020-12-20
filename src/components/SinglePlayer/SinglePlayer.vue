@@ -38,7 +38,7 @@
 						custom
 					</div>
 					<InputNum
-						v-if="![15, 30, 60, 120].includes(time)"
+						v-if="![15, 30, 60, 120].includes(time) && mode === 'time'"
 						:mode="mode"
 						:time="time"
 						:word="word"
@@ -70,7 +70,7 @@
 						custom
 					</div>
 					<InputNum
-						v-if="![25, 50, 100].includes(word)"
+						v-if="![25, 50, 100].includes(word) && mode === 'word'"
 						:mode="mode"
 						:time="time"
 						:word="word"
@@ -187,6 +187,7 @@ export default {
 	data() {
 		return {
 			mode: '',
+			time: 0,
 			word: 0,
 			time: 0,
 			rawText: [],
@@ -204,7 +205,6 @@ export default {
 			error: false,
 			lastInput: '',
 			idleTime: 0,
-			time: 0,
 			wpmPerSec: [],
 			rawWpmPerSec: [],
 			liveWpm: 0,

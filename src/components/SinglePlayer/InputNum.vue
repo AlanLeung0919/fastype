@@ -11,12 +11,10 @@ export default {
 	},
 	data() {
 		return {
-			num: null
+			num: this.mode === 'time' ? this.time : this.word
 		};
 	},
 	mounted() {
-		if (this.mode === 'time') this.num = this.time;
-		else this.num = this.word;
 		this.$emit('update', this.num);
 	},
 	watch: {
@@ -39,10 +37,10 @@ export default {
 			}
 			this.$emit('update', num);
 		},
-		word(num) {
+		word(num, oldnum) {
 			this.num = num;
 		},
-		time(num) {
+		time(num, oldnum) {
 			this.num = num;
 		}
 	}
