@@ -249,7 +249,7 @@ export default {
 			this.$emit('playerFinish');
 		},
 		maxLen() {
-			if (this.started && !this.finished)
+			if (this.started && this.correctWords !== this.textLen)
 				return this.text[this.currentWordIdx].length + 5;
 		},
 		updateCaret() {
@@ -332,7 +332,6 @@ export default {
 				this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
 				this.countdownInterval = setInterval(() => {
 					this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
-					console.log(this.countdownTime);
 					if (this.countdownTime < 1) {
 						clearInterval(this.countdownInterval);
 						this.start();
