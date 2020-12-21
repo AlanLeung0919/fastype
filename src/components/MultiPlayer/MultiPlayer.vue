@@ -1,23 +1,28 @@
 <template>
-	<div class="multiplayer">
-		<Lobby v-if="!inRoom" @connect="connect" :playerSize="playerSize" />
-		<Game
-			v-else
-			:voteCount="voteCount"
-			:rank="rank"
-			:players="players"
-			:waiting="waiting"
-			:countdown="countdown"
-			:startTime="startTime"
-			:propRawText="rawText"
-			:isPrivate="isPrivate"
-			:roomId="roomId"
-			@vote="vote"
-			@leave="leaveRoom()"
-			@gameUpdate="gameUpdate"
-			@start="countdown = false"
-			@playerFinish="playerFinish"
-		/>
+	<div>
+		<div v-if="!loading" class="multiplayer">
+			<Lobby v-if="!inRoom" @connect="connect" :playerSize="playerSize" />
+			<Game
+				v-else
+				:voteCount="voteCount"
+				:rank="rank"
+				:players="players"
+				:waiting="waiting"
+				:countdown="countdown"
+				:startTime="startTime"
+				:propRawText="rawText"
+				:isPrivate="isPrivate"
+				:roomId="roomId"
+				@vote="vote"
+				@leave="leaveRoom()"
+				@gameUpdate="gameUpdate"
+				@start="countdown = false"
+				@playerFinish="playerFinish"
+			/>
+		</div>
+		<div v-else class="loading">
+			<font-awesome-icon class="fa-spin" icon="circle-notch" size="2x" />
+		</div>
 	</div>
 </template>
 
@@ -38,6 +43,7 @@ export default {
 			voteCount: 0,
 			startTime: 0,
 			roomId: '',
+			loading: true,
 			waiting: true,
 			inRoom: false,
 			isPrivate: false,
@@ -84,6 +90,9 @@ export default {
 	},
 	created() {
 		this.initSocket();
+		this.socket.on('connect', () => {
+			this.loading = false;
+		});
 		this.socket.on('connect_error', (err) => {
 			this.$store.commit('setAlert', err);
 			this.$router.push('/');
@@ -149,6 +158,14 @@ export default {
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading {
+	width: 100%;
+	height: 100%;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 }
