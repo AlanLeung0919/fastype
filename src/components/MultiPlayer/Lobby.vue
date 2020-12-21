@@ -1,5 +1,9 @@
 <template>
 	<div class="lobby">
+		<div class="player-size">
+			<div class="blinking-dot"></div>
+			{{ playerSize }} players online
+		</div>
 		<div class="section-wrapper">
 			<div class="icon">
 				<font-awesome-icon icon="network-wired" size="3x" />
@@ -57,6 +61,9 @@
 
 <script>
 export default {
+	props: {
+		playerSize: Number
+	},
 	data() {
 		return {
 			roomId: '',
@@ -82,7 +89,6 @@ export default {
 
 <style scoped>
 .lobby {
-	gap: 5em;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -91,12 +97,58 @@ export default {
 	justify-content: center;
 }
 
+.player-size {
+	margin-bottom: 4em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.blinking-dot {
+	width: 1em;
+	height: 1em;
+	margin-right: 1em;
+	border-radius: 50%;
+	position: relative;
+	background-color: #4caf50;
+}
+
+.blinking-dot:after {
+	top: 0;
+	left: 0;
+	width: 1em;
+	height: 1em;
+	content: '';
+	position: absolute;
+	border-radius: 50%;
+	background-color: #81c784;
+	animation: ripple 2.5s infinite;
+}
+
+@keyframes ripple {
+	0% {
+		width: 0;
+		height: 0;
+		opcity: 75;
+		top: 0.5em;
+		left: 0.5em;
+	}
+	100% {
+		opacity: 0;
+		width: 2em;
+		height: 2em;
+		top: -0.5em;
+		left: -0.5em;
+	}
+}
+
 .section-wrapper {
 	gap: 2.5em;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-bottom: 4em;
 }
 
 .icon {

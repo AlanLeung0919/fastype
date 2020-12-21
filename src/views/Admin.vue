@@ -69,7 +69,10 @@ export default {
 							XLSX.utils.book_append_sheet(wb, recordWs, e.emailPrefix);
 						});
 					}
-					XLSX.writeFile(wb, 'fastype-record.xlsx');
+					XLSX.writeFile(
+						wb,
+						`fastype-admin-${getDate(Date.now()).replace(/ |:/g, '-')}.xlsx`
+					);
 					this.loading = false;
 				})
 				.catch((err) => {

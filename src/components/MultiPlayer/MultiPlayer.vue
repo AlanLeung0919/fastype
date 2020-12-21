@@ -1,6 +1,6 @@
 <template>
 	<div class="multiplayer">
-		<Lobby v-if="!inRoom" @connect="connect" />
+		<Lobby v-if="!inRoom" @connect="connect" :playerSize="playerSize" />
 		<Game
 			v-else
 			:voteCount="voteCount"
@@ -34,9 +34,10 @@ export default {
 	data() {
 		return {
 			rank: 0,
+			playerSize: 0,
 			voteCount: 0,
-			roomId: '',
 			startTime: 0,
+			roomId: '',
 			waiting: true,
 			inRoom: false,
 			isPrivate: false,
@@ -117,6 +118,9 @@ export default {
 			players.unshift(self);
 			this.players = players;
 			if (this.players[0].rank) this.rank = this.players[0].rank;
+		});
+		this.socket.on('playerSize', (size) => {
+			this.playerSize = size;
 		});
 	},
 	beforeDestroy() {

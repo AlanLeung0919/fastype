@@ -166,7 +166,10 @@ export default {
 			});
 			const recordWs = XLSX.utils.json_to_sheet(recordArr);
 			XLSX.utils.book_append_sheet(wb, recordWs, 'records');
-			XLSX.writeFile(wb, 'users.xlsx');
+			XLSX.writeFile(
+				wb,
+				`fastype-${getDate(Date.now()).replace(/ |:/g, '-')}.xlsx`
+			);
 		}
 	},
 	computed: {

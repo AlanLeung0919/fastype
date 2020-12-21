@@ -247,7 +247,7 @@ export default {
 					this.rawText = this.rawText.slice(lazyloadLen);
 					setTimeout(() => {
 						const word = this.$refs.word;
-						if (!word[0]) return;
+						if (!word || !word[0]) return;
 						const style = getComputedStyle(word[0]);
 						const height =
 							(word[0].clientHeight +
@@ -354,7 +354,7 @@ export default {
 			let inputIdx = this.input.length - 1;
 			if (inputIdx === -1) inputIdx = 0;
 			setTimeout(() => {
-				if (!this.$refs.word[this.currentWordIdx]) return;
+				if (!this.$refs.word || !this.$refs.word[this.currentWordIdx]) return;
 				const word = this.$refs.word[this.currentWordIdx].children[inputIdx];
 				if (!word) return;
 				const top = word.getBoundingClientRect().top;
