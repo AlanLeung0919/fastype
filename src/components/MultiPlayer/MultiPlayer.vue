@@ -9,7 +9,6 @@
 				:players="players"
 				:waiting="waiting"
 				:countdown="countdown"
-				:startTime="startTime"
 				:propRawText="rawText"
 				:isPrivate="isPrivate"
 				:roomId="roomId"
@@ -41,7 +40,6 @@ export default {
 			rank: 0,
 			playerSize: 0,
 			voteCount: 0,
-			startTime: 0,
 			roomId: '',
 			loading: true,
 			waiting: true,
@@ -116,7 +114,6 @@ export default {
 		this.socket.on('countdown', (time) => {
 			this.waiting = false;
 			this.countdown = true;
-			this.startTime = time;
 		});
 		this.socket.on('playerUpdate', (players) => {
 			const selfIdx = players.findIndex(

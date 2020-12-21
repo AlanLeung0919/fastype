@@ -148,7 +148,6 @@ export default {
 		propRawText: Array,
 		waiting: Boolean,
 		countdown: Boolean,
-		startTime: Number,
 		rank: Number,
 		roomId: String,
 		isPrivate: Boolean
@@ -160,7 +159,7 @@ export default {
 			started: false,
 			finished: false,
 			input: '',
-			countdownTime: 0,
+			countdownTime: 5,
 			caretLeft: 0,
 			caretTop: 0,
 			blink: false,
@@ -329,9 +328,18 @@ export default {
 		},
 		countdown(val) {
 			if (val) {
-				this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
+				/* this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
 				this.countdownInterval = setInterval(() => {
 					this.countdownTime = Math.round((this.startTime - Date.now()) / 1000);
+					if (this.countdownTime < 1) {
+						clearInterval(this.countdownInterval);
+						this.start();
+						this.$emit('start');
+					}
+				}, 1000); */
+				const start = Date.now();
+				this.countdownInterval = setInterval(() => {
+					this.countdownTime = 5 - Math.floor((Date.now() - start) / 1000);
 					if (this.countdownTime < 1) {
 						clearInterval(this.countdownInterval);
 						this.start();
