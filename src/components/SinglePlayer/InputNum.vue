@@ -1,5 +1,11 @@
 <template>
-	<input v-model.number.lazy="num" type="number" class="input-num" step="5" />
+	<input
+		v-model.number.lazy="num"
+		type="number"
+		class="input-num"
+		step="5"
+		:disabled="loadingText"
+	/>
 </template>
 
 <script>
@@ -7,7 +13,8 @@ export default {
 	props: {
 		mode: String,
 		time: Number,
-		word: Number
+		word: Number,
+		loadingText: Boolean
 	},
 	data() {
 		return {

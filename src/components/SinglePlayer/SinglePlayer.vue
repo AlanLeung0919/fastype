@@ -11,7 +11,7 @@
 						:class="{
 							'mode-active': mode === modeopt
 						}"
-						@click="mode = modeopt"
+						@click="loadingText ? null : (mode = modeopt)"
 					>
 						{{ modeopt }}
 					</div>
@@ -24,7 +24,7 @@
 						:class="{
 							'mode-active': time === timeopt
 						}"
-						@click="time = timeopt"
+						@click="loadingText ? null : (time = timeopt)"
 					>
 						{{ timeopt }}
 					</div>
@@ -33,7 +33,7 @@
 						:class="{
 							'mode-active': isCustomTime
 						}"
-						@click="time += 5"
+						@click="loadingText ? null : (time += 5)"
 					>
 						custom
 					</div>
@@ -42,6 +42,7 @@
 						:mode="mode"
 						:time="time"
 						:word="word"
+						:loadingText="loadingText"
 						@update="custom"
 					/>
 				</div>
@@ -54,7 +55,7 @@
 							'mode-active': word === wordopt
 						}"
 						@click="
-							word = wordopt;
+							loadingText ? null : (word = wordopt);
 							getText();
 						"
 					>
@@ -65,7 +66,7 @@
 						:class="{
 							'mode-active': isCustomWord
 						}"
-						@click="word += 5"
+						@click="loadingText ? null : (word += 5)"
 					>
 						custom
 					</div>
@@ -74,6 +75,7 @@
 						:mode="mode"
 						:time="time"
 						:word="word"
+						:loadingText="loadingText"
 						@update="custom"
 					/>
 				</div>
@@ -392,9 +394,9 @@ export default {
 			if (this.mode === 'time') this.time = val;
 			else {
 				this.word = val;
-				this.getText();
+				this.reset();
 			}
-			this.$refs.input.focus();
+			//this.$refs.input.focus();
 		},
 		resize() {
 			if (this.showScore) return;
