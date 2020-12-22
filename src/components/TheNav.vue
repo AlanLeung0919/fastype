@@ -88,6 +88,9 @@ export default {
 					googleAuth.attachClickHandler(this.$refs.signIn, {
 						onsuccess: this.onSuccess()
 					});
+				})
+				.catch((err) => {
+					this.$store.commit('setAlert', `${err.error}: ${err.details}`);
 				});
 		});
 	}

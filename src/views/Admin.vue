@@ -73,10 +73,11 @@ export default {
 						wb,
 						`fastype-admin-${getDate(Date.now()).replace(/ |:/g, '-')}.xlsx`
 					);
-					this.loading = false;
 				})
 				.catch((err) => {
 					console.log(err);
+				})
+				.finally(() => {
 					this.loading = false;
 				});
 		}
