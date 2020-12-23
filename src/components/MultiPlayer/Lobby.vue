@@ -98,6 +98,7 @@ export default {
 }
 
 .player-size {
+	margin-top: 4em;
 	margin-bottom: 4em;
 	display: flex;
 	align-items: center;

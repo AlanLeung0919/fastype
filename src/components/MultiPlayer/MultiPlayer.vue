@@ -1,6 +1,12 @@
 <template>
 	<div>
 		<div v-if="!loading" class="multiplayer">
+			<Chat
+				:inRoom="inRoom"
+				:lobbyMsg="lobbyMsg"
+				:roomMsg="roomMsg"
+				@sendMsg="sendMsg"
+			/>
 			<Lobby v-if="!inRoom" @connect="connect" :playerSize="playerSize" />
 			<Game
 				v-else
@@ -28,11 +34,13 @@
 <script>
 import Game from './Game';
 import Lobby from './Lobby';
+import Chat from './Chat.vue';
 import io from 'socket.io-client';
 
 export default {
 	components: {
 		Game,
+		Chat,
 		Lobby
 	},
 	data() {
@@ -47,7 +55,9 @@ export default {
 			isPrivate: false,
 			countdown: false,
 			players: [],
-			rawText: []
+			rawText: [],
+			lobbyMsg: [],
+			roomMsg: []
 		};
 	},
 	methods: {
@@ -72,6 +82,14 @@ export default {
 		},
 		vote() {
 			this.socket.emit('vote');
+		},
+		sendMsg(msg, channel) {
+			const payload = {
+				msg: msg,
+				time: Date.now()
+			};
+			if (channel === 'lobby') this.socket.emit('lobbyMsg', payload);
+			else this.socket.emit('roomMsg', payload);
 		},
 		leaveRoom() {
 			this.socket.emit('leaveRoom');
@@ -124,6 +142,12 @@ export default {
 			players.unshift(self);
 			this.players = players;
 			if (this.players[0].rank) this.rank = this.players[0].rank;
+		});
+		this.socket.on('getLobbyMsg', (msg) => {
+			this.lobbyMsg.push(msg);
+		});
+		this.socket.on('getRoomMsg', (msg) => {
+			this.roomMsg.push(msg);
 		});
 		this.socket.on('playerSize', (size) => {
 			this.playerSize = size;
