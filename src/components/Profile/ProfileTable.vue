@@ -27,7 +27,11 @@
 		<div v-if="avaliable" class="bottom-btn" @click="$emit('load', true)">
 			load all
 		</div>
-		<div class="bottom-btn" @click="$emit('exportSheet')">
+		<div
+			v-if="record.length > 0"
+			class="bottom-btn"
+			@click="$emit('exportSheet')"
+		>
 			export as spreadsheet
 		</div>
 	</div>
@@ -84,7 +88,8 @@ export default {
 	cursor: pointer;
 	user-select: none;
 	transition: 0.1s;
-	margin-bottom: 0.75em;
+	/* margin-bottom: 0.75em; */
+	margin-top: 0.5em;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
 }

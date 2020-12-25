@@ -108,7 +108,11 @@
 				@keydown.ctrl.prevent
 				@keydown.exact="checkCap($event)"
 			/>
-			<div class="text-wrapper" ref="textWrapper" @click="$refs.input.focus()">
+			<div
+				class="text-wrapper"
+				:style="`height: ${height}px`"
+				@click="$refs.input.focus()"
+			>
 				<div class="text">
 					<div
 						v-for="(word, i) in text"
@@ -219,7 +223,8 @@ export default {
 			currentCharIdx: 0,
 			caretTop: 0,
 			caretLeft: 0,
-			top: 0
+			top: 0,
+			height: 0
 		};
 	},
 	methods: {
@@ -256,7 +261,8 @@ export default {
 								parseInt(style.marginTop) +
 								parseInt(style.marginBottom)) *
 							3;
-						this.$refs.textWrapper.style.height = height + 'px';
+						/* this.$refs.textWrapper.style.height = height + 'px'; */
+						this.height = height;
 						this.updateCaret();
 						setTimeout(() => {
 							const input = this.$refs.input;

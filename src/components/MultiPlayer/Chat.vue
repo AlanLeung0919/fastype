@@ -1,12 +1,27 @@
 <template>
 	<div class="msg-wrapper">
-		<div v-if="!showChat" class="msg-icon" @click="showChat = true">
+		<div v-if="!showChat" class="msg-icon" @click.stop="showChat = true">
 			<font-awesome-icon icon="comment" size="sm" />
 		</div>
 		<transition name="slide">
-			<div v-if="showChat" class="chat-wrapper">
+			<div v-if="showChat" class="chat-wrapper" v-click-outside="closeChat">
 				<div class="top-wrapper">
-					<div class="channel">Current channel: {{ channel }}</div>
+					<div class="channel">Channel:</div>
+					<div
+						class="btn"
+						@click="channel = 'lobby'"
+						:class="{ 'btn-active': channel === 'lobby' }"
+					>
+						lobby
+					</div>
+					<div
+						v-if="inRoom"
+						class="btn"
+						@click="channel = 'room'"
+						:class="{ 'btn-active': channel === 'room' }"
+					>
+						room
+					</div>
 					<font-awesome-icon
 						size="lg"
 						icon="times"
@@ -45,7 +60,7 @@ export default {
 	data() {
 		return {
 			msgInput: '',
-			showChat: true,
+			showChat: false,
 			channel: 'lobby'
 		};
 	},
@@ -64,8 +79,14 @@ export default {
 						.padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
 		},
 		sendMsg() {
-			this.$emit('sendMsg', this.msgInput, this.channel);
+			const msg = this.msgInput.trim();
+			if (msg === '')
+				return this.$store.commit('setAlert', 'please type something');
+			this.$emit('sendMsg', msg, this.channel);
 			this.msgInput = '';
+		},
+		closeChat() {
+			if (this.showChat) this.showChat = false;
 		}
 	},
 	computed: {
@@ -77,44 +98,76 @@ export default {
 		inRoom(val) {
 			if (val) this.channel = 'room';
 			else this.channel = 'lobby';
-		}
-		/* msgs: {
+		},
+		msgs: {
 			handler() {
-				const e = this.$refs.chat;
-				console.log(e.scrollTop, e.scrollHeight);
-				e.scrollTop = e.scrollHeight - e.clientHeight;
+				if (!this.showChat) return;
+				this.$nextTick(() => {
+					const e = this.$refs.chat;
+					e.scrollTop = e.scrollHeight;
+				});
 			},
 			deep: true
-		} */
+		},
+		showChat(val) {
+			if (!val) return;
+			this.$nextTick(() => {
+				const e = this.$refs.chat;
+				e.scrollTop = e.scrollHeight;
+			});
+		}
 	}
 };
 </script>
 
 <style scoped>
 .msg-icon {
-	right: 2.5em;
-	bottom: 2.5em;
 	width: 1.5em;
+	right: 2.5em;
 	height: 1.5em;
+	bottom: 2.5em;
 	display: flex;
 	font-size: 2em;
 	position: fixed;
 	cursor: pointer;
+	transition: 0.1s;
 	border-radius: 50%;
 	align-items: center;
 	justify-content: center;
 	color: var(--sub-color);
 	background-color: var(--bg-color);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
 .msg-icon:hover {
 	color: var(--main-color);
 }
 
+.btn {
+	height: 1.75em;
+	width: 7.5em;
+	display: flex;
+	cursor: pointer;
+	transition: 0.1s;
+	user-select: none;
+	border-radius: 5px;
+	margin-right: auto;
+	align-items: center;
+	color: var(--bg-color);
+	justify-content: center;
+	background-color: var(--sub-color);
+}
+
+.btn:hover {
+	background-color: var(--main-color);
+}
+
+.btn-active {
+	background-color: var(--main-color);
+}
+
 .chat-wrapper {
 	width: 100%;
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 	position: fixed;
@@ -138,6 +191,7 @@ export default {
 
 .channel {
 	font-weight: bold;
+	margin-right: 0.5em;
 }
 
 .btn-close {
@@ -145,8 +199,14 @@ export default {
 	height: 1em;
 	display: flex;
 	align-items: center;
+	transition: 0.1s;
 	justify-content: center;
 	cursor: pointer;
+	color: var(--sub-color);
+}
+
+.btn-close:hover {
+	color: var(--main-color);
 }
 
 .chat {
@@ -154,19 +214,18 @@ export default {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .msg {
 	display: flex;
 	flex-direction: column;
-	padding: 0 0.5em 0 0.5em;
-	/* margin-bottom: 1em; */
-	padding: 0.5em;
+	padding: 0.5em 1em 0.5em 1em;
 }
 
 .msg:hover {
 	background-color: rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .msg-top {

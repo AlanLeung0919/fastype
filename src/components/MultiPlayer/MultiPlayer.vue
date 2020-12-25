@@ -101,14 +101,12 @@ export default {
 			this.roomId = '';
 			this.players = [];
 			this.rawText = [];
+			this.roomMsg = [];
 			this.voteCount = 0;
 		}
 	},
 	created() {
 		this.initSocket();
-		this.socket.on('connect', () => {
-			this.loading = false;
-		});
 		this.socket.on('connect_error', (err) => {
 			this.$store.commit('setAlert', err);
 			this.$router.push('/');
@@ -151,6 +149,7 @@ export default {
 		});
 		this.socket.on('playerSize', (size) => {
 			this.playerSize = size;
+			this.loading = false;
 		});
 	},
 	beforeDestroy() {

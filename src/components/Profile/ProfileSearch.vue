@@ -25,7 +25,12 @@
 				<BaseStat title="total race" :val="stat.totalRace" />
 				<BaseStat title="total time" :val="stat.totalTime">m</BaseStat>
 			</div>
-			<div class="btn-close" @click="showStat = false">&times;</div>
+			<font-awesome-icon
+				size="lg"
+				icon="times"
+				class="btn-close"
+				@click="showStat = false"
+			></font-awesome-icon>
 		</div>
 	</div>
 </template>
@@ -117,8 +122,8 @@ export default {
 
 .stat {
 	display: flex;
-	gap: 2.5em;
 	flex-wrap: wrap;
+	gap: 2em;
 }
 
 .badge {
@@ -127,12 +132,17 @@ export default {
 
 .btn-close {
 	position: absolute;
-	right: 0.25em;
-	top: 0.25em;
+	right: 0.5em;
+	top: 0.5em;
 	cursor: pointer;
-	font-size: 1.5em;
 	width: 1em;
 	height: 1em;
+	transition: 0.1s;
+	color: var(--sub-color);
+}
+
+.btn-close:hover {
+	color: var(--main-color);
 }
 
 .icon {
@@ -143,6 +153,7 @@ export default {
 	border-radius: 5px;
 	align-items: center;
 	justify-content: center;
+	transition: 0.1s;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
 }

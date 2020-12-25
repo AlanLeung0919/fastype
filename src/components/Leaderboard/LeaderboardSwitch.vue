@@ -43,12 +43,17 @@ export default {
 	height: 2em;
 	display: flex;
 	cursor: pointer;
+	transition: 0.1s;
 	user-select: none;
 	border-radius: 5px;
 	align-items: center;
 	justify-content: center;
 	color: var(--bg-color);
 	background-color: var(--sub-color);
+}
+
+.btn:hover {
+	background-color: var(--main-color);
 }
 
 .btn-active {

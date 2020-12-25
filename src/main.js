@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import axios from './lib/axios';
 import '@/assets/nprogress.css';
+import vClickOutside from 'v-click-outside';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
@@ -54,6 +55,8 @@ library.add(
 );
 
 Vue.use(VueTippy);
+
+Vue.use(vClickOutside);
 
 Vue.component('tippy', TippyComponent);
 

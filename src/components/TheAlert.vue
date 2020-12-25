@@ -32,6 +32,7 @@ export default {
 	left: 50%;
 	top: -50px;
 	display: flex;
+	z-index: 99999;
 	position: fixed;
 	user-select: none;
 	border-radius: 5px;

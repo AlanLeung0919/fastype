@@ -43,7 +43,10 @@ export default {
 	methods: {
 		getDate: getDate,
 		scrollToRank() {
-			this.$refs.rank[this.rank - 1].scrollIntoView({ block: 'center' });
+			this.$refs.rank[this.rank - 1].scrollIntoView({
+				block: 'center',
+				behavior: 'smooth'
+			});
 		}
 	}
 };
