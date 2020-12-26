@@ -76,10 +76,10 @@
 			<BaseStat title="date" :val="getDate(result.date, false, true)" />
 		</div>
 		<div class="bottom-wrapper">
-			<div style="display: flex">
+			<div class="control-wrapper">
 				<div
 					tabindex="0"
-					class="btn leave"
+					class="btn control"
 					content="leave room"
 					v-tippy="{ placement: 'bottom' }"
 					@click="
@@ -99,7 +99,7 @@
 				<div
 					v-if="isPrivate && !voted"
 					tabindex="0"
-					class="btn leave"
+					class="btn control"
 					content="vote to start"
 					v-tippy="{ placement: 'bottom' }"
 					@click="
@@ -546,7 +546,12 @@ export default {
 	justify-content: center;
 }
 
-.leave {
+.control-wrapper {
+	display: flex;
+	gap: 0.5em;
+}
+
+.control {
 	width: 2.5em;
 	height: 2.5em;
 	display: flex;
