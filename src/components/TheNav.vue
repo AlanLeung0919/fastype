@@ -72,7 +72,10 @@ export default {
 			if (this.$route.path !== '/') this.$router.push('/');
 		},
 		signInState(state) {
-			if (!state) this.$store.commit('signOut');
+			if (!state) {
+				this.$store.commit('signOut');
+				this.signOut();
+			}
 		}
 	},
 	mounted() {
