@@ -221,6 +221,7 @@ export default {
 			correctWords: 0,
 			currentWordIdx: 0,
 			currentCharIdx: 0,
+			currentWordCorrectChars: 0,
 			caretTop: 0,
 			caretLeft: 0,
 			top: 0,
@@ -331,6 +332,7 @@ export default {
 			this.correctWords = 0;
 			this.currentWordIdx = 0;
 			this.currentCharIdx = 0;
+			this.currentWordCorrectChars = 0;
 		},
 		finish() {
 			clearInterval(this.interval);
@@ -480,12 +482,16 @@ export default {
 					this.correctWords++;
 					this.currentWordIdx++;
 					this.currentCharIdx = 0;
+					this.currentWordCorrectChars = 0;
 					this.input = '';
 					return;
 				}
 				this.correct[this.currentWordIdx][inputIdx] = true;
 				this.currentCharIdx++;
-				this.correctChars++;
+				if (this.currentWordCorrectChars !== currentWord.length - 1) {
+					this.currentWordCorrectChars++;
+					this.correctChars++;
+				}
 			}
 			if (this.correctWords === this.textLen) {
 				return this.finish();
